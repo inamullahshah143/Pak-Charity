@@ -39,6 +39,8 @@ dependencies:
   fluttericon: ^2.0.0
   flutter_zoom_drawer: ^3.0.1
   carousel_slider: ^4.0.0
+  fancy_bottom_navigation: ^0.3.3
+  percent_indicator: ^4.0.0
 
 dev_dependencies:
   flutter_test:

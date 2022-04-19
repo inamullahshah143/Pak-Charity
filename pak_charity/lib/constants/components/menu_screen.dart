@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:pak_charity/constants/color.dart';
@@ -51,11 +53,13 @@ class MenuScreen extends StatelessWidget {
             children: [
               Card(
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    ZoomDrawer.of(context).close();
+                  },
                   leading: const Icon(
-                    FontAwesome5.home,
+                    FontAwesome.gauge,
                   ),
-                  title: const Text('Home'),
+                  title: const Text('Dashboard'),
                 ),
               ),
               Card(
@@ -71,18 +75,18 @@ class MenuScreen extends StatelessWidget {
                 child: ListTile(
                   onTap: () {},
                   leading: const Icon(
-                    Icons.person,
+                    Icons.security,
                   ),
-                  title: const Text('Profile'),
+                  title: const Text('Privacy Policy'),
                 ),
               ),
               Card(
                 child: ListTile(
                   onTap: () {},
                   leading: const Icon(
-                    FontAwesome.cog_alt,
+                    Entypo.info,
                   ),
-                  title: const Text('Home'),
+                  title: const Text('About Us'),
                 ),
               ),
               Card(

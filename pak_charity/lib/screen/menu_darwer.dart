@@ -22,7 +22,7 @@ class MenuDrawer extends StatelessWidget {
       angle: 0.0,
       drawerShadowsBackgroundColor: Colors.grey[300],
       slideWidth: MediaQuery.of(context).size.width * 0.65,
-      mainScreen: const HomeScreen(),
+      mainScreen: HomeScreen(),
       menuScreen: const MenuScreen(),
       style: DrawerStyle.defaultStyle,
       moveMenuScreen: false,
