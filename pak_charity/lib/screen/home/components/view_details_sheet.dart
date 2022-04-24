@@ -1,6 +1,7 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pak_charity/constants/color.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ViewDetailSheet extends StatelessWidget {
   const ViewDetailSheet({Key key}) : super(key: key);
@@ -43,7 +44,7 @@ class ViewDetailSheet extends StatelessWidget {
                   dense: true,
                   isThreeLine: true,
                   title: Text(
-                    'Username',
+                    'Project Title',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -52,12 +53,32 @@ class ViewDetailSheet extends StatelessWidget {
                       fontSize: 28,
                     ),
                   ),
-                  subtitle: Text(
-                    'Email\n PhoneNumber',
-                    style: TextStyle(
-                      color: AppColor.white.withOpacity(0.9),
-                    ),
-                  ),
+                  subtitle: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: LinearPercentIndicator(
+              leading: Text(
+                '1000.0 PKR',
+                style: TextStyle(color: AppColor.primary),
+              ),
+              trailing: Text(
+                '250.0 PKR',
+                style: TextStyle(color: AppColor.primary),
+              ),
+              animation: true,
+              animationDuration: 1000,
+              lineHeight: 20.0,
+              percent: collectedPercentage / 100,
+              center: Text("75%",
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.white),
+              ),
+              barRadius: const Radius.circular(100),
+              progressColor: AppColor.primary,
+              backgroundColor: AppColor.secondary.withOpacity(0.5),
+            ),
+          ),
                 ),
               ),
             ),
@@ -70,7 +91,7 @@ class ViewDetailSheet extends StatelessWidget {
                     bottomRight: Radius.circular(25),
                   ),
                   image: DecorationImage(
-                    image: NetworkImage('ProfilePicture'),
+                    image: NetworkImage('https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -84,8 +105,8 @@ class ViewDetailSheet extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
+                        AppColor.secondary.withOpacity(0.25),
                         AppColor.primary,
-                        AppColor.secondary,
                       ],
                     ),
                   ),
