@@ -52,14 +52,30 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
-                          controller: password,
-                          validator: (value) => Helper.validatePassword(value),
-                          decoration: const InputDecoration(
-                            labelText: ('Password'),
-                            hintText: 'Your secret password',
-                          ),
-                        ),
+                        Obx(() {
+                          return TextFormField(
+                            controller: password,
+                            obscureText: isVisible.value,
+                            validator: (value) =>
+                                Helper.validatePassword(value),
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              hintText: 'Your secret password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  isVisible.value = !isVisible.value;
+                                },
+                                icon: isVisible.value
+                                    ? const Icon(
+                                        Icons.visibility_off,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility,
+                                      ),
+                              ),
+                            ),
+                          );
+                        }),
                         const SizedBox(
                           height: 10,
                         ),
@@ -149,7 +165,7 @@ class LoginScreen extends StatelessWidget {
                         alignment: PlaceholderAlignment.middle,
                         child: InkWell(
                           onTap: () {
-                            Get.to(const SignupScreen());
+                            Get.to(SignupScreen());
                           },
                           child: Text(
                             'Sign Up',

@@ -5,8 +5,9 @@ import 'package:pak_charity/constants/color.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({Key key}) : super(key: key);
+  SignupScreen({Key key}) : super(key: key);
 
+  final isVisible = true.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,19 +55,49 @@ class SignupScreen extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
+                        Obx(() {
+                          return TextFormField(
+                            decoration: InputDecoration(
                               labelText: ('Password'),
-                              hintText: 'Your secret password'),
-                        ),
+                              hintText: 'Your secret password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  isVisible.value = !isVisible.value;
+                                },
+                                icon: isVisible.value
+                                    ? const Icon(
+                                        Icons.visibility_off,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility,
+                                      ),
+                              ),
+                            ),
+                          );
+                        }),
                         const SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
+                        Obx(() {
+                          return TextFormField(
+                            decoration: InputDecoration(
                               labelText: ('Confirm Password'),
-                              hintText: 'Confirm your password'),
-                        ),
+                              hintText: 'Confirm your password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  isVisible.value = !isVisible.value;
+                                },
+                                icon: isVisible.value
+                                    ? const Icon(
+                                        Icons.visibility_off,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility,
+                                      ),
+                              ),
+                            ),
+                          );
+                        }),
                         const SizedBox(
                           height: 10,
                         ),

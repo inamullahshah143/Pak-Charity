@@ -9,8 +9,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
@@ -54,46 +56,160 @@ class Profile extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                const CustomFormImput(
-                  label: "Name",
-                  value: "Zence Solution",
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Name",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "Zence Solution",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomFormImput(
-                  label: "Email",
-                  value: "info@zencesolutions.com",
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Email",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "info@zencesolutions.com",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomFormImput(
-                  label: "Mobile No",
-                  value: "0316 5400112",
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Mobile No",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "+92-316-5400112",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomFormImput(
-                  label: "Address",
-                  value: "New City Phase II",
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Address",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "New City Phase II",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomFormImput(
-                  label: "Password",
-                  value: "abc123",
-                  isPassword: true,
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Password",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "abcd1234",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CustomFormImput(
-                  label: "Confirm Password",
-                  value: "abc123",
-                  isPassword: true,
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 40),
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppColor.secondary.withOpacity(0.25),
+                  ),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      labelText: "Confirm Password",
+                      contentPadding: EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    initialValue: "abcd1234",
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

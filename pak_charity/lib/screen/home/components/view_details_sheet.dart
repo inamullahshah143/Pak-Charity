@@ -20,22 +20,20 @@ class ViewDetailSheet extends StatelessWidget {
             automaticallyImplyLeading: false,
             pinned: true,
             leadingWidth: 50,
-            leading: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  color: AppColor.white,
-                  textColor: AppColor.fonts,
-                  padding: EdgeInsets.zero,
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 18,
-                  ),
-                  shape: const CircleBorder(),
+            leading: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: AppColor.white,
+                textColor: AppColor.fonts,
+                padding: EdgeInsets.zero,
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 18,
                 ),
+                shape: const CircleBorder(),
               ),
             ),
             bottom: PreferredSize(
@@ -150,9 +148,11 @@ class ViewDetailSheet extends StatelessWidget {
       floatingActionButton: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
-          foregroundColor: MaterialStateProperty.all<Color>(AppColor.white,),
-          overlayColor: MaterialStateProperty.all<Color>(
-              AppColor.white.withOpacity(0.1)),
+          foregroundColor: MaterialStateProperty.all<Color>(
+            AppColor.white,
+          ),
+          overlayColor:
+              MaterialStateProperty.all<Color>(AppColor.white.withOpacity(0.1)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
+import 'package:get/get.dart';
 import 'package:pak_charity/constants/color.dart';
 import 'package:pak_charity/constants/consts.dart';
 import '../../constants/components/project_card.dart';
@@ -157,22 +158,7 @@ class Dashboard extends StatelessWidget {
                           'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png',
                       title: 'Any Title',
                       viewDetails: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          isDismissible: false,
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext context) => Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                topRight: Radius.circular(25.0),
-                              ),
-                            ),
-                            child: const ViewDetailSheet(),
-                          ),
-                        );
+                        Get.to(const ViewDetailSheet());
                       },
                     ),
                   ],
