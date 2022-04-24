@@ -4,6 +4,8 @@ import 'package:pak_charity/constants/color.dart';
 import 'package:pak_charity/constants/consts.dart';
 import '../../constants/components/project_card.dart';
 import 'components/filters_sheet.dart';
+import 'components/donation_sheet.dart';
+import 'components/view_details_sheet.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -133,11 +135,45 @@ class Dashboard extends StatelessWidget {
                       collectedPercentage: 75,
                       details:
                           'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
-                      donate: () {},
+                      donate: () {
+                        showModalBottomSheet(
+                              isScrollControlled: true,
+                              isDismissible: false,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) => Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25.0),
+                                    topRight: Radius.circular(25.0),
+                                  ),
+                                ),
+                                child:  DonationSheet(),
+                              ),
+                            );
+                      },
                       imageURL:
                           'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png',
                       title: 'Any Title',
-                      viewDetails: () {},
+                      viewDetails: () {
+                         showModalBottomSheet(
+                              isScrollControlled: true,
+                              isDismissible: false,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) => Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25.0),
+                                    topRight: Radius.circular(25.0),
+                                  ),
+                                ),
+                                child:  ViewDetailSheet(),
+                              ),
+                            );
+                      },
                     ),
                   ],
                 ),
