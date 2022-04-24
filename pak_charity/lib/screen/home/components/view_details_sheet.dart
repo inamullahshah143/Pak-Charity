@@ -148,6 +148,17 @@ class ViewDetailSheet extends StatelessWidget {
         ],
       ),
       floatingActionButton: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
+          foregroundColor: MaterialStateProperty.all<Color>(AppColor.white,),
+          overlayColor: MaterialStateProperty.all<Color>(
+              AppColor.white.withOpacity(0.1)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+          ),
+        ),
         onPressed: () {},
         child: const Text('Donate'),
       ),
