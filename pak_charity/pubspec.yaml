@@ -41,6 +41,7 @@ dependencies:
   carousel_slider: ^4.0.0
   fancy_bottom_navigation: ^0.3.3
   percent_indicator: ^4.0.0
+  background_app_bar: ^2.0.1
 
 dev_dependencies:
   flutter_test:
