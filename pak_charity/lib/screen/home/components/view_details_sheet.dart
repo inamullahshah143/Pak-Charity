@@ -20,7 +20,7 @@ class ViewDetailSheet extends StatelessWidget {
             automaticallyImplyLeading: false,
             pinned: true,
             leadingWidth: 50,
-            leading: Padding(
+            leading: SafeArea(child:Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MaterialButton(
                 onPressed: () {
@@ -35,7 +35,7 @@ class ViewDetailSheet extends StatelessWidget {
                 ),
                 shape: const CircleBorder(),
               ),
-            ),
+            ),),
             bottom: PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.height, 75),
               child: Padding(
@@ -58,24 +58,24 @@ class ViewDetailSheet extends StatelessWidget {
             child: LinearPercentIndicator(
               leading: Text(
                 '1000.0 PKR',
-                style: TextStyle(color: AppColor.primary),
+                style: TextStyle(color: AppColor.white),
               ),
               trailing: Text(
                 '250.0 PKR',
-                style: TextStyle(color: AppColor.primary),
+                style: TextStyle(color: AppColor.white),
               ),
               animation: true,
               animationDuration: 1000,
               lineHeight: 20.0,
-              percent: collectedPercentage / 100,
+              percent: 75 / 100,
               center: Text("75%",
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w600,
-                    color: AppColor.white),
+                    color: AppColor.primary),
               ),
               barRadius: const Radius.circular(100),
-              progressColor: AppColor.primary,
+              progressColor: AppColor.white,
               backgroundColor: AppColor.secondary.withOpacity(0.5),
             ),
           ),
@@ -119,7 +119,7 @@ class ViewDetailSheet extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
               child: Text(
-                'Exercises',
+                'Project Details',
                 style: TextStyle(
                   color: AppColor.fonts,
                   fontWeight: FontWeight.bold,
@@ -128,8 +128,23 @@ class ViewDetailSheet extends StatelessWidget {
               ),
             ),
           ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Text(
+                'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
+                     
+                style: TextStyle(
+                  color: AppColor.fonts,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
+      
     );
   }
 }

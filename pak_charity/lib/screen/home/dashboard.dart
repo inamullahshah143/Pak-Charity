@@ -130,7 +130,7 @@ class Dashboard extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Project          Card(
+                    ProjectCard(
                       amountNeed: 1000.0,
                       collectedPercentage: 75,
                       details:
