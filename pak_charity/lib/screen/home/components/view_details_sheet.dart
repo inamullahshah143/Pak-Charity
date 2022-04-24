@@ -14,7 +14,7 @@ class ViewDetailSheet extends StatelessWidget {
         slivers: [
           SliverAppBar(
             expandedHeight: MediaQuery.of(context).size.height * 0.4,
-            collapsedHeight: MediaQuery.of(context).size.height * 0.2,
+            collapsedHeight: MediaQuery.of(context).size.height * 0.1,
             elevation: 0,
             backgroundColor: AppColor.secondary,
             automaticallyImplyLeading: false,
