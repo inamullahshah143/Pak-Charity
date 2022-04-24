@@ -137,42 +137,42 @@ class Dashboard extends StatelessWidget {
                           'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
                       donate: () {
                         showModalBottomSheet(
-                              isScrollControlled: true,
-                              isDismissible: false,
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) => Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(25.0),
-                                    topRight: Radius.circular(25.0),
-                                  ),
-                                ),
-                                child:  DonationSheet(),
+                          isScrollControlled: true,
+                          isDismissible: false,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) => Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25.0),
+                                topRight: Radius.circular(25.0),
                               ),
-                            );
+                            ),
+                            child: const DonationSheet(),
+                          ),
+                        );
                       },
                       imageURL:
                           'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png',
                       title: 'Any Title',
                       viewDetails: () {
-                         showModalBottomSheet(
-                              isScrollControlled: true,
-                              isDismissible: false,
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) => Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(25.0),
-                                    topRight: Radius.circular(25.0),
-                                  ),
-                                ),
-                                child:  ViewDetailSheet(),
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          isDismissible: false,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) => Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25.0),
+                                topRight: Radius.circular(25.0),
                               ),
-                            );
+                            ),
+                            child: const ViewDetailSheet(),
+                          ),
+                        );
                       },
                     ),
                   ],
