@@ -42,6 +42,9 @@ dependencies:
   fancy_bottom_navigation: ^0.3.3
   percent_indicator: ^4.0.0
   background_app_bar: ^2.0.1
+  intl: ^0.17.0
+  dio: ^4.0.6
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
