@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/color.dart';
 
-CoolStep step1(context, donationMenoy) {
+CoolStep step1(context, donationMoney) {
   return CoolStep(
     title: 'How much wanna donate?',
     subtitle: 'Please select or enter amount to get started',
@@ -20,9 +20,9 @@ CoolStep step1(context, donationMenoy) {
                     color: AppColor.white.withOpacity(0.8),
                     child: RadioListTile(
                       value: '500',
-                      groupValue: donationMenoy.value,
+                      groupValue: donationMoney.value,
                       onChanged: (value) {
-                        donationMenoy.value = value;
+                        donationMoney.value = value;
                       },
                       title: const Text('500 PKR'),
                     ),
@@ -34,9 +34,9 @@ CoolStep step1(context, donationMenoy) {
                     color: AppColor.white.withOpacity(0.8),
                     child: RadioListTile(
                       value: '1000',
-                      groupValue: donationMenoy.value,
+                      groupValue: donationMoney.value,
                       onChanged: (value) {
-                        donationMenoy.value = value;
+                        donationMoney.value = value;
                       },
                       title: const Text('1000 PKR'),
                     ),
@@ -48,9 +48,9 @@ CoolStep step1(context, donationMenoy) {
                     color: AppColor.white.withOpacity(0.8),
                     child: RadioListTile(
                       value: '2500',
-                      groupValue: donationMenoy.value,
+                      groupValue: donationMoney.value,
                       onChanged: (value) {
-                        donationMenoy.value = value;
+                        donationMoney.value = value;
                       },
                       title: const Text('2500 PKR'),
                     ),
@@ -62,9 +62,9 @@ CoolStep step1(context, donationMenoy) {
                     color: AppColor.white.withOpacity(0.8),
                     child: RadioListTile(
                       value: '5000',
-                      groupValue: donationMenoy.value,
+                      groupValue: donationMoney.value,
                       onChanged: (value) {
-                        donationMenoy.value = value;
+                        donationMoney.value = value;
                       },
                       title: const Text('5000 PKR'),
                     ),
@@ -83,15 +83,15 @@ CoolStep step1(context, donationMenoy) {
                     color: AppColor.white.withOpacity(0.8),
                     child: RadioListTile(
                       value: 'other',
-                      groupValue: donationMenoy.value,
+                      groupValue: donationMoney.value,
                       onChanged: (value) {
-                        donationMenoy.value = value;
+                        donationMoney.value = value;
                       },
                       title: const Text('Other Amount'),
                     ),
                   ),
                 ),
-                donationMenoy.value == 'other'
+                donationMoney.value == 'other'
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Card(

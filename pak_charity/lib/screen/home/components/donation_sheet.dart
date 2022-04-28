@@ -21,7 +21,7 @@ class _DonationSheetState extends State<DonationSheet> {
     List<CoolStep> steps = [
       step1(context, donationMoney),
       step2(context, paymentMethod),
-      step3(),
+      step3(paymentMethod, donationMoney),
     ];
     return Scaffold(
       backgroundColor: Colors.transparent,
