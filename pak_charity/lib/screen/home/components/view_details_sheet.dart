@@ -1,5 +1,6 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pak_charity/constants/color.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -14,7 +15,7 @@ class ViewDetailSheet extends StatelessWidget {
         slivers: [
           SliverAppBar(
             expandedHeight: MediaQuery.of(context).size.height * 0.4,
-            collapsedHeight: MediaQuery.of(context).size.height * 0.1,
+            collapsedHeight: MediaQuery.of(context).size.height * 0.075,
             elevation: 0,
             backgroundColor: AppColor.secondary,
             automaticallyImplyLeading: false,
@@ -151,16 +152,33 @@ class ViewDetailSheet extends StatelessWidget {
           foregroundColor: MaterialStateProperty.all<Color>(
             AppColor.white,
           ),
+          minimumSize: MaterialStateProperty.all<Size>(
+            Size(MediaQuery.of(context).size.width * 0.4, 50),
+          ),
           overlayColor:
               MaterialStateProperty.all<Color>(AppColor.white.withOpacity(0.1)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
         ),
         onPressed: () {},
-        child: const Text('Donate'),
+        child: RichText(
+          text: const TextSpan(
+            children: [
+              WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: Text('Donate'),
+              ),
+              TextSpan(text:'   '),
+              WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: Icon(FontAwesome5.long_arrow_alt_right),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -12,13 +12,12 @@ class JazzCashHelper {
         .format(DateTime.now().add(const Duration(days: 1)));
     String tre = "T" + dateandtime;
     String ppAmount = "100";
-    // String ppBankID = "03040981004";
+    String ppBankID = "";
     String ppBillReference = "billRef";
     String ppDescription = "Description";
     String ppLanguage = "EN";
     String ppMerchantID = "MC39346";
     String ppPassword = "v6d6uwa8w1";
-
     String ppReturnURL =
         "https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Payment/DoTransaction";
     String ppVer = "1.1";
@@ -73,7 +72,7 @@ class JazzCashHelper {
       "pp_Language": ppLanguage,
       "pp_MerchantID": ppMerchantID,
       "pp_Password": ppPassword,
-      // "pp_BankID": ppBankID,
+      "pp_BankID": ppBankID,
       "pp_TxnRefNo": tre,
       "pp_Amount": ppAmount,
       "pp_TxnCurrency": ppTxnCurrency,
@@ -84,7 +83,6 @@ class JazzCashHelper {
       "pp_ReturnURL": ppReturnURL,
       "pp_SecureHash": sha256Result.toString(),
       "ppmpf_1": ppmpf_1,
-      // "pp_MobileNumber": ppmpf_1,
     });
 
     if (kDebugMode) {

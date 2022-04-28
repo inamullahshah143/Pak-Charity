@@ -21,8 +21,10 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 75,
+                backgroundColor: Colors.transparent,
+                child: Image.asset('assets/images/logo.png'),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -46,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                           controller: email,
                           validator: (value) => Helper.validateEmail(value),
                           decoration: const InputDecoration(
-                              labelText: ('Email'),
+                              labelText: 'Email',
                               hintText: 'Your email address'),
                         ),
                         const SizedBox(
@@ -75,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           );
-                        }),
+                        },),
                         const SizedBox(
                           height: 10,
                         ),
@@ -109,11 +111,11 @@ class LoginScreen extends StatelessWidget {
                             onPressed: () {},
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.transparent),
+                                  Colors.transparent,),
                               foregroundColor: MaterialStateProperty.all<Color>(
-                                  AppColor.primary),
+                                  AppColor.primary,),
                               overlayColor: MaterialStateProperty.all<Color>(
-                                  AppColor.primary.withOpacity(0.1)),
+                                  AppColor.primary.withOpacity(0.1),),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(

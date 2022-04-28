@@ -140,12 +140,15 @@ class Dashboard extends StatelessWidget {
                         showModalBottomSheet(
                           isScrollControlled: true,
                           isDismissible: false,
+                          useRootNavigator: true,
                           backgroundColor: Colors.transparent,
                           context: context,
                           builder: (BuildContext context) => Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: AppColor.secondary,
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(25.0),
                                 topRight: Radius.circular(25.0),
                               ),

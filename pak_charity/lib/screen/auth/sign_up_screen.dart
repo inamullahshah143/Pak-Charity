@@ -17,8 +17,10 @@ class SignupScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 75,
+                backgroundColor: Colors.transparent,
+                child: Image.asset('assets/images/logo.png'),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
