@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pak_charity/utils/jazz_cash_helper.dart';
 
-import '../../constants/color.dart';
+import '../../constants/widgets/color.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key key}) : super(key: key);

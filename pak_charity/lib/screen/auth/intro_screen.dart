@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboard/flutter_onboard.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 
 import 'login_screen.dart';
 

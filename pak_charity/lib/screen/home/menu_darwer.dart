@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:pak_charity/constants/color.dart';
-import 'package:pak_charity/constants/components/menu_screen.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/screen/home/components/menu_screen.dart';
 import 'package:pak_charity/screen/home.dart';
 
 class MenuDrawer extends StatelessWidget {

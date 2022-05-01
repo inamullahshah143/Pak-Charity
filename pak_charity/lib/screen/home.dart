@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 import 'home/dashboard.dart';
 import 'home/profile.dart';
 import 'home/projects.dart';

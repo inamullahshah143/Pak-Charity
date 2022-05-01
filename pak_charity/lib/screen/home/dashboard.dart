@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/color.dart';
-import 'package:pak_charity/constants/consts.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/constants/widgets/consts.dart';
 import '../../constants/components/project_card.dart';
 import 'components/filters_sheet.dart';
 import 'components/donation_sheet.dart';

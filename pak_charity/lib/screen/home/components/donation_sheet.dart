@@ -1,7 +1,7 @@
 import 'package:cool_stepper/cool_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_1.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_2.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_3.dart';
@@ -15,13 +15,15 @@ class DonationSheet extends StatefulWidget {
 
 class _DonationSheetState extends State<DonationSheet> {
   final donationMoney = ''.obs;
+  final otheramount = ''.obs;
   final paymentMethod = ''.obs;
+  final accountNo = ''.obs;
   @override
   Widget build(BuildContext context) {
     List<CoolStep> steps = [
-      step1(context, donationMoney),
-      step2(context, paymentMethod),
-      step3(paymentMethod, donationMoney),
+      step1(context, donationMoney, otheramount),
+      step2(context, paymentMethod, accountNo),
+      step3(donationMoney, paymentMethod, accountNo, otheramount),
     ];
     return Scaffold(
       backgroundColor: Colors.transparent,

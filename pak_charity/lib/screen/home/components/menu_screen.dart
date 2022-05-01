@@ -4,7 +4,7 @@ import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -65,7 +65,7 @@ class MenuScreen extends StatelessWidget {
               ListTile(
                 onTap: () {},
                 leading: const Icon(
-                  FontAwesome5.file_invoice_dollar,
+                  FontAwesome5.exchange_alt,
                 ),
                 title: const Text('Switch to Recipient'),
               ),

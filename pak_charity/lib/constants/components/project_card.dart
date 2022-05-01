@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProjectCard extends StatelessWidget {

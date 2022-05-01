@@ -1,9 +1,9 @@
 import 'package:cool_stepper/cool_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 
-CoolStep step2(context, paymentMethod) {
+CoolStep step2(context, paymentMethod, accountNo) {
   return CoolStep(
     title: 'Select Payment Method',
     subtitle: 'Payment method by which you have to transfer your money.',
@@ -75,6 +75,9 @@ CoolStep step2(context, paymentMethod) {
                   ),
                   contentPadding: EdgeInsets.all(15),
                 ),
+                onChanged: (value) {
+                  accountNo.value = value;
+                },
                 style: const TextStyle(
                   fontSize: 16,
                 ),

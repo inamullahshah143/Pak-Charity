@@ -1,7 +1,7 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:pak_charity/constants/color.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ViewDetailSheet extends StatelessWidget {
