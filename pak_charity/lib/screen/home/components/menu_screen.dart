@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:fluttericon/entypo_icons.dart';
@@ -5,11 +6,13 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
+import 'package:pak_charity/screen/home/menu_darwer.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key key}) : super(key: key);
-
+  MenuScreen({Key key}) : super(key: key);
+  final isRecipient = false.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,13 +65,57 @@ class MenuScreen extends StatelessWidget {
                 ),
                 title: const Text('Dashboard'),
               ),
-              ListTile(
-                onTap: () {},
-                leading: const Icon(
-                  FontAwesome5.exchange_alt,
-                ),
-                title: const Text('Switch to Recipient'),
-              ),
+              isRecipient.value
+                  ? ListTile(
+                      onTap: () {
+                        CoolAlert.show(
+                          context: context,
+                          barrierDismissible: false,
+                          type: CoolAlertType.info,
+                          text: 'Are you sure you want to switch your account',
+                          onConfirmBtnTap: () {
+                            ZoomDrawer.of(context).close();
+                            isRecipient.value = false;
+                            Get.off(
+                              MenuDrawer(
+                                userType: 'donor',
+                              ),
+                            );
+                          },
+                          confirmBtnText: 'Switch',
+                          showCancelBtn: true,
+                        );
+                      },
+                      leading: const Icon(
+                        FontAwesome5.exchange_alt,
+                      ),
+                      title: const Text('Switch to Donor'),
+                    )
+                  : ListTile(
+                      onTap: () {
+                        CoolAlert.show(
+                          context: context,
+                          barrierDismissible: false,
+                          type: CoolAlertType.info,
+                          text: 'Are you sure you want to switch your account',
+                          onConfirmBtnTap: () {
+                            ZoomDrawer.of(context).close();
+                            isRecipient.value = true;
+                            Get.off(
+                              MenuDrawer(
+                                userType: 'recipient',
+                              ),
+                            );
+                          },
+                          confirmBtnText: 'Switch',
+                          showCancelBtn: true,
+                        );
+                      },
+                      leading: const Icon(
+                        FontAwesome5.exchange_alt,
+                      ),
+                      title: const Text('Switch to Recipient'),
+                    ),
               ListTile(
                 onTap: () {},
                 leading: const Icon(
@@ -94,7 +141,19 @@ class MenuScreen extends StatelessWidget {
                 title: const Text('About Us'),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  CoolAlert.show(
+                    context: context,
+                    barrierDismissible: false,
+                    type: CoolAlertType.warning,
+                    text: 'Are you sure you want to Logout?',
+                    onConfirmBtnTap: () {
+                      Get.off(LoginScreen());
+                    },
+                    confirmBtnText: 'Logout',
+                    showCancelBtn: true,
+                  );
+                },
                 iconColor: AppColor.red,
                 textColor: AppColor.red,
                 leading: const Icon(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:pak_charity/utils/jazz_cash_helper.dart';
 
 import '../../constants/widgets/color.dart';
 
@@ -220,7 +219,6 @@ class Profile extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      JazzCashHelper().payment();
                     },
                     style: ButtonStyle(
                       backgroundColor:

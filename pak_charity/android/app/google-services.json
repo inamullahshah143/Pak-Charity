@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "520040617661",
+    "project_id": "pak-charity-b8467",
+    "storage_bucket": "pak-charity-b8467.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520040617661:android:793b6abcee537e4e7909d4",
+        "android_client_info": {
+          "package_name": "com.zence.pak_charity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520040617661-jqi8fou3msi6k08odqvcl941pfufgro0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhj8wNzkX7UwJBuePUIIbhb82RIdqBhvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520040617661-jqi8fou3msi6k08odqvcl941pfufgro0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

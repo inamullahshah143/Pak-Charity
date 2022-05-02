@@ -2,21 +2,24 @@ import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
-import 'home/dashboard.dart';
-import 'home/profile.dart';
-import 'home/projects.dart';
+import 'package:pak_charity/screen/home/profile.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key}) : super(key: key);
+import 'completed_cases.dart';
+import 'recipient_dashboard.dart';
+
+class RecipientHome extends StatefulWidget {
+  const RecipientHome({Key key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<RecipientHome> createState() => _RecipientHomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _RecipientHomeState extends State<RecipientHome> {
   int bottomIndex;
+
   @override
   void initState() {
     bottomIndex = 1;
@@ -51,9 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: bottomIndex == 0
-            ? const Projects()
+            ? const CompletedCases()
             : bottomIndex == 1
-                ? const Dashboard()
+                ? const RecipientDashboard()
                 : bottomIndex == 2
                     ? const Profile()
                     : Container(),
@@ -61,7 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: FancyBottomNavigation(
         initialSelection: 1,
         tabs: [
-          TabData(iconData: Icons.favorite, title: "Projects"),
+          TabData(
+              iconData: FontAwesome5.file_invoice_dollar, title: "Completed"),
           TabData(iconData: FontAwesome.home, title: "Home"),
           TabData(iconData: Icons.person, title: "Profile")
         ],

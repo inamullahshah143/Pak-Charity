@@ -6,12 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class JazzCashHelper {
-  payment() async {
+  payment(donationMoney, accountNo, otheramount) async {
     String dateandtime = DateFormat("yyyyMMddHHmmss").format(DateTime.now());
     String dexpiredate = DateFormat("yyyyMMddHHmmss")
         .format(DateTime.now().add(const Duration(days: 1)));
     String tre = "T" + dateandtime;
-    String ppAmount = "100";
+    String ppAmount = donationMoney.value == 'other'
+        ? otheramount.value
+        : donationMoney.value;
     String ppBankID = "";
     String ppBillReference = "billRef";
     String ppDescription = "Description";
@@ -26,7 +28,7 @@ class JazzCashHelper {
     String ppTxnExpiryDateTime = dexpiredate.toString();
     String ppTxnRefNo = tre.toString();
     String ppTxnType = "MWALLET";
-    String ppmpf_1 = "03045930586";
+    String ppmpf_1 = '0${accountNo.value}';
     String integeritySalt = "xd8vtv9t9z";
     String and = '&';
     String superdata = integeritySalt +
@@ -88,6 +90,7 @@ class JazzCashHelper {
     if (kDebugMode) {
       print("response=>");
       print(response.data);
+      
     }
   }
 }

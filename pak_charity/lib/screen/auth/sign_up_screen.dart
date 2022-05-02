@@ -1,164 +1,294 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
+import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
+import 'package:pak_charity/screen/home/menu_darwer.dart';
+import 'package:pak_charity/utils/auth_helper.dart';
+import 'package:pak_charity/utils/helper.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key key}) : super(key: key);
 
   final isVisible = true.obs;
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController fullName = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController phoneNo = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+  //Firebase
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  get user => _auth.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 75,
-                backgroundColor: Colors.transparent,
-                child: Image.asset('assets/images/logo.png'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColor.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColor.secondary,
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Username',
-                            hintText: 'Your full name',
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 75,
+                  backgroundColor: Colors.transparent,
+                  child: Image.asset('assets/images/logo.png'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColor.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColor.secondary,
+                          blurRadius: 5.0,
+                          spreadRadius: 2.0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: fullName,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'please enter your full name';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              labelText: 'Full Name',
+                              hintText: 'Your full name',
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: ('Email'),
-                              hintText: 'Your email address'),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() {
-                          return TextFormField(
-                            decoration: InputDecoration(
-                              labelText: ('Password'),
-                              hintText: 'Your secret password',
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  isVisible.value = !isVisible.value;
-                                },
-                                icon: isVisible.value
-                                    ? const Icon(
-                                        Icons.visibility_off,
-                                      )
-                                    : const Icon(
-                                        Icons.visibility,
-                                      ),
-                              ),
-                            ),
-                          );
-                        }),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Obx(() {
-                          return TextFormField(
-                            decoration: InputDecoration(
-                              labelText: ('Confirm Password'),
-                              hintText: 'Confirm your password',
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  isVisible.value = !isVisible.value;
-                                },
-                                icon: isVisible.value
-                                    ? const Icon(
-                                        Icons.visibility_off,
-                                      )
-                                    : const Icon(
-                                        Icons.visibility,
-                                      ),
-                              ),
-                            ),
-                          );
-                        }),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  AppColor.white),
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                  AppColor.white.withOpacity(0.1)),
-                            ),
-                            onPressed: () {},
-                            child: const Text('Sign Up'),
+                          const SizedBox(
+                            height: 5,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text('OR'),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.transparent),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  AppColor.primary),
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                  AppColor.primary.withOpacity(0.1)),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  side: BorderSide(color: AppColor.primary),
+                          TextFormField(
+                            controller: email,
+                            validator: (value) => Helper.validateEmail(value),
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              hintText: 'Your email address',
+                            ),
+                          ),
+                          TextFormField(
+                            controller: phoneNo,
+                            validator: (value) => Helper.validateMobile(value),
+                            decoration: const InputDecoration(
+                              labelText: 'Phone No.',
+                              hintText: 'Your phone no.',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () {
+                              return TextFormField(
+                                controller: password,
+                                obscureText: isVisible.value,
+                                validator: (value) =>
+                                    Helper.validatePassword(value),
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  hintText: 'Your secret password',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      isVisible.value = !isVisible.value;
+                                    },
+                                    icon: isVisible.value
+                                        ? const Icon(
+                                            Icons.visibility_off,
+                                          )
+                                        : const Icon(
+                                            Icons.visibility,
+                                          ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () {
+                              return TextFormField(
+                                controller: confirmPassword,
+                                obscureText: isVisible.value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'please enter your confirm password';
+                                  } else if (value != password.text) {
+                                    return 'password doesn\'t match';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'Confirm Password',
+                                  hintText: 'Confirm your password',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      isVisible.value = !isVisible.value;
+                                    },
+                                    icon: isVisible.value
+                                        ? const Icon(
+                                            Icons.visibility_off,
+                                          )
+                                        : const Icon(
+                                            Icons.visibility,
+                                          ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        AppColor.white),
+                                overlayColor: MaterialStateProperty.all<Color>(
+                                    AppColor.white.withOpacity(0.1)),
+                              ),
+                              onPressed: () {
+                                if (formKey.currentState.validate()) {
+                                  Components.showAlertDialog(context);
+                                  AuthenticationHelper()
+                                      .signUp(
+                                    email: email.text,
+                                    password: confirmPassword.text,
+                                    context: context,
+                                  )
+                                      .then((result) {
+                                    if (result == null) {
+                                      FirebaseFirestore.instance
+                                          .collection('user')
+                                          .doc(user.uid)
+                                          .set({
+                                        'fullName': fullName.text,
+                                        'email': email.text,
+                                        'phoneNo': phoneNo.text,
+                                        'userType': 'donor'
+                                      }).whenComplete(() {
+                                        Navigator.of(context).pop();
+                                        Components.showSnackBar(context,
+                                            'Welcome ${fullName.text}');
+                                        Get.off(MenuDrawer(
+                                          userType: 'donor',
+                                        ));
+                                      }).catchError((e) {
+                                        Navigator.of(context).pop();
+                                        Components.showSnackBar(context, e);
+                                      });
+                                    } else {
+                                      Navigator.of(context).pop();
+                                      Components.showSnackBar(context, result);
+                                    }
+                                  }).catchError((e) {
+                                    Navigator.of(context).pop();
+                                    Components.showSnackBar(context, e);
+                                  });
+                                }
+                              },
+                              child: const Text('Sign Up'),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text('OR'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.transparent),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        AppColor.primary),
+                                overlayColor: MaterialStateProperty.all<Color>(
+                                    AppColor.primary.withOpacity(0.1)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    side: BorderSide(color: AppColor.primary),
+                                  ),
+                                ),
+                              ),
+                              child: RichText(
+                                text: const TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                        FontAwesome.google,
+                                      ),
+                                    ),
+                                    TextSpan(text: '  '),
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Text('Sign up with Google'),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            child: RichText(
-                              text: const TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
-                                      FontAwesome.google,
-                                    ),
-                                  ),
-                                  TextSpan(text: '  '),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Text('Sign up with Google'),
-                                  )
-                                ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Text(
+                            'Already have an account?',
+                            style: TextStyle(
+                              color: AppColor.fonts,
+                            ),
+                          ),
+                        ),
+                        const TextSpan(text: '  '),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(LoginScreen());
+                            },
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.primary,
                               ),
                             ),
                           ),
@@ -167,42 +297,8 @@ class SignupScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Text(
-                          'Already have an account?',
-                          style: TextStyle(
-                            color: AppColor.fonts,
-                          ),
-                        ),
-                      ),
-                      const TextSpan(text: '  '),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(LoginScreen());
-                          },
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
