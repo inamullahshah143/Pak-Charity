@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "520040617661-ohetqr7cm9aa6629rcj3160kjhqe11cr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zence.pak_charity",
+            "certificate_hash": "d3dcd72e5b14ce5c312d79fbdb26381e047235e9"
+          }
+        },
+        {
           "client_id": "520040617661-jqi8fou3msi6k08odqvcl941pfufgro0.apps.googleusercontent.com",
           "client_type": 3
         }

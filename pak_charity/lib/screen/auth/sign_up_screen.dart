@@ -221,7 +221,32 @@ class SignupScreen extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Components.showAlertDialog(context);
+                                AuthenticationHelper()
+                                    .signInWithGoogle()
+                                    .then((value) {
+                                  if (value != null) {
+                                    final FirebaseAuth _auth =
+                                        FirebaseAuth.instance;
+                                    FirebaseFirestore.instance
+                                        .collection('user')
+                                        .doc(_auth.currentUser.uid)
+                                        .set({
+                                      'fullName': value.displayName,
+                                      'email': value.email,
+                                      'phoneNo': value.phoneNumber,
+                                      'userType': 'donor'
+                                    }).whenComplete(() {});
+                                    Navigator.of(context).pop();
+                                    Components.showSnackBar(
+                                        context, 'Welcome ${value.displayName}');
+                                    Get.off(MenuDrawer(
+                                      userType: 'donor',
+                                    ));
+                                  }
+                                });
+                              },
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(

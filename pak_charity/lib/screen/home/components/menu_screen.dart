@@ -65,57 +65,63 @@ class MenuScreen extends StatelessWidget {
                 ),
                 title: const Text('Dashboard'),
               ),
-              isRecipient.value
-                  ? ListTile(
-                      onTap: () {
-                        CoolAlert.show(
-                          context: context,
-                          barrierDismissible: false,
-                          type: CoolAlertType.info,
-                          text: 'Are you sure you want to switch your account',
-                          onConfirmBtnTap: () {
-                            ZoomDrawer.of(context).close();
-                            isRecipient.value = false;
-                            Get.off(
-                              MenuDrawer(
-                                userType: 'donor',
-                              ),
+              Obx(
+                () {
+                  return isRecipient.value
+                      ? ListTile(
+                          onTap: () {
+                            CoolAlert.show(
+                              context: context,
+                              barrierDismissible: false,
+                              type: CoolAlertType.info,
+                              text:
+                                  'Are you sure you want to switch your account',
+                              onConfirmBtnTap: () {
+                                ZoomDrawer.of(context).close();
+                                isRecipient.value = false;
+                                Get.off(
+                                  MenuDrawer(
+                                    userType: 'donor',
+                                  ),
+                                );
+                              },
+                              confirmBtnText: 'Switch',
+                              showCancelBtn: true,
                             );
                           },
-                          confirmBtnText: 'Switch',
-                          showCancelBtn: true,
-                        );
-                      },
-                      leading: const Icon(
-                        FontAwesome5.exchange_alt,
-                      ),
-                      title: const Text('Switch to Donor'),
-                    )
-                  : ListTile(
-                      onTap: () {
-                        CoolAlert.show(
-                          context: context,
-                          barrierDismissible: false,
-                          type: CoolAlertType.info,
-                          text: 'Are you sure you want to switch your account',
-                          onConfirmBtnTap: () {
-                            ZoomDrawer.of(context).close();
-                            isRecipient.value = true;
-                            Get.off(
-                              MenuDrawer(
-                                userType: 'recipient',
-                              ),
+                          leading: const Icon(
+                            FontAwesome5.exchange_alt,
+                          ),
+                          title: const Text('Switch to Donor'),
+                        )
+                      : ListTile(
+                          onTap: () {
+                            CoolAlert.show(
+                              context: context,
+                              barrierDismissible: false,
+                              type: CoolAlertType.info,
+                              text:
+                                  'Are you sure you want to switch your account',
+                              onConfirmBtnTap: () {
+                                ZoomDrawer.of(context).close();
+                                isRecipient.value = true;
+                                Get.off(
+                                  MenuDrawer(
+                                    userType: 'recipient',
+                                  ),
+                                );
+                              },
+                              confirmBtnText: 'Switch',
+                              showCancelBtn: true,
                             );
                           },
-                          confirmBtnText: 'Switch',
-                          showCancelBtn: true,
+                          leading: const Icon(
+                            FontAwesome5.exchange_alt,
+                          ),
+                          title: const Text('Switch to Recipient'),
                         );
-                      },
-                      leading: const Icon(
-                        FontAwesome5.exchange_alt,
-                      ),
-                      title: const Text('Switch to Recipient'),
-                    ),
+                },
+              ),
               ListTile(
                 onTap: () {},
                 leading: const Icon(

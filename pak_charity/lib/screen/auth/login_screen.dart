@@ -121,12 +121,12 @@ class LoginScreen extends StatelessWidget {
                                           .whenComplete(() {
                                         // if (value.get('userType') ==
                                         //     'donor') {
-                                          Navigator.of(context).pop();
-                                          Components.showSnackBar(
-                                              context, 'Welcome back');
-                                          Get.off(MenuDrawer(
-                                            userType: 'donor',
-                                          ));
+                                        Navigator.of(context).pop();
+                                        Components.showSnackBar(
+                                            context, 'Welcome back');
+                                        Get.off(MenuDrawer(
+                                          userType: 'donor',
+                                        ));
                                         // } else {
                                         //   Navigator.of(context).pop();
                                         //   Components.showSnackBar(
@@ -166,11 +166,22 @@ class LoginScreen extends StatelessWidget {
                                     .signInWithGoogle()
                                     .then((value) {
                                   if (value != null) {
+                                    final FirebaseAuth _auth =
+                                        FirebaseAuth.instance;
+                                    FirebaseFirestore.instance
+                                        .collection('user')
+                                        .doc(_auth.currentUser.uid)
+                                        .set({
+                                      'fullName': value.displayName,
+                                      'email': value.email,
+                                      'phoneNo': value.phoneNumber,
+                                      'userType': 'donor'
+                                    }).whenComplete(() {});
                                     Navigator.of(context).pop();
                                     Components.showSnackBar(
                                         context, 'Welcome back');
                                     Get.off(MenuDrawer(
-                                      userType: 'recipient',
+                                      userType: 'donor',
                                     ));
                                   }
                                 });
