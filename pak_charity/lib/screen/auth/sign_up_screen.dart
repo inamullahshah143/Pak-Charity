@@ -190,9 +190,7 @@ class SignupScreen extends StatelessWidget {
                                         Navigator.of(context).pop();
                                         Components.showSnackBar(context,
                                             'Welcome ${fullName.text}');
-                                        Get.off(MenuDrawer(
-                                          userType: 'donor',
-                                        ));
+                                        Get.off(MenuDrawer());
                                       }).catchError((e) {
                                         Navigator.of(context).pop();
                                         Components.showSnackBar(context, e);
@@ -239,11 +237,9 @@ class SignupScreen extends StatelessWidget {
                                       'userType': 'donor'
                                     }).whenComplete(() {});
                                     Navigator.of(context).pop();
-                                    Components.showSnackBar(
-                                        context, 'Welcome ${value.displayName}');
-                                    Get.off(MenuDrawer(
-                                      userType: 'donor',
-                                    ));
+                                    Components.showSnackBar(context,
+                                        'Welcome ${value.displayName}');
+                                    Get.off(MenuDrawer());
                                   }
                                 });
                               },

@@ -121,24 +121,18 @@ class LoginScreen extends StatelessWidget {
                                         prefs.setString('Username',
                                             value.data()['fullName']);
                                         prefs.setString(
+                                            'UserID', result.user.uid);
+                                        prefs.setString(
                                             'Email', value.data()['email']);
                                         prefs.setString(
                                             'PhoneNo', value.data()['phoneNo']);
-                                        if (value.get('userType') == 'donor') {
-                                          Navigator.of(context).pop();
-                                          Components.showSnackBar(
-                                              context, 'Welcome back');
-                                          Get.off(MenuDrawer(
-                                            userType: 'donor',
-                                          ));
-                                        } else {
-                                          Navigator.of(context).pop();
-                                          Components.showSnackBar(
-                                              context, 'Welcome back');
-                                          Get.off(MenuDrawer(
-                                            userType: 'recipient',
-                                          ));
-                                        }
+                                        prefs.setString('UserType',
+                                            value.data()['userType']);
+
+                                        Navigator.of(context).pop();
+                                        Components.showSnackBar(
+                                            context, 'Welcome back');
+                                        Get.off(MenuDrawer());
                                       });
                                     }
                                   }).catchError((e) {
@@ -180,15 +174,15 @@ class LoginScreen extends StatelessWidget {
                                     }).whenComplete(() async {
                                       prefs.setString(
                                           'Username', value.displayName);
+                                      prefs.setString('UserID', value.uid);
                                       prefs.setString('Email', value.email);
                                       prefs.setString(
                                           'PhoneNo', value.phoneNumber);
+                                      prefs.setString('UserType', 'donor');
                                       Navigator.of(context).pop();
                                       Components.showSnackBar(
                                           context, 'Welcome back');
-                                      Get.off(MenuDrawer(
-                                        userType: 'donor',
-                                      ));
+                                      Get.off(MenuDrawer());
                                     });
                                   }
                                 });

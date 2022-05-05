@@ -134,6 +134,7 @@ class Dashboard extends StatelessWidget {
                     ProjectCard(
                       amountNeed: 1000.0,
                       collectedPercentage: 75,
+                      isFavorite: false,
                       details:
                           'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
                       donate: () {

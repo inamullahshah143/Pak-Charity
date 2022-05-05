@@ -3,16 +3,17 @@ import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard(
-      {Key key,
-      @required this.imageURL,
-      @required this.title,
-      @required this.details,
-      @required this.amountNeed,
-      @required this.collectedPercentage,
-      @required this.viewDetails,
-      @required this.donate})
-      : super(key: key);
+  const ProjectCard({
+    Key key,
+    @required this.imageURL,
+    @required this.title,
+    @required this.details,
+    @required this.amountNeed,
+    @required this.collectedPercentage,
+    @required this.viewDetails,
+    @required this.donate,
+    @required this.isFavorite,
+  }) : super(key: key);
   final String imageURL;
   final String title;
   final String details;
@@ -20,6 +21,7 @@ class ProjectCard extends StatelessWidget {
   final double collectedPercentage;
   final Function viewDetails;
   final Function donate;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,18 @@ class ProjectCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             trailing: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: AppColor.primary,
-              ),
-              onPressed: () {},
+              icon: isFavorite
+                  ? Icon(
+                      Icons.favorite,
+                      color: AppColor.primary,
+                    )
+                  : Icon(
+                      Icons.favorite_outline,
+                      color: AppColor.primary,
+                    ),
+              onPressed: () {
+                isFavorite != isFavorite;
+              },
             ),
           ),
           Padding(

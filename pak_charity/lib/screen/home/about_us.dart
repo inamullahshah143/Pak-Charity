@@ -17,9 +17,15 @@ class AboutUs extends StatelessWidget {
           },
           icon: const Icon(
             Icons.arrow_back_ios,
+            size: 18,
           ),
         ),
-        title: const Text('About Us'),
+        title: const Text(
+          'About Us',
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(25.0),

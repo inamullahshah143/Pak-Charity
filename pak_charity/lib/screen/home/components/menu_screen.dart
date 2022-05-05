@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
@@ -5,17 +6,16 @@ import 'package:fluttericon/entypo_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
+import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
+import 'package:pak_charity/screen/auth/spalsh_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
-import 'package:pak_charity/screen/home/menu_darwer.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
 
 class MenuScreen extends StatelessWidget {
-  MenuScreen({Key key}) : super(key: key);
-
-  final isRecipient = false.obs;
+  const MenuScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,69 +69,70 @@ class MenuScreen extends StatelessWidget {
                 ),
                 title: const Text('Dashboard'),
               ),
-              Obx(
-                () {
-                  return isRecipient.value
-                      ? ListTile(
-                          onTap: () {
-                            CoolAlert.show(
-                              context: context,
-                              barrierDismissible: false,
-                              type: CoolAlertType.info,
-                              text:
-                                  'Are you sure you want to switch your account',
-                              onConfirmBtnTap: () {
-                                ZoomDrawer.of(context).close();
-                                isRecipient.value = false;
-                                Get.off(
-                                  MenuDrawer(
-                                    userType: 'donor',
-                                  ),
-                                );
-                              },
-                              confirmBtnText: 'Switch',
-                              showCancelBtn: true,
-                            );
+              prefs.getString('UserType') != 'donor'
+                  ? ListTile(
+                      onTap: () {
+                        CoolAlert.show(
+                          context: context,
+                          barrierDismissible: false,
+                          type: CoolAlertType.info,
+                          text: 'Are you sure you want to switch your account',
+                          onConfirmBtnTap: () {
+                            Components.showAlertDialog(context);
+                            FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(prefs.getString('UserID'))
+                                .update({'userType': 'donor'}).whenComplete(
+                                    () {
+                              Navigator.of(context).pop();
+                              prefs.setString('UserType', 'donor');
+                              Get.off(const SplashScreen());
+                            });
                           },
-                          leading: const Icon(
-                            FontAwesome5.exchange_alt,
-                          ),
-                          title: const Text('Switch to Donor'),
-                        )
-                      : ListTile(
-                          onTap: () {
-                            CoolAlert.show(
-                              context: context,
-                              barrierDismissible: false,
-                              type: CoolAlertType.info,
-                              text:
-                                  'Are you sure you want to switch your account',
-                              onConfirmBtnTap: () {
-                                ZoomDrawer.of(context).close();
-                                isRecipient.value = true;
-                                Get.off(
-                                  MenuDrawer(
-                                    userType: 'recipient',
-                                  ),
-                                );
-                              },
-                              confirmBtnText: 'Switch',
-                              showCancelBtn: true,
-                            );
-                          },
-                          leading: const Icon(
-                            FontAwesome5.exchange_alt,
-                          ),
-                          title: const Text('Switch to Recipient'),
+                          confirmBtnText: 'Switch',
+                          showCancelBtn: true,
                         );
-                },
-              ),
+                      },
+                      leading: const Icon(
+                        FontAwesome5.exchange_alt,
+                      ),
+                      title: const Text('Switch to Donor'),
+                    )
+                  : ListTile(
+                      onTap: () {
+                        CoolAlert.show(
+                          context: context,
+                          barrierDismissible: false,
+                          type: CoolAlertType.info,
+                          text: 'Are you sure you want to switch your account',
+                          onConfirmBtnTap: () {
+                            Components.showAlertDialog(context);
+                            FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(prefs.getString('UserID'))
+                                .update({
+                              'userType': 'recipient'
+                            }).whenComplete(() {
+                              Navigator.of(context).pop();
+                              prefs.setString('UserType', 'recipient');
+                              Get.off(const SplashScreen());
+                            });
+                          },
+                          confirmBtnText: 'Switch',
+                          showCancelBtn: true,
+                        );
+                      },
+                      leading: const Icon(
+                        FontAwesome5.exchange_alt,
+                      ),
+                      title: const Text('Switch to Recipient'),
+                    ),
               ListTile(
                 onTap: () {},
                 leading: const Icon(
-                  FontAwesome5.file_invoice_dollar,
+                  FontAwesome.chat_empty,
                 ),
-                title: const Text('Transaction'),
+                title: const Text('Messages'),
               ),
               ListTile(
                 onTap: () {},

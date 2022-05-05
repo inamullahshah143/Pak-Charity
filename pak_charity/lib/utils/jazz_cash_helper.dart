@@ -27,7 +27,7 @@ class JazzCashHelper {
     String ppTxnDateTime = dateandtime.toString();
     String ppTxnExpiryDateTime = dexpiredate.toString();
     String ppTxnRefNo = tre.toString();
-    String ppTxnType = "MPAY";
+    String ppTxnType = "";
     String ppmpf_1 = '0${accountNo.value}';
     String integeritySalt = "xd8vtv9t9z";
     String and = '&';

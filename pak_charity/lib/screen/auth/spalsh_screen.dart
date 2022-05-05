@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Get.off(IntroScreen());
         }
       } else {
-        Get.off(MenuDrawer(userType: 'donor'));
+        Get.off(MenuDrawer());
       }
     });
     super.initState();
