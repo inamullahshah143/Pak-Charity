@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboard/flutter_onboard.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 
 import 'login_screen.dart';
 
@@ -16,9 +17,11 @@ class IntroScreen extends StatelessWidget {
         imageWidth: MediaQuery.of(context).size.width * 0.75,
         pageController: _pageController,
         onSkip: () {
+          introSeen();
           Get.off(LoginScreen());
         },
         onDone: () {
+          introSeen();
           Get.off(LoginScreen());
         },
         onBoardData: onBoardData,
@@ -41,6 +44,7 @@ class IntroScreen extends StatelessWidget {
         ),
         skipButton: TextButton(
           onPressed: () {
+            introSeen();
             Get.off(LoginScreen());
           },
           child: Text(
@@ -84,8 +88,13 @@ class IntroScreen extends StatelessWidget {
         curve: Curves.easeInOutSine,
       );
     } else {
+      introSeen();
       Get.off(LoginScreen());
     }
+  }
+
+  Future introSeen() async {
+    prefs.setBool('IntroSeen', true);
   }
 }
 

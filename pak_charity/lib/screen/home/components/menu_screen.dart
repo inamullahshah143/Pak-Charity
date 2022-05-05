@@ -6,13 +6,17 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
+import 'package:pak_charity/utils/auth_helper.dart';
 
 class MenuScreen extends StatelessWidget {
   MenuScreen({Key key}) : super(key: key);
+
   final isRecipient = false.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +37,7 @@ class MenuScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
                   child: Text(
-                    'Username',
+                    '${prefs.getString('Username')} ',
                     style: TextStyle(
                       fontSize: 16,
                       color: AppColor.fonts,
@@ -44,7 +48,7 @@ class MenuScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
-                    'mail@email.com',
+                    '${prefs.getString('Email')} ',
                     style: TextStyle(
                       color: AppColor.fonts,
                     ),
@@ -154,7 +158,10 @@ class MenuScreen extends StatelessWidget {
                     type: CoolAlertType.warning,
                     text: 'Are you sure you want to Logout?',
                     onConfirmBtnTap: () {
-                      Get.off(LoginScreen());
+                      AuthenticationHelper().signOut().whenComplete(() {
+                        prefs.clear();
+                        Get.off(LoginScreen());
+                      });
                     },
                     confirmBtnText: 'Logout',
                     showCancelBtn: true,

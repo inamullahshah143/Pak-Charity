@@ -5,6 +5,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/sign_up_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
@@ -111,34 +112,34 @@ class LoginScreen extends StatelessWidget {
                                     context: context,
                                   )
                                       .then((result) {
-                                    if (result == null) {
-                                      final FirebaseAuth _auth =
-                                          FirebaseAuth.instance;
+                                    if (result != null) {
                                       FirebaseFirestore.instance
                                           .collection('user')
-                                          .doc(_auth.currentUser.toString())
+                                          .doc(result.user.uid)
                                           .get()
-                                          .whenComplete(() {
-                                        // if (value.get('userType') ==
-                                        //     'donor') {
-                                        Navigator.of(context).pop();
-                                        Components.showSnackBar(
-                                            context, 'Welcome back');
-                                        Get.off(MenuDrawer(
-                                          userType: 'donor',
-                                        ));
-                                        // } else {
-                                        //   Navigator.of(context).pop();
-                                        //   Components.showSnackBar(
-                                        //       context, 'Welcome back');
-                                        //   Get.off(MenuDrawer(
-                                        //     userType: 'recipient',
-                                        //   ));
-                                        // }
+                                          .then((value) async {
+                                        prefs.setString('Username',
+                                            value.data()['fullName']);
+                                        prefs.setString(
+                                            'Email', value.data()['email']);
+                                        prefs.setString(
+                                            'PhoneNo', value.data()['phoneNo']);
+                                        if (value.get('userType') == 'donor') {
+                                          Navigator.of(context).pop();
+                                          Components.showSnackBar(
+                                              context, 'Welcome back');
+                                          Get.off(MenuDrawer(
+                                            userType: 'donor',
+                                          ));
+                                        } else {
+                                          Navigator.of(context).pop();
+                                          Components.showSnackBar(
+                                              context, 'Welcome back');
+                                          Get.off(MenuDrawer(
+                                            userType: 'recipient',
+                                          ));
+                                        }
                                       });
-                                    } else {
-                                      Components.showSnackBar(context, result);
-                                      Navigator.of(context).pop();
                                     }
                                   }).catchError((e) {
                                     Components.showSnackBar(context, e);
@@ -176,13 +177,19 @@ class LoginScreen extends StatelessWidget {
                                       'email': value.email,
                                       'phoneNo': value.phoneNumber,
                                       'userType': 'donor'
-                                    }).whenComplete(() {});
-                                    Navigator.of(context).pop();
-                                    Components.showSnackBar(
-                                        context, 'Welcome back');
-                                    Get.off(MenuDrawer(
-                                      userType: 'donor',
-                                    ));
+                                    }).whenComplete(() async {
+                                      prefs.setString(
+                                          'Username', value.displayName);
+                                      prefs.setString('Email', value.email);
+                                      prefs.setString(
+                                          'PhoneNo', value.phoneNumber);
+                                      Navigator.of(context).pop();
+                                      Components.showSnackBar(
+                                          context, 'Welcome back');
+                                      Get.off(MenuDrawer(
+                                        userType: 'donor',
+                                      ));
+                                    });
                                   }
                                 });
                               },

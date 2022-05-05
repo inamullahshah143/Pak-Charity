@@ -11,11 +11,11 @@ class AuthenticationHelper {
   //SIGN UP METHOD
   Future signUp({String email, String password, BuildContext context}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      var result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return null;
+      return result;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         Components.showSnackBar(
@@ -31,8 +31,9 @@ class AuthenticationHelper {
   //SIGN IN METHOD
   Future signIn({String email, String password, BuildContext context}) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
+      var result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return result;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         Components.showSnackBar(

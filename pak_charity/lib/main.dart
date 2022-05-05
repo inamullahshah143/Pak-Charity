@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
-import 'package:pak_charity/screen/auth/intro_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'screen/auth/spalsh_screen.dart';
 
+SharedPreferences prefs;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -20,7 +23,8 @@ class MyApp extends StatelessWidget {
       statusBarIconBrightness: Brightness.dark,
     ));
     return GetMaterialApp(
-      title: 'Pak Charity', builder: (context, child) {
+      title: 'Pak Charity',
+      builder: (context, child) {
         return MediaQuery(
           child: child,
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
@@ -73,7 +77,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: IntroScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -64,8 +64,7 @@ class _RecipientHomeState extends State<RecipientHome> {
       bottomNavigationBar: FancyBottomNavigation(
         initialSelection: 1,
         tabs: [
-          TabData(
-              iconData: FontAwesome5.file_invoice_dollar, title: "Completed"),
+          TabData(iconData: FontAwesome5.donate, title: "Completed"),
           TabData(iconData: FontAwesome.home, title: "Home"),
           TabData(iconData: Icons.person, title: "Profile")
         ],

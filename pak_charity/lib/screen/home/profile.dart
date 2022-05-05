@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:pak_charity/main.dart';
 
 import '../../constants/widgets/color.dart';
 
@@ -45,14 +46,10 @@ class Profile extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  "Hi there Zence!",
+                  "Hi there ${prefs.getString('Username')}!",
                   style: Theme.of(context).textTheme.headline4.copyWith(
                       fontWeight: FontWeight.w500, color: AppColor.fonts),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Text("Sign Out"),
                 const SizedBox(
                   height: 40,
                 ),
@@ -73,7 +70,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "Zence Solution",
+                    initialValue: prefs.getString('Username'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -91,6 +88,7 @@ class Profile extends StatelessWidget {
                     color: AppColor.secondary.withOpacity(0.25),
                   ),
                   child: TextFormField(
+                    readOnly: true,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       labelText: "Email",
@@ -99,7 +97,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "info@zencesolutions.com",
+                    initialValue: prefs.getString('Email'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -125,7 +123,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "+92-316-5400112",
+                    initialValue: prefs.getString('PhoneNo'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -151,7 +149,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "New City Phase II",
+                    initialValue: prefs.getString('Address'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -172,13 +170,13 @@ class Profile extends StatelessWidget {
                     obscureText: true,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
-                      labelText: "Password",
+                      hintText: '••••••••',
+                      labelText: "New Password",
                       contentPadding: EdgeInsets.only(
                         top: 10,
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "abcd1234",
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -199,13 +197,13 @@ class Profile extends StatelessWidget {
                     obscureText: true,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
+                      hintText: '••••••••',
                       labelText: "Confirm Password",
                       contentPadding: EdgeInsets.only(
                         top: 10,
                         bottom: 10,
                       ),
                     ),
-                    initialValue: "abcd1234",
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -218,8 +216,7 @@ class Profile extends StatelessWidget {
                   height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(AppColor.primary),
