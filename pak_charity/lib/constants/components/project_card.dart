@@ -12,7 +12,6 @@ class ProjectCard extends StatelessWidget {
     @required this.collectedPercentage,
     @required this.viewDetails,
     @required this.donate,
-    @required this.isFavorite,
   }) : super(key: key);
   final String imageURL;
   final String title;
@@ -21,7 +20,6 @@ class ProjectCard extends StatelessWidget {
   final double collectedPercentage;
   final Function viewDetails;
   final Function donate;
-  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +42,6 @@ class ProjectCard extends StatelessWidget {
               details,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: isFavorite
-                  ? Icon(
-                      Icons.favorite,
-                      color: AppColor.primary,
-                    )
-                  : Icon(
-                      Icons.favorite_outline,
-                      color: AppColor.primary,
-                    ),
-              onPressed: () {
-                isFavorite != isFavorite;
-              },
             ),
           ),
           Padding(
@@ -127,6 +111,80 @@ class ProjectCard extends StatelessWidget {
                 child: const Text('Donate'),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RecipientProjectCard extends StatelessWidget {
+  const RecipientProjectCard({
+    Key key,
+    @required this.imageURL,
+    @required this.title,
+    @required this.details,
+    @required this.amountNeed,
+    @required this.collectedPercentage,
+  }) : super(key: key);
+  final String imageURL;
+  final String title;
+  final String details;
+  final double amountNeed;
+  final double collectedPercentage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Image.network(
+            imageURL,
+            height: 150,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+          ),
+          ListTile(
+            isThreeLine: true,
+            title: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              details,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: LinearPercentIndicator(
+              leading: Text(
+                '${amountNeed.toString()} PKR',
+                style: TextStyle(color: AppColor.primary),
+              ),
+              trailing: Text(
+                '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toString()} PKR',
+                style: TextStyle(color: AppColor.primary),
+              ),
+              animation: true,
+              animationDuration: 1000,
+              lineHeight: 20.0,
+              percent: collectedPercentage / 100,
+              center: Text(
+                collectedPercentage.toString() + "%",
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.white),
+              ),
+              barRadius: const Radius.circular(100),
+              progressColor: AppColor.primary,
+              backgroundColor: AppColor.secondary.withOpacity(0.5),
+            ),
           ),
         ],
       ),

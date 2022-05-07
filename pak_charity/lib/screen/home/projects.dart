@@ -10,7 +10,6 @@ class Projects extends StatelessWidget {
     return Column(
       children: [
         ProjectCard(
-          isFavorite: true,
           amountNeed: 1000.0,
           collectedPercentage: 75,
           details:

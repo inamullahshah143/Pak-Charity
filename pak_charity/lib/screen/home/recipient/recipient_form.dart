@@ -1,12 +1,15 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
-import 'package:path/path.dart' as path;
+import 'package:pak_charity/utils/recipient_helper.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class RecipientForm extends StatefulWidget {
   const RecipientForm({Key key}) : super(key: key);
@@ -16,15 +19,18 @@ class RecipientForm extends StatefulWidget {
 }
 
 class _RecipientFormState extends State<RecipientForm> {
-  double val = 0;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  get user => _auth.currentUser;
+  final formKey = GlobalKey<FormState>();
+  final formData = <String, dynamic>{}.obs;
 
-  CollectionReference imgRef;
-
-  firebase_storage.Reference ref;
-
-  final List<File> _image = [];
-
-  final picker = ImagePicker();
+  File thumbnail;
+  @override
+  void initState() {
+    super.initState();
+    formData['estimatedDelivery'] =
+        DateFormat('dd-mm-yyyy').format(DateTime.now());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,256 +64,364 @@ class _RecipientFormState extends State<RecipientForm> {
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter project title';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      formData['projectTitle'] = value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Donation Title",
                     ),
-                    hintText: "Donation Title",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  maxLines: 5,
-                  maxLength: 1500,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: TextFormField(
+                    maxLines: 5,
+                    maxLength: 1500,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter project description';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      formData['projectDescription'] = value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Description",
                     ),
-                    hintText: "Description",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter amount you need';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      formData['amountNeeded'] = value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Amount Needed",
                     ),
-                    hintText: "Amount Needed",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: DropdownButtonFormField(
-                  dropdownColor: AppColor.fonts,
-                  hint: const Text("Donation Type"),
-                  onChanged: (value) => {},
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'Helath',
-                      child: Text('Helath'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: DropdownButtonFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please select donation type';
+                      }
+                      return null;
+                    },
+                    dropdownColor: AppColor.fonts,
+                    hint: const Text("Donation Type"),
+                    onChanged: (value) {
+                      formData['donationType'] = value;
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Helath',
+                        child: Text('Helath'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Humanity',
+                        child: Text('Humanity'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Food',
+                        child: Text('Food'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Education',
+                        child: Text('Education'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Religion',
+                        child: Text('Religion'),
+                      ),
+                    ],
+                    decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                    DropdownMenuItem(
-                      value: 'Humanity',
-                      child: Text('Humanity'),
+                    style: const TextStyle(
+                      fontSize: 14,
                     ),
-                    DropdownMenuItem(
-                      value: 'Food',
-                      child: Text('Food'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Education',
-                      child: Text('Education'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Religion',
-                      child: Text('Religion'),
-                    ),
-                  ],
-                  decoration: InputDecoration(
-                    filled: true,
-                    isDense: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Estimated Delivery",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: Text(
-                  'Thumbnails',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: AppColor.fonts,
-                      fontWeight: FontWeight.w500),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: Obx(() {
+                    return TextFormField(
+                      controller: TextEditingController(
+                          text: formData['estimatedDelivery'].toString()),
+                      readOnly: true,
+                      onTap: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 365),
+                          ),
+                        ).then((value) {
+                          formData['estimatedDelivery'] =
+                              DateFormat('dd-MM-yyyy').format(value);
+                        });
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'please set estimated delivery';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        formData['estimatedDelivery'] = value;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColor.secondary.withOpacity(0.75),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: "Estimated Delivery",
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    );
+                  }),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: _image.length + 1,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: Text(
+                    'Thumbnails',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: AppColor.fonts,
+                        fontWeight: FontWeight.w500),
                   ),
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: AppColor.secondary.withOpacity(0.75),
-                              borderRadius: BorderRadius.circular(5),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 15.0),
+                  child: InkWell(
+                    onTap: () {
+                      pickThumbnail();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      decoration: BoxDecoration(
+                        color: AppColor.secondary.withOpacity(0.75),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Feature Image',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: AppColor.primary.withOpacity(0.75),
                             ),
-                            child: Center(
-                              child: IconButton(
-                                icon: const Icon(Icons.add),
-                                onPressed: () => chooseImage(),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                image: FileImage(_image[index - 1]),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                  },
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: Text(
-                  'Account Details',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: AppColor.fonts,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Account Title",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: DropdownButtonFormField(
-                  dropdownColor: AppColor.fonts,
-                  hint: const Text("Account Type"),
-                  onChanged: (value) => {},
-                  items: const [
-                    DropdownMenuItem(
-                      value: 'Easypaisa',
-                      child: Text('Easypaisa'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Jazzcash',
-                      child: Text('Jazzcash'),
-                    ),
-                  ],
-                  decoration: InputDecoration(
-                    filled: true,
-                    isDense: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
+                          ),
+                          thumbnail == null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 35,
+                                    color: AppColor.primary.withOpacity(0.75),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.75,
+                                    height: 125,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          AppColor.secondary.withOpacity(0.75),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Image.file(
+                                      thumbnail,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
                     ),
                   ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: Text(
+                    'Account Details',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: AppColor.fonts,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColor.secondary.withOpacity(0.75),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide.none,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter account title';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      formData['accountTitle'] = value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Account Title",
                     ),
-                    hintText: "Account Number",
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: DropdownButtonFormField(
+                    dropdownColor: AppColor.fonts,
+                    hint: const Text("Account Type"),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please select account type';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      formData['accountType'] = value;
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Easypaisa',
+                        child: Text('Easypaisa'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Jazzcash',
+                        child: Text('Jazzcash'),
+                      ),
+                    ],
+                    decoration: InputDecoration(
+                      filled: true,
+                      isDense: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter account number';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      formData['accountNumber'] = value;
+                    },
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Account Number",
+                    ),
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -322,51 +436,60 @@ class _RecipientFormState extends State<RecipientForm> {
               AppColor.white,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Components.showAlertDialog(context);
+            formData['recipientId'] = user.uid;
+            formData['donationRecived'] = '0';
+            RecipientHelper().uploadThumbnail(thumbnail).then((value) {
+              formData['image'] = value;
+              if (formData['image'] != null) {
+                if (formKey.currentState.validate()) {
+                  RecipientHelper().uploadRequest(formData).whenComplete(
+                    () {
+                      Navigator.of(context).pop();
+                      Components.showSnackBar(
+                          context, 'Your request posted successfully');
+                    },
+                  ).catchError((e) {
+                    Navigator.of(context).pop();
+                    Components.showSnackBar(context, e.toString());
+                  });
+                }
+              } else {
+                Navigator.of(context).pop();
+                Components.showSnackBar(
+                    context, 'Please upload atleast three picture');
+              }
+            });
+          },
           child: const Text('Submit Request'),
         ),
       ),
     );
   }
 
-  chooseImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image.add(File(pickedFile?.path));
-    });
-    if (pickedFile.path == null) retrieveLostData();
+  Future<File> compressImage(String path, int quality) async {
+    final newPath = p.join((await getTemporaryDirectory()).path,
+        '${DateTime.now()}.${p.extension(path)}');
+    final result = await FlutterImageCompress.compressAndGetFile(
+      path,
+      newPath,
+      quality: quality,
+    );
+    return result;
   }
 
-  Future<void> retrieveLostData() async {
-    final LostData response = (await picker.retrieveLostData()) as LostData;
-    if (response.isEmpty) {
+  Future pickThumbnail() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    );
+    final pickedFile = File(result.files.single.path);
+    if (pickedFile == null) {
+      Navigator.of(context).pop();
       return;
-    }
-    if (response.file != null) {
-      setState(() {
-        _image.add(File(response.file.path));
-      });
     } else {
-      print(response.file);
-    }
-  }
-
-  Future uploadFile() async {
-    int i = 1;
-
-    for (var img in _image) {
-      setState(() {
-        val = i / _image.length;
-      });
-      ref = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('images/${path.basename(img.path)}');
-      await ref.putFile(img).whenComplete(() async {
-        await ref.getDownloadURL().then((value) {
-          imgRef.add({'url': value});
-          i++;
-        });
-      });
+      thumbnail = await compressImage(pickedFile.path, 35);
     }
   }
 }
