@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
-import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/auth/spalsh_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
@@ -82,8 +81,7 @@ class MenuScreen extends StatelessWidget {
                             FirebaseFirestore.instance
                                 .collection('user')
                                 .doc(prefs.getString('UserID'))
-                                .update({'userType': 'donor'}).whenComplete(
-                                    () {
+                                .update({'userType': 'donor'}).whenComplete(() {
                               Navigator.of(context).pop();
                               prefs.setString('UserType', 'donor');
                               Get.off(const SplashScreen());
@@ -110,9 +108,8 @@ class MenuScreen extends StatelessWidget {
                             FirebaseFirestore.instance
                                 .collection('user')
                                 .doc(prefs.getString('UserID'))
-                                .update({
-                              'userType': 'recipient'
-                            }).whenComplete(() {
+                                .update({'userType': 'recipient'}).whenComplete(
+                                    () {
                               Navigator.of(context).pop();
                               prefs.setString('UserType', 'recipient');
                               Get.off(const SplashScreen());
@@ -161,7 +158,7 @@ class MenuScreen extends StatelessWidget {
                     onConfirmBtnTap: () {
                       AuthenticationHelper().signOut().whenComplete(() {
                         prefs.clear();
-                        Get.off(LoginScreen());
+                        Get.off(const SplashScreen());
                       });
                     },
                     confirmBtnText: 'Logout',
