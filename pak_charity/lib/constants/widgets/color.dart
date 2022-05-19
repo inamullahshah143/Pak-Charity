@@ -17,6 +17,6 @@ class AppColor {
   static Color secondary = const Color.fromARGB(255, 220, 228, 234);
   static Color fonts = const Color(0XFF504B4D);
   static Color white = const Color.fromARGB(255, 255, 255, 255);
-
+  static Color pagesColor = const Color.fromARGB(255, 245, 245, 245);
   static Color red = Colors.red;
 }

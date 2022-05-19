@@ -35,7 +35,9 @@ class _RecipientFormState extends State<RecipientForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       appBar: AppBar(
+        elevation: 1,
         backgroundColor: AppColor.white,
         centerTitle: true,
         leading: IconButton(
@@ -84,7 +86,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -113,7 +115,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -141,7 +143,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -193,7 +195,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     decoration: InputDecoration(
                       filled: true,
                       isDense: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -236,7 +238,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColor.secondary.withOpacity(0.75),
+                        fillColor: AppColor.pagesColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide.none,
@@ -271,7 +273,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       decoration: BoxDecoration(
-                        color: AppColor.secondary.withOpacity(0.75),
+                        color: AppColor.pagesColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Column(
@@ -301,7 +303,7 @@ class _RecipientFormState extends State<RecipientForm> {
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
                                       color:
-                                          AppColor.secondary.withOpacity(0.75),
+                                          AppColor.pagesColor,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Image.file(
@@ -341,7 +343,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -381,7 +383,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     decoration: InputDecoration(
                       filled: true,
                       isDense: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
@@ -408,7 +410,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColor.secondary.withOpacity(0.75),
+                      fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
