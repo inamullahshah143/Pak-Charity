@@ -8,7 +8,10 @@ import 'package:pak_charity/screen/home/donaton_steps/step_3.dart';
 import 'package:pak_charity/utils/jazz_cash_helper.dart';
 
 class DonationSheet extends StatefulWidget {
-  const DonationSheet({Key key}) : super(key: key);
+  final String requestId;
+  final Map<String, dynamic> data;
+  const DonationSheet({Key key, @required this.data, @required this.requestId})
+      : super(key: key);
 
   @override
   State<DonationSheet> createState() => _DonationSheetState();

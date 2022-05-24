@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/admin/request_details.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class ProjectCard extends StatelessWidget {
+class ProjectCard extends StatefulWidget {
   const ProjectCard({
     Key key,
+    @required this.requestId,
     @required this.imageURL,
     @required this.title,
     @required this.details,
@@ -16,6 +18,7 @@ class ProjectCard extends StatelessWidget {
     @required this.viewDetails,
     @required this.donate,
   }) : super(key: key);
+  final String requestId;
   final String imageURL;
   final String title;
   final String details;
@@ -25,24 +28,67 @@ class ProjectCard extends StatelessWidget {
   final Function donate;
 
   @override
+  State<ProjectCard> createState() => _ProjectCardState();
+}
+
+class _ProjectCardState extends State<ProjectCard> {
+  List<String> favoriteList = prefs.getStringList('favorites') ?? [];
+  final isFavorite = false.obs;
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Image.network(
-            imageURL,
+          Stack(
+            children: [
+              Image.network(
+                widget.imageURL,
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+              Obx(() {
+                return Card(
+                  shape: const CircleBorder(),
+                  color: AppColor.white,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      isFavorite.value = !isFavorite.value;
+                      if (isFavorite.value == true) {
+                        favoriteList.add(widget.requestId);
+                        prefs.setStringList('requestId', favoriteList);
+                      } else {
+                        favoriteList.remove(widget.requestId);
+                        prefs.setStringList('requestId', favoriteList);
+                      }
+
+                      print(favoriteList);
+                    },
+                    color: AppColor.primary,
+                    icon: Icon(
+                      isFavorite.value
+                          ? Icons.favorite
+                          : Icons.favorite_outline,
+                      size: 18,
+                    ),
+                  ),
+                );
+              }),
+            ],
           ),
           ListTile(
             isThreeLine: true,
             title: Text(
-              title,
+              widget.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
-              details,
+              widget.details,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
@@ -51,23 +97,23 @@ class ProjectCard extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: LinearPercentIndicator(
               leading: Text(
-                '${amountNeed.toString()} PKR',
+                '${widget.amountNeed.toString()} PKR',
                 style: TextStyle(color: AppColor.primary),
               ),
               trailing: Text(
-                '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toString()} PKR',
+                '${(widget.amountNeed - (widget.amountNeed * (widget.collectedPercentage / 100))).toString()} PKR',
                 style: TextStyle(color: AppColor.primary),
               ),
               animation: true,
               animationDuration: 1000,
               lineHeight: 20.0,
-              percent: collectedPercentage / 100,
+              percent: widget.collectedPercentage / 100,
               center: Text(
-                collectedPercentage.toString() + "%",
+                widget.collectedPercentage.toStringAsFixed(1) + "%",
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w600,
-                    color: AppColor.white),
+                    color: AppColor.fonts),
               ),
               barRadius: const Radius.circular(100),
               progressColor: AppColor.primary,
@@ -92,7 +138,7 @@ class ProjectCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: viewDetails,
+                onPressed: widget.viewDetails,
                 child: const Text('View Details'),
               ),
               ElevatedButton(
@@ -110,7 +156,7 @@ class ProjectCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: donate,
+                onPressed: widget.donate,
                 child: const Text('Donate'),
               ),
             ],
@@ -140,7 +186,7 @@ class RecipientProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return status == '0'
+    return status != '1'
         ? Card(
             clipBehavior: Clip.antiAlias,
             margin: const EdgeInsets.all(10),
@@ -168,7 +214,9 @@ class RecipientProjectCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    'Request is pending for admin approvel',
+                    status == '0'
+                        ? 'Request is pending for admin approvel'
+                        : 'Your request has been decline by the admin',
                     style: TextStyle(
                       color: AppColor.red,
                     ),
@@ -217,11 +265,12 @@ class RecipientProjectCard extends StatelessWidget {
                     lineHeight: 20.0,
                     percent: collectedPercentage / 100,
                     center: Text(
-                      collectedPercentage.toString() + "%",
+                      collectedPercentage.toStringAsFixed(1) + "%",
                       style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.white),
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.fonts,
+                      ),
                     ),
                     barRadius: const Radius.circular(100),
                     progressColor: AppColor.primary,
@@ -234,7 +283,7 @@ class RecipientProjectCard extends StatelessWidget {
   }
 }
 
-class RequestApprovelCard extends StatelessWidget {
+class RequestApprovelCard extends StatefulWidget {
   final String requestId;
   final String recipientName;
   final String phoneNo;
@@ -253,13 +302,19 @@ class RequestApprovelCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RequestApprovelCard> createState() => _RequestApprovelCardState();
+}
+
+class _RequestApprovelCardState extends State<RequestApprovelCard> {
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         onTap: () {
           Get.to(RequestDetails(
-            data: data,
-            recipientDetails: recipientDetails,
+            requestId: widget.requestId,
+            data: widget.data,
+            recipientDetails: widget.recipientDetails,
           ));
         },
         trailing: PopupMenuButton(
@@ -275,14 +330,22 @@ class RequestApprovelCard extends StatelessWidget {
           ],
           onSelected: (index) {
             if (index == 0) {
-              RecipientHelper().requestAction(context, requestId, '1');
+              RecipientHelper()
+                  .requestAction(context, widget.requestId, '1')
+                  .whenComplete(() {
+                setState(() {});
+              });
             } else {
-              RecipientHelper().requestAction(context, requestId, '2');
+              RecipientHelper()
+                  .requestAction(context, widget.requestId, '2')
+                  .whenComplete(() {
+                setState(() {});
+              });
             }
           },
         ),
         isThreeLine: true,
-        title: Text(recipientName.toString()),
+        title: Text(widget.recipientName.toString()),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -300,7 +363,7 @@ class RequestApprovelCard extends StatelessWidget {
                   const TextSpan(text: ' '),
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
-                    child: Text(phoneNo.toString()),
+                    child: Text(widget.phoneNo.toString()),
                   ),
                 ],
               ),
@@ -319,7 +382,7 @@ class RequestApprovelCard extends StatelessWidget {
                   const TextSpan(text: ' '),
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
-                    child: Text(email.toString()),
+                    child: Text(widget.email.toString()),
                   ),
                 ],
               ),

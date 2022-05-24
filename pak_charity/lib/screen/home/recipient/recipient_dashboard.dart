@@ -3,6 +3,7 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/home/recipient/recipient_form.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
@@ -57,7 +58,7 @@ class RecipientDashboard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'Recipient Name',
+                                  prefs.getString('Username'),
                                   style: TextStyle(
                                     color: AppColor.fonts,
                                     fontSize: 20,
@@ -318,25 +319,26 @@ class RecipientDashboard extends StatelessWidget {
                           ),
                         )
                       : snapshot.hasData
-                              ? Expanded(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, index) {
-                                      return snapshot.data[index];
-                                    },
+                          ? Expanded(
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return snapshot.data[index];
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: Center(
+                                child: Text(
+                                  'No Record Found',
+                                  style: TextStyle(
+                                    color: AppColor.secondary,
                                   ),
-                                )
-                              : Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'No Record Found',
-                                      style: TextStyle(
-                                        color: AppColor.secondary,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                ),
+                              ),
+                            );
                 },
               ),
             ],

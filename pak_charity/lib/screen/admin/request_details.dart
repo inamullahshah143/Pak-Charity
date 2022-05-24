@@ -1,12 +1,18 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/utils/recipient_helper.dart';
 
 class RequestDetails extends StatelessWidget {
+  final String requestId;
   final Map<String, dynamic> data;
   final Map<String, dynamic> recipientDetails;
   const RequestDetails(
-      {Key key, @required this.data, @required this.recipientDetails})
+      {Key key,
+      @required this.data,
+      @required this.recipientDetails,
+      @required this.requestId})
       : super(key: key);
 
   @override
@@ -251,8 +257,7 @@ class RequestDetails extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(AppColor.red),
+                backgroundColor: MaterialStateProperty.all<Color>(AppColor.red),
                 foregroundColor: MaterialStateProperty.all<Color>(
                   AppColor.white,
                 ),
@@ -267,7 +272,13 @@ class RequestDetails extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                RecipientHelper()
+                    .requestAction(context, requestId, '2')
+                    .whenComplete(() {
+                  Get.back();
+                });
+              },
               child: const Text('Decline'),
             ),
           ),
@@ -291,7 +302,13 @@ class RequestDetails extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                RecipientHelper()
+                    .requestAction(context, requestId, '1')
+                    .whenComplete(() {
+                  Get.back();
+                });
+              },
               child: const Text('Accept'),
             ),
           ),

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/web_symbols_icons.dart';
-import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/constants/widgets/consts.dart';
-import '../../constants/components/project_card.dart';
-import 'components/filters_sheet.dart';
-import 'components/donation_sheet.dart';
-import 'components/view_details_sheet.dart';
+import 'package:pak_charity/utils/recipient_helper.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -39,7 +35,7 @@ class Dashboard extends StatelessWidget {
                 elevation: 2,
                 child: TextFormField(
                   onSaved: (value) {},
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
                     hintText: "Enter the project name",
@@ -47,48 +43,9 @@ class Dashboard extends StatelessWidget {
                     enabledBorder: outlineInputBorder,
                     focusedBorder: outlineInputBorder,
                     errorBorder: outlineInputBorder,
-                    prefixIcon: const Padding(
+                    prefixIcon: Padding(
                       padding: EdgeInsets.all(14),
                       child: Icon(WebSymbols.search),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: AppColor.primary,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                            ),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              isDismissible: false,
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) => Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(25.0),
-                                    topRight: Radius.circular(25.0),
-                                  ),
-                                ),
-                                child: const FlitersSheet(),
-                              ),
-                            );
-                          },
-                          child: Icon(
-                            Icons.tune,
-                            size: 18,
-                            color: AppColor.white,
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -127,46 +84,37 @@ class Dashboard extends StatelessWidget {
                 isScrollable: true,
               ),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ProjectCard(
-                      amountNeed: 1000.0,
-                      collectedPercentage: 75,
-                      details:
-                          'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
-                      donate: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          isDismissible: false,
-                          useRootNavigator: true,
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext context) => Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              color: AppColor.secondary,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                topRight: Radius.circular(25.0),
+            StreamBuilder(
+              stream: RecipientHelper().getDonationRequests(context),
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.waiting
+                    ? const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : snapshot.hasData
+                        ? Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return snapshot.data[index];
+                              },
+                            ),
+                          )
+                        : Expanded(
+                            child: Center(
+                              child: Text(
+                                'No Record Found',
+                                style: TextStyle(
+                                  color: AppColor.secondary,
+                                ),
                               ),
                             ),
-                            child: const DonationSheet(),
-                          ),
-                        );
-                      },
-                      imageURL:
-                          'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png',
-                      title: 'Any Title',
-                      viewDetails: () {
-                        Get.to(const ViewDetailSheet());
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                          );
+              },
             ),
           ],
         ),

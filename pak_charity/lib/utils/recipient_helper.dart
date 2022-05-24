@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/components/project_card.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/screen/home/components/donation_sheet.dart';
+import 'package:pak_charity/screen/home/components/view_details_sheet.dart';
 import 'package:path/path.dart';
 
 class RecipientHelper {
@@ -88,6 +92,71 @@ class RecipientHelper {
               phoneNo: value.data()['phoneNo'],
               recipientName: value.data()['fullName'],
             ));
+          });
+        }
+      },
+    );
+    yield x;
+  }
+
+  Stream<List<Widget>> getDonationRequests(context) async* {
+    List<Widget> x = [];
+    await FirebaseFirestore.instance
+        .collection('donation_requests')
+        .where('status', isEqualTo: '1')
+        .get()
+        .then(
+      (value) async {
+        for (var item in value.docs) {
+          await FirebaseFirestore.instance
+              .collection('user')
+              .doc(item.data()['recipientId'])
+              .get()
+              .then((value) {
+            x.add(
+              ProjectCard(
+                requestId: item.id,
+                amountNeed: double.parse(item.data()['amountNeeded']),
+                collectedPercentage:
+                    (double.parse((item.data()['donationRecived'])) /
+                            double.parse((item.data()['amountNeeded']))) *
+                        100,
+                details: item.data()['projectDescription'],
+                imageURL: item.data()['image'],
+                title: item.data()['projectTitle'],
+                donate: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    isDismissible: false,
+                    useRootNavigator: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) => Container(
+                      height: MediaQuery.of(context).size.height * 0.75,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: AppColor.secondary,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25.0),
+                          topRight: Radius.circular(25.0),
+                        ),
+                      ),
+                      child: DonationSheet(
+                        data: item.data(),
+                        requestId: item.id,
+                      ),
+                    ),
+                  );
+                },
+                viewDetails: () {
+                  Get.to(ViewDetailSheet(
+                    data: item.data(),
+                    recipientDetails: value.data(),
+                    requestId: item.id,
+                  ));
+                },
+              ),
+            );
           });
         }
       },
