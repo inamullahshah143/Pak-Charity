@@ -159,37 +159,53 @@ class _RecipientFormState extends State<RecipientForm> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10),
                   child: DropdownButtonFormField(
+                    focusColor: AppColor.fonts,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'please select donation type';
                       }
                       return null;
                     },
-                    dropdownColor: AppColor.fonts,
+                    dropdownColor: AppColor.white,
                     hint: const Text("Donation Type"),
                     onChanged: (value) {
                       formData['donationType'] = value;
                     },
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: 'Helath',
-                        child: Text('Helath'),
+                        child: Text(
+                          'Helath',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: 'Humanity',
-                        child: Text('Humanity'),
+                        child: Text(
+                          'Humanity',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: 'Food',
-                        child: Text('Food'),
+                        child: Text(
+                          'Food',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: 'Education',
-                        child: Text('Education'),
+                        child: Text(
+                          'Education',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: 'Religion',
-                        child: Text('Religion'),
+                        child: Text(
+                          'Religion',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                     ],
                     decoration: InputDecoration(
@@ -264,7 +280,7 @@ class _RecipientFormState extends State<RecipientForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 15.0),
+                      vertical: 10, horizontal: 20.0),
                   child: InkWell(
                     onTap: () {
                       pickThumbnail();
@@ -274,7 +290,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       decoration: BoxDecoration(
                         color: AppColor.pagesColor,
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
                         children: [
@@ -282,36 +298,17 @@ class _RecipientFormState extends State<RecipientForm> {
                             'Feature Image',
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: AppColor.primary.withOpacity(0.75),
+                              color: AppColor.fonts,
                             ),
                           ),
-                          thumbnail == null
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    size: 35,
-                                    color: AppColor.primary.withOpacity(0.75),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.75,
-                                    height: 125,
-                                    clipBehavior: Clip.hardEdge,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          AppColor.pagesColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Image.file(
-                                      thumbnail,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              thumbnail == null ? Icons.camera_alt : Icons.done,
+                              size: 35,
+                              color: AppColor.fonts.withOpacity(0.5),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -359,7 +356,7 @@ class _RecipientFormState extends State<RecipientForm> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10),
                   child: DropdownButtonFormField(
-                    dropdownColor: AppColor.fonts,
+                    dropdownColor: AppColor.white,
                     hint: const Text("Account Type"),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -370,14 +367,20 @@ class _RecipientFormState extends State<RecipientForm> {
                     onChanged: (value) {
                       formData['accountType'] = value;
                     },
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: 'Easypaisa',
-                        child: Text('Easypaisa'),
+                        child: Text(
+                          'Easypaisa',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: 'Jazzcash',
-                        child: Text('Jazzcash'),
+                        child: Text(
+                          'Jazzcash',
+                          style: TextStyle(color: AppColor.fonts),
+                        ),
                       ),
                     ],
                     decoration: InputDecoration(
@@ -442,12 +445,16 @@ class _RecipientFormState extends State<RecipientForm> {
             Components.showAlertDialog(context);
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
+            formData['status'] = '0';
             RecipientHelper().uploadThumbnail(thumbnail).then((value) {
               formData['image'] = value;
               if (formData['image'] != null) {
                 if (formKey.currentState.validate()) {
                   RecipientHelper().uploadRequest(formData).whenComplete(
                     () {
+                      formData.clear();
+                      formKey.currentState.reset();
+                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Components.showSnackBar(
                           context, 'Your request posted successfully');
@@ -492,6 +499,7 @@ class _RecipientFormState extends State<RecipientForm> {
       return;
     } else {
       thumbnail = await compressImage(pickedFile.path, 35);
+      setState(() {});
     }
   }
 }

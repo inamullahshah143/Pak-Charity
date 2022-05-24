@@ -4,10 +4,10 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
-import 'package:pak_charity/screen/admin/request_details.dart';
 import 'package:pak_charity/screen/auth/spalsh_screen.dart';
 import 'package:pak_charity/screen/home/recipient/recipient_form.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
+import 'package:pak_charity/utils/recipient_helper.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({Key key}) : super(key: key);
@@ -220,79 +220,49 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      onTap: () {
-                        Get.to(const RequestDetails());
-                      },
-                      trailing: PopupMenuButton(
-                        itemBuilder: (context) => const [
-                          PopupMenuItem(
-                            value: 0,
-                            child: Text('Accept'),
-                          ),
-                          PopupMenuItem(
-                            value: 1,
-                            child: Text('Decline'),
-                          ),
-                        ],
-                        onSelected: (index) {},
-                      ),
-                      isThreeLine: true,
-                      title: const Text('Recipient Name'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: AppColor.primary,
-                                    size: 16,
+            StreamBuilder(
+              stream: RecipientHelper().getDonationRequestRecords(context),
+              builder: (context, snapshot) {
+                return snapshot.connectionState == ConnectionState.waiting
+                    ? const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : snapshot.data.length == 0
+                        ? Expanded(
+                            child: Center(
+                              child: Text(
+                                'No request Found',
+                                style: TextStyle(
+                                  color: AppColor.secondary,
+                                ),
+                              ),
+                            ),
+                          )
+                        : snapshot.hasData
+                            ? Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    activeCount = snapshot.data.length;
+                                    return snapshot.data[index];
+                                  },
+                                ),
+                              )
+                            : Expanded(
+                                child: Center(
+                                  child: Text(
+                                    'No request Found',
+                                    style: TextStyle(
+                                      color: AppColor.secondary,
+                                    ),
                                   ),
                                 ),
-                                const TextSpan(text: ' '),
-                                const WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Text('XXXX-XXXXXXX'),
-                                ),
-                              ],
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(
-                                    Icons.mail,
-                                    color: AppColor.primary,
-                                    size: 16,
-                                  ),
-                                ),
-                                const TextSpan(text: ' '),
-                                const WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Text('email@email.com'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
+                              );
+              },
+            ),
           ],
         ),
       ),

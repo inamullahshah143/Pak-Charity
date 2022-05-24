@@ -1,10 +1,13 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 
 class RequestDetails extends StatelessWidget {
-  const RequestDetails({Key key}) : super(key: key);
+  final Map<String, dynamic> data;
+  final Map<String, dynamic> recipientDetails;
+  const RequestDetails(
+      {Key key, @required this.data, @required this.recipientDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class RequestDetails extends StatelessWidget {
             expandedHeight: MediaQuery.of(context).size.height * 0.4,
             collapsedHeight: MediaQuery.of(context).size.height * 0.075,
             elevation: 0,
-            backgroundColor: AppColor.secondary,
+            backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
             pinned: true,
             leadingWidth: 50,
@@ -42,7 +45,7 @@ class RequestDetails extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
                   title: Text(
-                    'Project Title',
+                    data['projectTitle'],
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -51,29 +54,76 @@ class RequestDetails extends StatelessWidget {
                       fontSize: 28,
                     ),
                   ),
-                  subtitle: RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColor.white,
-                            size: 16,
-                          ),
-                        ),
-                        const TextSpan(text: ' '),
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Text(
-                            'Username',
-                            style: TextStyle(
-                              color: AppColor.white,
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppColor.white,
+                                    size: 16,
+                                  ),
+                                ),
+                                const TextSpan(text: ' '),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Text(
+                                    recipientDetails['fullName'],
+                                    style: TextStyle(
+                                      color: AppColor.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Icon(
+                                    Icons.mail,
+                                    color: AppColor.white,
+                                    size: 16,
+                                  ),
+                                ),
+                                const TextSpan(text: ' '),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.middle,
+                                  child: Text(
+                                    recipientDetails['email'],
+                                    style: TextStyle(
+                                      color: AppColor.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        color: AppColor.white,
+                        textColor: AppColor.fonts,
+                        padding: EdgeInsets.zero,
+                        child: const Icon(
+                          Icons.phone,
+                          size: 18,
                         ),
-                      ],
-                    ),
+                        shape: const CircleBorder(),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -81,14 +131,13 @@ class RequestDetails extends StatelessWidget {
             flexibleSpace: BackgroundFlexibleSpaceBar(
               collapseMode: CollapseMode.pin,
               background: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(25),
                     bottomRight: Radius.circular(25),
                   ),
                   image: DecorationImage(
-                    image: NetworkImage(
-                        'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png'),
+                    image: NetworkImage(data['image']),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -130,7 +179,61 @@ class RequestDetails extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
               child: Text(
-                'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi. Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
+                data['projectDescription'],
+                style: TextStyle(
+                  color: AppColor.fonts,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Text(
+                'Amount Needed',
+                style: TextStyle(
+                  color: AppColor.fonts,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Text(
+                data['amountNeeded'],
+                style: TextStyle(
+                  color: AppColor.fonts,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Text(
+                'Estimated Deadline',
+                style: TextStyle(
+                  color: AppColor.fonts,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Text(
+                data['estimatedDelivery'],
                 style: TextStyle(
                   color: AppColor.fonts,
                   fontSize: 14,
@@ -140,39 +243,59 @@ class RequestDetails extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
-          foregroundColor: MaterialStateProperty.all<Color>(
-            AppColor.white,
-          ),
-          minimumSize: MaterialStateProperty.all<Size>(
-            Size(MediaQuery.of(context).size.width * 0.4, 50),
-          ),
-          overlayColor:
-              MaterialStateProperty.all<Color>(AppColor.white.withOpacity(0.1)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(AppColor.red),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  AppColor.white,
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(MediaQuery.of(context).size.width * 0.25, 50),
+                ),
+                overlayColor: MaterialStateProperty.all<Color>(
+                    AppColor.white.withOpacity(0.1)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () {},
+              child: const Text('Decline'),
             ),
           ),
-        ),
-        onPressed: () {},
-        child: RichText(
-          text: const TextSpan(
-            children: [
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: Text('Donate'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(AppColor.primary),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  AppColor.white,
+                ),
+                minimumSize: MaterialStateProperty.all<Size>(
+                  Size(MediaQuery.of(context).size.width * 0.25, 50),
+                ),
+                overlayColor: MaterialStateProperty.all<Color>(
+                    AppColor.white.withOpacity(0.1)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
-              TextSpan(text: '   '),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: Icon(FontAwesome5.long_arrow_alt_right),
-              ),
-            ],
+              onPressed: () {},
+              child: const Text('Accept'),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
