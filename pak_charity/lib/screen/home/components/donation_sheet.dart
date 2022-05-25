@@ -5,7 +5,6 @@ import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_1.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_2.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_3.dart';
-import 'package:pak_charity/utils/jazz_cash_helper.dart';
 
 class DonationSheet extends StatefulWidget {
   final String requestId;
@@ -34,9 +33,7 @@ class _DonationSheetState extends State<DonationSheet> {
       resizeToAvoidBottomInset: true,
       body: CoolStepper(
         showErrorSnackbar: false,
-        onCompleted: () {
-          JazzCashHelper().payment(donationMoney, accountNo, otheramount);
-        },
+        onCompleted: () {},
         steps: steps,
         config: CoolStepperConfig(
           titleTextStyle: TextStyle(

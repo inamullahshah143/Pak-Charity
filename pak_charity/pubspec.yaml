@@ -56,6 +56,7 @@ dependencies:
   file_picker: ^4.5.1
   flutter_image_compress: ^1.1.0
   path_provider: ^2.0.9
+  stripe_sdk: ^5.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:
