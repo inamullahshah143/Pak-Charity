@@ -65,8 +65,6 @@ class _ProjectCardState extends State<ProjectCard> {
                         favoriteList.remove(widget.requestId);
                         prefs.setStringList('requestId', favoriteList);
                       }
-
-                      print(favoriteList);
                     },
                     color: AppColor.primary,
                     icon: Icon(

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/components/project_card.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/home/components/donation_sheet.dart';
 import 'package:pak_charity/screen/home/components/view_details_sheet.dart';
 import 'package:path/path.dart';
@@ -161,6 +162,71 @@ class RecipientHelper {
         }
       },
     );
+    yield x;
+  }
+
+  Stream<List<Widget>> getFavoriteDonationRequests(context) async* {
+    List<Widget> x = [];
+    for (var req in prefs.getStringList('requestId')) {
+      await FirebaseFirestore.instance
+          .collection('donation_requests')
+          .doc(req)
+          .get()
+          .then(
+        (value) async {
+          await FirebaseFirestore.instance
+              .collection('user')
+              .doc(value.data()['recipientId'])
+              .get()
+              .then((value) {
+            x.add(
+              ProjectCard(
+                requestId: value.id,
+                amountNeed: double.parse(value.data()['amountNeeded']),
+                collectedPercentage:
+                    (double.parse((value.data()['donationRecived'])) /
+                            double.parse((value.data()['amountNeeded']))) *
+                        100,
+                details: value.data()['projectDescription'],
+                imageURL: value.data()['image'],
+                title: value.data()['projectTitle'],
+                donate: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    isDismissible: false,
+                    useRootNavigator: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) => Container(
+                      height: MediaQuery.of(context).size.height * 0.75,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: AppColor.secondary,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25.0),
+                          topRight: Radius.circular(25.0),
+                        ),
+                      ),
+                      child: DonationSheet(
+                        data: value.data(),
+                        requestId: value.id,
+                      ),
+                    ),
+                  );
+                },
+                viewDetails: () {
+                  Get.to(ViewDetailSheet(
+                    data: value.data(),
+                    recipientDetails: value.data(),
+                    requestId: value.id,
+                  ));
+                },
+              ),
+            );
+          });
+        },
+      );
+    }
     yield x;
   }
 }

@@ -8,7 +8,7 @@ import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/admin/admin.dart';
 import 'package:pak_charity/screen/auth/intro_screen.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
-import 'package:pak_charity/screen/home/dashboard.dart';
+import 'package:pak_charity/screen/home/menu_darwer.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (prefs.getString('UserType') == 'admin') {
           Get.off(const AdminDashboard());
         } else {
-          Get.off(const Dashboard());
+          Get.off(MenuDrawer());
         }
       }
     });

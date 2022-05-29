@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
-
-import '../../constants/components/project_card.dart';
+import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/utils/recipient_helper.dart';
 
 class Projects extends StatelessWidget {
   const Projects({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ProjectCard(
-          amountNeed: 1000.0,
-          collectedPercentage: 75,
-          details:
-              'Lorem ipsum dolor sit amet. Et tenetur quod eos delectus numquam qui amet iste. Et aliquid minima et delectus perferendis sit quaerat similique id adipisci. Ab inventore culpa a ullam aliquam 33 velit tempora quo obcaecati pariatur est sunt nisi.',
-          donate: () {},
-          imageURL:
-              'https://ofhsoupkitchen.org/wp-content/uploads/2020/11/charity-begins-at-home-1024x683-850x300.png',
-          title: 'Any Title',
-          viewDetails: () {},
-        ),
-      ],
-    );
+    return StreamBuilder(
+                stream: RecipientHelper().getFavoriteDonationRequests(context),
+                builder: (context, snapshot) {
+                  return snapshot.connectionState == ConnectionState.waiting
+                      ? const Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : snapshot.hasData
+                          ? Expanded(
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return snapshot.data[index];
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: Center(
+                                child: Text(
+                                  'No Record Found',
+                                  style: TextStyle(
+                                    color: AppColor.secondary,
+                                  ),
+                                ),
+                              ),
+                            );
+                },
+              );
   }
 }
