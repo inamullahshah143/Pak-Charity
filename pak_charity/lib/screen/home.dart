@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: bottomIndex == 0
             ? const Projects()
             : bottomIndex == 1
-                ? const Dashboard()
+                ? Dashboard()
                 : bottomIndex == 2
                     ? const Profile()
                     : Container(),

@@ -7,6 +7,7 @@ import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/admin/admin.dart';
+import 'package:pak_charity/screen/auth/forget_password.dart';
 import 'package:pak_charity/screen/auth/sign_up_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
@@ -49,11 +50,10 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              'assets/images/background.png',
-            ),
-            fit: BoxFit.cover
-          ),
+              image: AssetImage(
+                'assets/images/background.png',
+              ),
+              fit: BoxFit.cover),
         ),
         child: Obx(
           () {
@@ -134,7 +134,24 @@ class LoginScreen extends StatelessWidget {
                                         },
                                       ),
                                       const SizedBox(
-                                        height: 10,
+                                        height: 15,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.to(ForgetPassword());
+                                          },
+                                          child: Text(
+                                            "Forget your password?",
+                                            style: TextStyle(
+                                              color: AppColor.fonts,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
                                       ),
                                       SizedBox(
                                         width:
@@ -431,7 +448,24 @@ class LoginScreen extends StatelessWidget {
                                         },
                                       ),
                                       const SizedBox(
-                                        height: 10,
+                                        height: 15,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Get.to(ForgetPassword());
+                                          },
+                                          child: Text(
+                                            "Forget your password?",
+                                            style: TextStyle(
+                                              color: AppColor.fonts,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
                                       ),
                                       SizedBox(
                                         width:

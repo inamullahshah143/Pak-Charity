@@ -8,7 +8,7 @@ class Projects extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-                stream: RecipientHelper().getFavoriteDonationRequests(context),
+                stream: RecipientHelper().getDonationRequests(context),
                 builder: (context, snapshot) {
                   return snapshot.connectionState == ConnectionState.waiting
                       ? const Expanded(

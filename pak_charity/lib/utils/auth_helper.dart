@@ -71,6 +71,17 @@ class AuthenticationHelper {
       }
       await FirebaseAuth.instance.signOut();
     } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+      Components.showSnackBar(context, e.message);
+    }
+  }
+
+  Future resetPassword(context, String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
       Components.showSnackBar(context, e.message);
     }
   }

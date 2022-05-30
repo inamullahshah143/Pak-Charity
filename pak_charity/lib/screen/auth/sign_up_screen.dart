@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
@@ -13,8 +14,10 @@ import 'package:pak_charity/utils/helper.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key key}) : super(key: key);
-
+  String initialCountry = 'PK';
+  PhoneNumber number = PhoneNumber(isoCode: 'PK');
   final isVisible = true.obs;
+  final isValidNo = true.obs;
   final formKey = GlobalKey<FormState>();
   final TextEditingController fullName = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -99,14 +102,37 @@ class SignupScreen extends StatelessWidget {
                                 hintText: 'Your email address',
                               ),
                             ),
-                            TextFormField(
-                              controller: phoneNo,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) =>
-                                  Helper.validateMobile(value),
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            InternationalPhoneNumberInput(
+                              onInputChanged: (PhoneNumber number) {},
+                              onInputValidated: (bool value) {
+                                isValidNo.value = value;
+                              },
+                              selectorConfig: const SelectorConfig(
+                                selectorType: PhoneInputSelectorType.DIALOG,
+                              ),
+                              ignoreBlank: false,
+                              autoValidateMode: AutovalidateMode.disabled,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'please enter your phone number';
+                                } else if (isValidNo.value == false) {
+                                  return 'please enter valid phone number';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              selectorTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              initialValue: number,
+                              textFieldController: phoneNo,
+                              formatInput: false,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      signed: true, decimal: true),
+                              inputDecoration: const InputDecoration(
                                 labelText: 'Phone No.',
                                 hintText: 'Your phone no.',
                               ),
@@ -275,7 +301,7 @@ class SignupScreen extends StatelessWidget {
                                       }).whenComplete(() {});
                                       Navigator.of(context).pop();
                                       Components.showSnackBar(context,
-                                          'Welcome ${value.displayName}');
+                                          'Wellcome ${value.displayName}');
                                       Get.off(MenuDrawer());
                                     }
                                   });
