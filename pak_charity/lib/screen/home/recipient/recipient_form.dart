@@ -301,14 +301,28 @@ class _RecipientFormState extends State<RecipientForm> {
                               color: AppColor.fonts,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              thumbnail == null ? Icons.camera_alt : Icons.done,
-                              size: 35,
-                              color: AppColor.fonts.withOpacity(0.5),
-                            ),
-                          ),
+                          thumbnail == null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 35,
+                                    color: AppColor.fonts.withOpacity(0.5),
+                                  ),
+                                )
+                              : Container(
+                                  margin: const EdgeInsets.all(15),
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Image.file(
+                                    thumbnail,
+                                    height: 150,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         ],
                       ),
                     ),
