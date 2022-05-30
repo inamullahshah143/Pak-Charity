@@ -14,8 +14,8 @@ import 'package:pak_charity/utils/helper.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key key}) : super(key: key);
-  String initialCountry = 'PK';
-  PhoneNumber number = PhoneNumber(isoCode: 'PK');
+  final String initialCountry = 'PK';
+  final PhoneNumber number = PhoneNumber(isoCode: 'PK');
   final isVisible = true.obs;
   final isValidNo = true.obs;
   final formKey = GlobalKey<FormState>();
