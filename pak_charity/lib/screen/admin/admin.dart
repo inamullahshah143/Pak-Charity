@@ -11,7 +11,7 @@ import 'package:pak_charity/utils/auth_helper.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
 class AdminDashboard extends StatefulWidget {
-  const AdminDashboard({Key key}) : super(key: key);
+  const AdminDashboard({Key? key}) : super(key: key);
 
   @override
   State<AdminDashboard> createState() => _AdminDashboardState();
@@ -72,7 +72,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 text: 'Logout?',
                 onConfirmBtnTap: () {
                   AuthenticationHelper().signOut().whenComplete(() {
-                    prefs.clear();
+                    prefs!.clear();
                     Get.off(const SplashScreen());
                   });
                 },
@@ -139,7 +139,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       ],
                                     ),
                                   ),
-                                  StreamBuilder(
+                                  StreamBuilder<
+                                      QuerySnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
                                         .collection('donation_requests')
                                         .where('status', isEqualTo: '0')
@@ -150,7 +151,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ? const CircularProgressIndicator()
                                           : snapshot.hasData
                                               ? Text(
-                                                  snapshot.data.size.toString(),
+                                                  snapshot.data!.size
+                                                      .toString(),
                                                   style: TextStyle(
                                                     color: AppColor.fonts,
                                                     fontSize: 20,
@@ -211,7 +213,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       ],
                                     ),
                                   ),
-                                   StreamBuilder(
+                                  StreamBuilder<
+                                      QuerySnapshot<Map<String, dynamic>>>(
                                     stream: FirebaseFirestore.instance
                                         .collection('donation_requests')
                                         .where('status', isEqualTo: '1')
@@ -222,7 +225,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ? const CircularProgressIndicator()
                                           : snapshot.hasData
                                               ? Text(
-                                                  snapshot.data.size.toString(),
+                                                  snapshot.data!.size
+                                                      .toString(),
                                                   style: TextStyle(
                                                     color: AppColor.fonts,
                                                     fontSize: 20,
@@ -261,7 +265,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
               ),
             ),
-            StreamBuilder(
+            StreamBuilder<List<Widget>>(
               stream: RecipientHelper().getDonationRequestRecords(context),
               builder: (context, snapshot) {
                 return snapshot.connectionState == ConnectionState.waiting
@@ -270,7 +274,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           child: CircularProgressIndicator(),
                         ),
                       )
-                    : snapshot.data.length == 0
+                    : snapshot.data!.isEmpty
                         ? Expanded(
                             child: Center(
                               child: Text(
@@ -285,10 +289,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ? Expanded(
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
-                                    activeCount = snapshot.data.length;
-                                    return snapshot.data[index];
+                                    activeCount = snapshot.data!.length;
+                                    return snapshot.data![index];
                                   },
                                 ),
                               )

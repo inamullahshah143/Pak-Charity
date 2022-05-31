@@ -13,7 +13,7 @@ import 'package:pak_charity/utils/auth_helper.dart';
 import 'package:pak_charity/utils/helper.dart';
 
 class SignupScreen extends StatelessWidget {
-  SignupScreen({Key key}) : super(key: key);
+  SignupScreen({Key? key}) : super(key: key);
   final String initialCountry = 'PK';
   final PhoneNumber number = PhoneNumber(isoCode: 'PK');
   final isVisible = true.obs;
@@ -79,7 +79,7 @@ class SignupScreen extends StatelessWidget {
                             TextFormField(
                               controller: fullName,
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return 'please enter your full name';
                                 }
                                 return null;
@@ -96,7 +96,7 @@ class SignupScreen extends StatelessWidget {
                               controller: email,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              validator: (value) => Helper.validateEmail(value),
+                              validator: (value) => Helper.validateEmail(value!),
                               decoration: const InputDecoration(
                                 labelText: 'Email',
                                 hintText: 'Your email address',
@@ -148,7 +148,7 @@ class SignupScreen extends StatelessWidget {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   validator: (value) =>
-                                      Helper.validatePassword(value),
+                                      Helper.validatePassword(value!),
                                   decoration: InputDecoration(
                                     labelText: 'Password',
                                     hintText: 'Your secret password',
@@ -180,7 +180,7 @@ class SignupScreen extends StatelessWidget {
                                       AutovalidateMode.onUserInteraction,
                                   obscureText: isVisible.value,
                                   validator: (value) {
-                                    if (value.isEmpty) {
+                                    if (value!.isEmpty) {
                                       return 'please enter your confirm password';
                                     } else if (value != password.text) {
                                       return 'password doesn\'t match';
@@ -222,7 +222,7 @@ class SignupScreen extends StatelessWidget {
                                           AppColor.white.withOpacity(0.1)),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState.validate()) {
+                                  if (formKey.currentState!.validate()) {
                                     Components.showAlertDialog(context);
                                     AuthenticationHelper()
                                         .signUp(
@@ -241,14 +241,14 @@ class SignupScreen extends StatelessWidget {
                                           'phoneNo': phoneNo.text,
                                           'userType': 'donor'
                                         }).whenComplete(() {
-                                          prefs.setString(
+                                          prefs!.setString(
                                               'Username', fullName.text);
-                                          prefs.setString(
+                                          prefs!.setString(
                                               'UserID', result.user.uid);
-                                          prefs.setString('Email', email.text);
-                                          prefs.setString(
+                                          prefs!.setString('Email', email.text);
+                                          prefs!.setString(
                                               'PhoneNo', phoneNo.text);
-                                          prefs.setString('UserType', 'donor');
+                                          prefs!.setString('UserType', 'donor');
                                           Navigator.of(context).pop();
                                           Components.showSnackBar(context,
                                               'Wellcome ${fullName.text}');
@@ -287,23 +287,21 @@ class SignupScreen extends StatelessWidget {
                                   AuthenticationHelper()
                                       .signInWithGoogle()
                                       .then((value) {
-                                    if (value != null) {
-                                      final FirebaseAuth _auth =
-                                          FirebaseAuth.instance;
-                                      FirebaseFirestore.instance
-                                          .collection('user')
-                                          .doc(_auth.currentUser.uid)
-                                          .set({
-                                        'fullName': value.displayName,
-                                        'email': value.email,
-                                        'phoneNo': value.phoneNumber,
-                                        'userType': 'donor'
-                                      }).whenComplete(() {});
-                                      Navigator.of(context).pop();
-                                      Components.showSnackBar(context,
-                                          'Wellcome ${value.displayName}');
-                                      Get.off(MenuDrawer());
-                                    }
+                                    final FirebaseAuth _auth =
+                                        FirebaseAuth.instance;
+                                    FirebaseFirestore.instance
+                                        .collection('user')
+                                        .doc(_auth.currentUser!.uid)
+                                        .set({
+                                      'fullName': value.displayName,
+                                      'email': value.email,
+                                      'phoneNo': value.phoneNumber,
+                                      'userType': 'donor'
+                                    }).whenComplete(() {});
+                                    Navigator.of(context).pop();
+                                    Components.showSnackBar(context,
+                                        'Wellcome ${value.displayName}');
+                                    Get.off(MenuDrawer());
                                   });
                                 },
                                 style: ButtonStyle(

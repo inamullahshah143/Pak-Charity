@@ -10,11 +10,11 @@ import 'package:pak_charity/screen/home.dart';
 import 'package:pak_charity/screen/home/recipient/recipient_home.dart';
 
 class MenuDrawer extends StatelessWidget {
-  MenuDrawer({Key key}) : super(key: key);
+  MenuDrawer({Key? key}) : super(key: key);
   ZoomDrawerController zoomDrawerController = ZoomDrawerController();
   @override
   Widget build(BuildContext context) {
-    return prefs.getString('UserType') == 'donor'
+    return prefs!.getString('UserType') == 'donor'
         ? ZoomDrawer(
             controller: zoomDrawerController,
             borderRadius: 24.0,
@@ -23,7 +23,7 @@ class MenuDrawer extends StatelessWidget {
             shadowLayer2Color: AppColor.appThemeColor,
             shadowLayer1Color: AppColor.appThemeColor.withOpacity(0.5),
             angle: 0.0,
-            drawerShadowsBackgroundColor: Colors.grey[300],
+            drawerShadowsBackgroundColor: AppColor.pagesColor,
             slideWidth: MediaQuery.of(context).size.width * 0.75,
             menuScreenWidth: MediaQuery.of(context).size.width * 0.75,
             mainScreen: const HomeScreen(),
@@ -39,7 +39,7 @@ class MenuDrawer extends StatelessWidget {
             shadowLayer2Color: AppColor.appThemeColor,
             shadowLayer1Color: AppColor.appThemeColor.withOpacity(0.5),
             angle: 0.0,
-            drawerShadowsBackgroundColor: Colors.grey[300],
+            drawerShadowsBackgroundColor: AppColor.pagesColor,
             slideWidth: MediaQuery.of(context).size.width * 0.75,
             menuScreenWidth: MediaQuery.of(context).size.width * 0.75,
             mainScreen: const RecipientHome(),

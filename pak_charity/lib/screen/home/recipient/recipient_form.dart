@@ -12,7 +12,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class RecipientForm extends StatefulWidget {
-  const RecipientForm({Key key}) : super(key: key);
+  const RecipientForm({Key? key}) : super(key: key);
 
   @override
   State<RecipientForm> createState() => _RecipientFormState();
@@ -24,7 +24,7 @@ class _RecipientFormState extends State<RecipientForm> {
   final formKey = GlobalKey<FormState>();
   final formData = <String, dynamic>{}.obs;
 
-  File thumbnail;
+  File? thumbnail;
   @override
   void initState() {
     super.initState();
@@ -76,7 +76,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'please enter project title';
                       }
                       return null;
@@ -105,7 +105,7 @@ class _RecipientFormState extends State<RecipientForm> {
                     maxLines: 5,
                     maxLength: 1500,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'please enter project description';
                       }
                       return null;
@@ -132,7 +132,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'please enter amount you need';
                       }
                       return null;
@@ -160,8 +160,8 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: DropdownButtonFormField(
                     focusColor: AppColor.fonts,
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'please select donation type';
                       }
                       return null;
@@ -240,11 +240,11 @@ class _RecipientFormState extends State<RecipientForm> {
                           ),
                         ).then((value) {
                           formData['estimatedDelivery'] =
-                              DateFormat('dd-MM-yyyy').format(value);
+                              DateFormat('dd-MM-yyyy').format(value!);
                         });
                       },
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'please set estimated delivery';
                         }
                         return null;
@@ -317,7 +317,7 @@ class _RecipientFormState extends State<RecipientForm> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Image.file(
-                                    thumbnail,
+                                    thumbnail!,
                                     height: 150,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
@@ -344,7 +344,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'please enter account title';
                       }
                       return null;
@@ -372,8 +372,8 @@ class _RecipientFormState extends State<RecipientForm> {
                   child: DropdownButtonFormField(
                     dropdownColor: AppColor.white,
                     hint: const Text("Account Type"),
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
                         return 'please select account type';
                       }
                       return null;
@@ -416,7 +416,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: TextFormField(
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'please enter account number';
                       }
                       return null;
@@ -460,14 +460,14 @@ class _RecipientFormState extends State<RecipientForm> {
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
             formData['status'] = '0';
-            RecipientHelper().uploadThumbnail(thumbnail).then((value) {
+            RecipientHelper().uploadThumbnail(thumbnail!).then((value) {
               formData['image'] = value;
               if (formData['image'] != null) {
-                if (formKey.currentState.validate()) {
+                if (formKey.currentState!.validate()) {
                   RecipientHelper().uploadRequest(formData).whenComplete(
                     () {
                       formData.clear();
-                      formKey.currentState.reset();
+                      formKey.currentState!.reset();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Components.showSnackBar(
@@ -491,7 +491,7 @@ class _RecipientFormState extends State<RecipientForm> {
     );
   }
 
-  Future<File> compressImage(String path, int quality) async {
+  Future<File?> compressImage(String path, int quality) async {
     final newPath = p.join((await getTemporaryDirectory()).path,
         '${DateTime.now()}.${p.extension(path)}');
     final result = await FlutterImageCompress.compressAndGetFile(
@@ -499,21 +499,17 @@ class _RecipientFormState extends State<RecipientForm> {
       newPath,
       quality: quality,
     );
-    return result;
+    return result!;
   }
 
   Future pickThumbnail() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['png', 'jpg', 'jpeg'],
     );
-    final pickedFile = File(result.files.single.path);
-    if (pickedFile == null) {
-      Navigator.of(context).pop();
-      return;
-    } else {
-      thumbnail = await compressImage(pickedFile.path, 35);
-      setState(() {});
-    }
+    File? pickedFile = File(result!.files.single.path.toString());
+
+    thumbnail = await compressImage(pickedFile.path, 35);
+    setState(() {});
   }
 }

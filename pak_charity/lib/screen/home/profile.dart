@@ -5,7 +5,7 @@ import 'package:pak_charity/main.dart';
 import '../../constants/widgets/color.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key key}) : super(key: key);
+  const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,8 @@ class Profile extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  "Hi there ${prefs.getString('Username')}!",
-                  style: Theme.of(context).textTheme.headline4.copyWith(
+                  "Hi there ${prefs!.getString('Username')}!",
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                       fontWeight: FontWeight.w500, color: AppColor.fonts),
                 ),
                 const SizedBox(
@@ -70,7 +70,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: prefs.getString('Username'),
+                    initialValue: prefs!.getString('Username'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -97,7 +97,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: prefs.getString('Email'),
+                    initialValue: prefs!.getString('Email'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -123,7 +123,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: prefs.getString('PhoneNo'),
+                    initialValue: prefs!.getString('PhoneNo'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -149,7 +149,7 @@ class Profile extends StatelessWidget {
                         bottom: 10,
                       ),
                     ),
-                    initialValue: prefs.getString('Address'),
+                    initialValue: prefs!.getString('Address'),
                     style: const TextStyle(
                       fontSize: 14,
                     ),
@@ -245,18 +245,18 @@ class Profile extends StatelessWidget {
 
 class CustomFormImput extends StatelessWidget {
   const CustomFormImput({
-    Key key,
-    String label,
-    String value,
-    bool isPassword = false,
+    Key? key,
+    String? label,
+    String? value,
+    bool? isPassword = false,
   })  : _label = label,
         _value = value,
         _isPassword = isPassword,
         super(key: key);
 
-  final String _label;
-  final String _value;
-  final bool _isPassword;
+  final String? _label;
+  final String? _value;
+  final bool? _isPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +277,7 @@ class CustomFormImput extends StatelessWidget {
             bottom: 10,
           ),
         ),
-        obscureText: _isPassword,
+        obscureText: _isPassword!,
         initialValue: _value,
         style: const TextStyle(
           fontSize: 14,

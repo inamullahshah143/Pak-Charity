@@ -9,14 +9,14 @@ import 'home/profile.dart';
 import 'home/projects.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int bottomIndex;
+  int? bottomIndex;
   @override
   void initState() {
     bottomIndex = 1;
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            ZoomDrawer.of(context).open();
+            ZoomDrawer.of(context)!.open();
           },
           icon: Icon(
             Icons.menu,
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: bottomIndex == 0
             ? const Projects()
             : bottomIndex == 1
-                ? Dashboard()
+                ? const Dashboard()
                 : bottomIndex == 2
                     ? const Profile()
                     : Container(),
