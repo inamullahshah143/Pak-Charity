@@ -4,7 +4,7 @@ import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
 class Projects extends StatelessWidget {
-  const Projects({Key? key}) : super(key: key);
+  const Projects({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +22,18 @@ class Projects extends StatelessWidget {
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
+                      itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         return ProjectCard(
-                          requestId: snapshot.data![index].requestId,
-                          amountNeed: snapshot.data![index].amountNeed,
+                          requestId: snapshot.data[index].requestId,
+                          amountNeed: snapshot.data[index].amountNeed,
                           collectedPercentage:
-                              snapshot.data![index].collectedPercentage,
-                          details: snapshot.data![index].details,
-                          imageURL: snapshot.data![index].imageURL,
-                          title: snapshot.data![index].title,
-                          donate: snapshot.data![index].donate,
-                          viewDetails: snapshot.data![index].viewDetails,
+                              snapshot.data[index].collectedPercentage,
+                          details: snapshot.data[index].details,
+                          imageURL: snapshot.data[index].imageURL,
+                          title: snapshot.data[index].title,
+                          donate: snapshot.data[index].donate,
+                          viewDetails: snapshot.data[index].viewDetails,
                         );
                       },
                     ),

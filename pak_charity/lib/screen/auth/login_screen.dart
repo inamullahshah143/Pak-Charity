@@ -14,7 +14,7 @@ import 'package:pak_charity/utils/auth_helper.dart';
 import 'package:pak_charity/utils/helper.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key key}) : super(key: key);
   final isVisible = true.obs;
   final userType = 0.obs;
   final formKey = GlobalKey<FormState>();
@@ -41,8 +41,8 @@ class LoginScreen extends StatelessWidget {
                 child: Text('Admin'),
               ),
             ],
-            onSelected: (int? index) {
-              userType.value = index!;
+            onSelected: (int index) {
+              userType.value = index;
             },
           ),
         ],
@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         validator: (value) =>
-                                            Helper.validateEmail(value!),
+                                            Helper.validateEmail(value),
                                         decoration: const InputDecoration(
                                           labelText: 'Email',
                                           hintText: 'Your email address',
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                                                 .onUserInteraction,
                                             obscureText: isVisible.value,
                                             validator: (value) =>
-                                                Helper.validatePassword(value!),
+                                                Helper.validatePassword(value),
                                             decoration: InputDecoration(
                                               labelText: 'Password',
                                               hintText: 'Your secret password',
@@ -167,7 +167,7 @@ class LoginScreen extends StatelessWidget {
                                                     .withOpacity(0.1)),
                                           ),
                                           onPressed: () {
-                                            if (formKey.currentState!
+                                            if (formKey.currentState
                                                 .validate()) {
                                               Components.showAlertDialog(
                                                   context);
@@ -184,26 +184,26 @@ class LoginScreen extends StatelessWidget {
                                                       .doc(result.user.uid)
                                                       .get()
                                                       .then((value) async {
-                                                    if (value.data()![
+                                                    if (value.data()[
                                                             'userType'] !=
                                                         'admin') {
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'Username',
-                                                          value.data()![
+                                                          value.data()[
                                                               'fullName']);
-                                                      prefs!.setString('UserID',
+                                                      prefs.setString('UserID',
                                                           result.user.uid);
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'Email',
                                                           value
-                                                              .data()!['email']);
-                                                      prefs!.setString(
+                                                              .data()['email']);
+                                                      prefs.setString(
                                                           'PhoneNo',
-                                                          value.data()![
+                                                          value.data()[
                                                               'phoneNo']);
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'UserType',
-                                                          value.data()![
+                                                          value.data()[
                                                               'userType']);
                                                       Navigator.of(context)
                                                           .pop();
@@ -251,22 +251,22 @@ class LoginScreen extends StatelessWidget {
                                                   FirebaseAuth.instance;
                                               FirebaseFirestore.instance
                                                   .collection('user')
-                                                  .doc(_auth.currentUser!.uid)
+                                                  .doc(_auth.currentUser.uid)
                                                   .set({
                                                 'fullName': value.displayName,
                                                 'email': value.email,
                                                 'phoneNo': value.phoneNumber,
                                                 'userType': 'donor'
                                               }).whenComplete(() async {
-                                                prefs!.setString('Username',
-                                                    value.displayName!);
-                                                prefs!.setString(
+                                                prefs.setString('Username',
+                                                    value.displayName);
+                                                prefs.setString(
                                                     'UserID', value.uid);
-                                                prefs!.setString(
-                                                    'Email', value.email!);
-                                                prefs!.setString('PhoneNo',
-                                                    value.phoneNumber!);
-                                                prefs!.setString(
+                                                prefs.setString(
+                                                    'Email', value.email);
+                                                prefs.setString('PhoneNo',
+                                                    value.phoneNumber);
+                                                prefs.setString(
                                                     'UserType', 'donor');
                                                 Navigator.of(context).pop();
                                                 Components.showSnackBar(
@@ -409,7 +409,7 @@ class LoginScreen extends StatelessWidget {
                                       TextFormField(
                                         controller: email,
                                         validator: (value) =>
-                                            Helper.validateEmail(value!),
+                                            Helper.validateEmail(value),
                                         decoration: const InputDecoration(
                                           labelText: 'Email',
                                           hintText: 'Your email address',
@@ -424,7 +424,7 @@ class LoginScreen extends StatelessWidget {
                                             controller: password,
                                             obscureText: isVisible.value,
                                             validator: (value) =>
-                                                Helper.validatePassword(value!),
+                                                Helper.validatePassword(value),
                                             decoration: InputDecoration(
                                               labelText: 'Password',
                                               hintText: 'Your secret password',
@@ -479,7 +479,7 @@ class LoginScreen extends StatelessWidget {
                                                     .withOpacity(0.1)),
                                           ),
                                           onPressed: () {
-                                            if (formKey.currentState!
+                                            if (formKey.currentState
                                                 .validate()) {
                                               Components.showAlertDialog(
                                                   context);
@@ -496,26 +496,26 @@ class LoginScreen extends StatelessWidget {
                                                       .doc(result.user.uid)
                                                       .get()
                                                       .then((value) async {
-                                                    if (value.data()![
+                                                    if (value.data()[
                                                             'userType'] ==
                                                         'admin') {
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'Username',
-                                                          value.data()![
+                                                          value.data()[
                                                               'fullName']);
-                                                      prefs!.setString('UserID',
+                                                      prefs.setString('UserID',
                                                           result.user.uid);
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'Email',
                                                           value
-                                                              .data()!['email']);
-                                                      prefs!.setString(
+                                                              .data()['email']);
+                                                      prefs.setString(
                                                           'PhoneNo',
-                                                          value.data()![
+                                                          value.data()[
                                                               'phoneNo']);
-                                                      prefs!.setString(
+                                                      prefs.setString(
                                                           'UserType',
-                                                          value.data()![
+                                                          value.data()[
                                                               'userType']);
 
                                                       Navigator.of(context)

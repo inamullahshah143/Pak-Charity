@@ -20,13 +20,13 @@ class RecipientHelper {
     await FirebaseFirestore.instance.collection('donation_requests').add(data);
   }
 
-  Future<String> uploadThumbnail(File? thumbnailPath) async {
+  Future<String> uploadThumbnail(File thumbnailPath) async {
     TaskSnapshot taskSnapshot = await FirebaseStorage.instance
         .ref()
         .child('thumbnails')
-        .child(FirebaseAuth.instance.currentUser!.uid +
+        .child(FirebaseAuth.instance.currentUser.uid +
             '_' +
-            basename(thumbnailPath!.path))
+            basename(thumbnailPath.path))
         .putFile(File(thumbnailPath.path));
     return taskSnapshot.ref.getDownloadURL();
   }
@@ -87,11 +87,11 @@ class RecipientHelper {
               .then((value) {
             x.add(RequestApprovelCard(
               requestId: item.id,
-              recipientDetails: value.data()!,
+              recipientDetails: value.data(),
               data: item.data(),
-              email: value.data()!['email'],
-              phoneNo: value.data()!['phoneNo'],
-              recipientName: value.data()!['fullName'],
+              email: value.data()['email'],
+              phoneNo: value.data()['phoneNo'],
+              recipientName: value.data()['fullName'],
             ));
           });
         }
@@ -129,7 +129,7 @@ class RecipientHelper {
                 viewDetails: () {
                   Get.to(ViewDetailSheet(
                     data: item.data(),
-                    recipientDetails: userData.data()!,
+                    recipientDetails: userData.data(),
                     requestId: item.id,
                   ));
                 },

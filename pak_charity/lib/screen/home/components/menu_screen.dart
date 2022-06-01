@@ -14,7 +14,7 @@ import 'package:pak_charity/screen/home/about_us.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+  const MenuScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class MenuScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 10.0),
                   child: Text(
-                    '${prefs!.getString('Username')} ',
+                    '${prefs.getString('Username')} ',
                     style: TextStyle(
                       fontSize: 16,
                       color: AppColor.fonts,
@@ -47,7 +47,7 @@ class MenuScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
-                    '${prefs!.getString('Email')} ',
+                    '${prefs.getString('Email')} ',
                     style: TextStyle(
                       color: AppColor.fonts,
                     ),
@@ -61,14 +61,14 @@ class MenuScreen extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () {
-                  ZoomDrawer.of(context)!.close();
+                  ZoomDrawer.of(context).close();
                 },
                 leading: const Icon(
                   FontAwesome.gauge,
                 ),
                 title: const Text('Dashboard'),
               ),
-              prefs!.getString('UserType') != 'donor'
+              prefs.getString('UserType') != 'donor'
                   ? ListTile(
                       onTap: () {
                         CoolAlert.show(
@@ -80,10 +80,10 @@ class MenuScreen extends StatelessWidget {
                             Components.showAlertDialog(context);
                             FirebaseFirestore.instance
                                 .collection('user')
-                                .doc(prefs!.getString('UserID'))
+                                .doc(prefs.getString('UserID'))
                                 .update({'userType': 'donor'}).whenComplete(() {
                               Navigator.of(context).pop();
-                              prefs!.setString('UserType', 'donor');
+                              prefs.setString('UserType', 'donor');
                               Get.off(const SplashScreen());
                             });
                           },
@@ -107,11 +107,11 @@ class MenuScreen extends StatelessWidget {
                             Components.showAlertDialog(context);
                             FirebaseFirestore.instance
                                 .collection('user')
-                                .doc(prefs!.getString('UserID'))
+                                .doc(prefs.getString('UserID'))
                                 .update({'userType': 'recipient'}).whenComplete(
                                     () {
                               Navigator.of(context).pop();
-                              prefs!.setString('UserType', 'recipient');
+                              prefs.setString('UserType', 'recipient');
                               Get.off(const SplashScreen());
                             });
                           },
@@ -140,7 +140,7 @@ class MenuScreen extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  ZoomDrawer.of(context)!.close();
+                  ZoomDrawer.of(context).close();
                   Get.to(const AboutUs());
                 },
                 leading: const Icon(
@@ -157,7 +157,7 @@ class MenuScreen extends StatelessWidget {
                     text: 'Are you sure you want to Logout?',
                     onConfirmBtnTap: () {
                       AuthenticationHelper().signOut().whenComplete(() {
-                        prefs!.clear();
+                        prefs.clear();
                         Get.off(const SplashScreen());
                       });
                     },

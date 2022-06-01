@@ -8,31 +8,31 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProjectCard extends StatefulWidget {
   const ProjectCard({
-    Key? key,
-    required this.requestId,
-    required this.imageURL,
-    required this.title,
-    required this.details,
-    required this.amountNeed,
-    required this.collectedPercentage,
-    required this.viewDetails,
-    required this.donate,
+    Key key,
+    @required this.requestId,
+    @required this.imageURL,
+    @required this.title,
+    @required this.details,
+    @required this.amountNeed,
+    @required this.collectedPercentage,
+    @required this.viewDetails,
+    @required this.donate,
   }) : super(key: key);
-  final String? requestId;
-  final String? imageURL;
-  final String? title;
-  final String? details;
-  final double? amountNeed;
-  final double? collectedPercentage;
-  final VoidCallback? viewDetails;
-  final VoidCallback? donate;
+  final String requestId;
+  final String imageURL;
+  final String title;
+  final String details;
+  final double amountNeed;
+  final double collectedPercentage;
+  final VoidCallback viewDetails;
+  final VoidCallback donate;
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
 }
 
 class _ProjectCardState extends State<ProjectCard> {
-  List<String> favoriteList = prefs!.getStringList('favorites') ?? [];
+  List<String> favoriteList = prefs.getStringList('favorites') ?? [];
   final isFavorite = false.obs;
 
   @override
@@ -45,7 +45,7 @@ class _ProjectCardState extends State<ProjectCard> {
           Stack(
             children: [
               Image.network(
-                widget.imageURL!,
+                widget.imageURL,
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
@@ -59,11 +59,11 @@ class _ProjectCardState extends State<ProjectCard> {
                     onPressed: () {
                       isFavorite.value = !isFavorite.value;
                       if (isFavorite.value == true) {
-                        favoriteList.add(widget.requestId!);
-                        prefs!.setStringList('requestId', favoriteList);
+                        favoriteList.add(widget.requestId);
+                        prefs.setStringList('requestId', favoriteList);
                       } else {
                         favoriteList.remove(widget.requestId);
-                        prefs!.setStringList('requestId', favoriteList);
+                        prefs.setStringList('requestId', favoriteList);
                       }
                     },
                     color: AppColor.primary,
@@ -81,12 +81,12 @@ class _ProjectCardState extends State<ProjectCard> {
           ListTile(
             isThreeLine: true,
             title: Text(
-              widget.title!,
+              widget.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
-              widget.details!,
+              widget.details,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
@@ -99,15 +99,15 @@ class _ProjectCardState extends State<ProjectCard> {
                 style: TextStyle(color: AppColor.primary),
               ),
               trailing: Text(
-                '${(widget.amountNeed! - (widget.amountNeed! * (widget.collectedPercentage! / 100))).toString()} PKR',
+                '${(widget.amountNeed - (widget.amountNeed * (widget.collectedPercentage / 100))).toString()} PKR',
                 style: TextStyle(color: AppColor.primary),
               ),
               animation: true,
               animationDuration: 1000,
               lineHeight: 20.0,
-              percent: widget.collectedPercentage! / 100,
+              percent: widget.collectedPercentage / 100,
               center: Text(
-                widget.collectedPercentage!.toStringAsFixed(1) + "%",
+                widget.collectedPercentage.toStringAsFixed(1) + "%",
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w600,
@@ -136,7 +136,7 @@ class _ProjectCardState extends State<ProjectCard> {
                     ),
                   ),
                 ),
-                onPressed: widget.viewDetails!,
+                onPressed: widget.viewDetails,
                 child: const Text('View Details'),
               ),
               ElevatedButton(
@@ -154,7 +154,7 @@ class _ProjectCardState extends State<ProjectCard> {
                     ),
                   ),
                 ),
-                onPressed: widget.donate!,
+                onPressed: widget.donate,
                 child: const Text('Donate'),
               ),
             ],
@@ -167,13 +167,13 @@ class _ProjectCardState extends State<ProjectCard> {
 
 class RecipientProjectCard extends StatelessWidget {
   const RecipientProjectCard({
-    Key? key,
-    required this.status,
-    required this.imageURL,
-    required this.title,
-    required this.details,
-    required this.amountNeed,
-    required this.collectedPercentage,
+    Key key,
+    @required this.status,
+    @required this.imageURL,
+    @required this.title,
+    @required this.details,
+    @required this.amountNeed,
+    @required this.collectedPercentage,
   }) : super(key: key);
   final String status;
   final String imageURL;
@@ -290,13 +290,13 @@ class RequestApprovelCard extends StatefulWidget {
   final Map<String, dynamic> recipientDetails;
 
   const RequestApprovelCard({
-    Key? key,
-    required this.requestId,
-    required this.recipientName,
-    required this.phoneNo,
-    required this.email,
-    required this.data,
-    required this.recipientDetails,
+    Key key,
+    @required this.requestId,
+    @required this.recipientName,
+    @required this.phoneNo,
+    @required this.email,
+    @required this.data,
+    @required this.recipientDetails,
   }) : super(key: key);
 
   @override

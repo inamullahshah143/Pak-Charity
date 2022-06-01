@@ -10,11 +10,11 @@ import 'package:pak_charity/screen/home.dart';
 import 'package:pak_charity/screen/home/recipient/recipient_home.dart';
 
 class MenuDrawer extends StatelessWidget {
-  MenuDrawer({Key? key}) : super(key: key);
+  MenuDrawer({Key key}) : super(key: key);
   ZoomDrawerController zoomDrawerController = ZoomDrawerController();
   @override
   Widget build(BuildContext context) {
-    return prefs!.getString('UserType') == 'donor'
+    return prefs.getString('UserType') == 'donor'
         ? ZoomDrawer(
             controller: zoomDrawerController,
             borderRadius: 24.0,

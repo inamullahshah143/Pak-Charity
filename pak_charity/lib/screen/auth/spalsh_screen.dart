@@ -11,27 +11,27 @@ import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  User? user;
+  User user;
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
     Timer(const Duration(seconds: 3), () async {
       if (user == null) {
-        bool _seen = (prefs!.getBool('IntroSeen') ?? false);
+        bool _seen = (prefs.getBool('IntroSeen') ?? false);
         if (_seen) {
           Get.off(LoginScreen());
         } else {
           Get.off(IntroScreen());
         }
       } else {
-        if (prefs!.getString('UserType') == 'admin') {
+        if (prefs.getString('UserType') == 'admin') {
           Get.off(const AdminDashboard());
         } else {
           Get.off(MenuDrawer());

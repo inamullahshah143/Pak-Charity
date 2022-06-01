@@ -6,7 +6,7 @@ import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screen/auth/spalsh_screen.dart';
 
-SharedPreferences? prefs;
+SharedPreferences prefs;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
@@ -15,7 +15,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Pak Charity',
       builder: (context, child) {
         return MediaQuery(
-          child: child!,
+          child: child,
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
         );
       },

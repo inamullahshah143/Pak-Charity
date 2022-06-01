@@ -5,7 +5,7 @@ import 'package:pak_charity/utils/auth_helper.dart';
 import 'package:pak_charity/utils/helper.dart';
 
 class ForgetPassword extends StatelessWidget {
-  ForgetPassword({Key? key}) : super(key: key);
+  ForgetPassword({Key key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   @override
@@ -79,7 +79,7 @@ class ForgetPassword extends StatelessWidget {
                             ),
                             TextFormField(
                               controller: email,
-                              validator: (value) => Helper.validateEmail(value!),
+                              validator: (value) => Helper.validateEmail(value),
                               decoration: const InputDecoration(
                                 labelText: 'Email',
                                 hintText: 'Your email address',
@@ -101,7 +101,7 @@ class ForgetPassword extends StatelessWidget {
                                           AppColor.white.withOpacity(0.1)),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState!.validate()) {
+                                  if (formKey.currentState.validate()) {
                                     Components.showAlertDialog(context);
                                     AuthenticationHelper()
                                         .resetPassword(context, email.text)

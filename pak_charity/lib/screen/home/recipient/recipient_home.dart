@@ -11,14 +11,14 @@ import 'completed_cases.dart';
 import 'recipient_dashboard.dart';
 
 class RecipientHome extends StatefulWidget {
-  const RecipientHome({Key? key}) : super(key: key);
+  const RecipientHome({Key key}) : super(key: key);
 
   @override
   State<RecipientHome> createState() => _RecipientHomeState();
 }
 
 class _RecipientHomeState extends State<RecipientHome> {
-  int? bottomIndex;
+  int bottomIndex;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _RecipientHomeState extends State<RecipientHome> {
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            ZoomDrawer.of(context)!.open();
+            ZoomDrawer.of(context).open();
           },
           icon: Icon(
             Icons.menu,

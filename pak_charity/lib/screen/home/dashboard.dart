@@ -6,7 +6,7 @@ import 'package:pak_charity/constants/widgets/consts.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Dashboard extends StatelessWidget {
               "Welcome to Pak Charity",
               style: Theme.of(context)
                   .textTheme
-                  .headline4!
+                  .headline4
                   .copyWith(fontWeight: FontWeight.w500, color: AppColor.fonts),
             ),
             const Text(
@@ -82,19 +82,19 @@ class Dashboard extends StatelessWidget {
                           ? ListView.builder(
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
                                 return ProjectCard(
-                                  requestId: snapshot.data![index].requestId,
-                                  amountNeed: snapshot.data![index].amountNeed,
+                                  requestId: snapshot.data[index].requestId,
+                                  amountNeed: snapshot.data[index].amountNeed,
                                   collectedPercentage:
-                                      snapshot.data![index].collectedPercentage,
-                                  details: snapshot.data![index].details,
-                                  imageURL: snapshot.data![index].imageURL,
-                                  title: snapshot.data![index].title,
-                                  donate: snapshot.data![index].donate,
+                                      snapshot.data[index].collectedPercentage,
+                                  details: snapshot.data[index].details,
+                                  imageURL: snapshot.data[index].imageURL,
+                                  title: snapshot.data[index].title,
+                                  donate: snapshot.data[index].donate,
                                   viewDetails:
-                                      snapshot.data![index].viewDetails,
+                                      snapshot.data[index].viewDetails,
                                 );
                               },
                             )
@@ -117,28 +117,28 @@ class Dashboard extends StatelessWidget {
 }
 
 class Filter {
-  final String? label;
-  final int? index;
+  final String label;
+  final int index;
   const Filter({this.label, this.index});
 }
 
 class ChipsFilter extends StatefulWidget {
-  final List<Filter>? filters;
-  final int? selected;
-  const ChipsFilter({Key? key, this.filters, this.selected}) : super(key: key);
+  final List<Filter> filters;
+  final int selected;
+  const ChipsFilter({Key key, this.filters, this.selected}) : super(key: key);
 
   @override
   _ChipsFilterState createState() => _ChipsFilterState();
 }
 
 class _ChipsFilterState extends State<ChipsFilter> {
-  int? selectedIndex;
+  int selectedIndex;
 
   @override
   void initState() {
     if (widget.selected != null &&
-        widget.selected! >= 0 &&
-        widget.selected! < widget.filters!.length) {
+        widget.selected >= 0 &&
+        widget.selected < widget.filters.length) {
       selectedIndex = widget.selected;
     }
     super.initState();
@@ -150,13 +150,13 @@ class _ChipsFilterState extends State<ChipsFilter> {
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: chipBuilder,
-      itemCount: widget.filters!.length,
+      itemCount: widget.filters.length,
       scrollDirection: Axis.horizontal,
     );
   }
 
   Widget chipBuilder(context, currentIndex) {
-    Filter filter = widget.filters![currentIndex];
+    Filter filter = widget.filters[currentIndex];
     bool isActive = selectedIndex == currentIndex;
 
     return GestureDetector(
@@ -183,7 +183,7 @@ class _ChipsFilterState extends State<ChipsFilter> {
             ],
           ),
           child: Text(
-            filter.label!,
+            filter.label,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w700,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 
 class AboutUs extends StatelessWidget {
-  const AboutUs({Key? key}) : super(key: key);
+  const AboutUs({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

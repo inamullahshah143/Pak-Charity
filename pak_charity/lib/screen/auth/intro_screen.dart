@@ -7,7 +7,7 @@ import 'package:pak_charity/main.dart';
 import 'login_screen.dart';
 
 class IntroScreen extends StatelessWidget {
-  IntroScreen({Key? key}) : super(key: key);
+  IntroScreen({Key key}) : super(key: key);
   final PageController _pageController = PageController();
 
   @override
@@ -94,7 +94,7 @@ class IntroScreen extends StatelessWidget {
   }
 
   Future introSeen() async {
-    prefs!.setBool('IntroSeen', true);
+    prefs.setBool('IntroSeen', true);
   }
 }
 

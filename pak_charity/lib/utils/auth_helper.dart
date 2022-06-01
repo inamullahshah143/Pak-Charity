@@ -10,38 +10,38 @@ class AuthenticationHelper {
   get user => _auth.currentUser;
 
   //SIGN UP METHOD
-  Future signUp({String? email, String? password, BuildContext? context}) async {
+  Future signUp({String email, String password, BuildContext context}) async {
     try {
       var result = await _auth.createUserWithEmailAndPassword(
-        email: email!,
-        password: password!,
+        email: email,
+        password: password,
       );
       return result;
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context!).pop();
-      Components.showSnackBar(context, e.message!);
+      Navigator.of(context).pop();
+      Components.showSnackBar(context, e.message);
     }
   }
 
   //SIGN IN METHOD
-  Future signIn({String? email, String? password, BuildContext? context}) async {
+  Future signIn({String email, String password, BuildContext context}) async {
     try {
       var result = await _auth.signInWithEmailAndPassword(
-        email: email!,
-        password: password!,
+        email: email,
+        password: password,
       );
       return result;
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context!).pop();
-      Components.showSnackBar(context, e.message!);
+      Navigator.of(context).pop();
+      Components.showSnackBar(context, e.message);
     }
   }
 
   // SIGN IN With Google
-  Future<User> signInWithGoogle({BuildContext? context}) async {
-    User? user;
+  Future<User> signInWithGoogle({BuildContext context}) async {
+    User user;
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
@@ -51,18 +51,18 @@ class AuthenticationHelper {
         idToken: googleSignInAuthentication.idToken,
       );
       try {
-        final UserCredential? userCredential =
+        final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-        user = userCredential!.user;
+        user = userCredential.user;
       } on FirebaseAuthException catch (e) {
-        Navigator.of(context!).pop();
-        Components.showSnackBar(context, e.message!);
+        Navigator.of(context).pop();
+        Components.showSnackBar(context, e.message);
       }
     }
-    return user!;
+    return user;
   }
 
-  Future signOut({BuildContext? context}) async {
+  Future signOut({BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
@@ -71,18 +71,18 @@ class AuthenticationHelper {
       }
       await FirebaseAuth.instance.signOut();
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context!).pop();
-      Components.showSnackBar(context, e.message!);
+      Navigator.of(context).pop();
+      Components.showSnackBar(context, e.message);
     }
   }
 
-  Future resetPassword(context, String? email) async {
+  Future resetPassword(context, String email) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email!);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return null;
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
-      Components.showSnackBar(context, e.message!);
+      Components.showSnackBar(context, e.message);
     }
   }
 }

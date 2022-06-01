@@ -9,10 +9,10 @@ class RequestDetails extends StatelessWidget {
   final Map<String, dynamic> data;
   final Map<String, dynamic> recipientDetails;
   const RequestDetails(
-      {Key? key,
-      required this.data,
-      required this.recipientDetails,
-      required this.requestId})
+      {Key key,
+      @required this.data,
+      @required this.recipientDetails,
+      @required this.requestId})
       : super(key: key);
 
   @override

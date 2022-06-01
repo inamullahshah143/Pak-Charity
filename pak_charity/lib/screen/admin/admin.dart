@@ -11,7 +11,7 @@ import 'package:pak_charity/utils/auth_helper.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
 class AdminDashboard extends StatefulWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
+  const AdminDashboard({Key key}) : super(key: key);
 
   @override
   State<AdminDashboard> createState() => _AdminDashboardState();
@@ -72,7 +72,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 text: 'Logout?',
                 onConfirmBtnTap: () {
                   AuthenticationHelper().signOut().whenComplete(() {
-                    prefs!.clear();
+                    prefs.clear();
                     Get.off(const SplashScreen());
                   });
                 },
@@ -151,7 +151,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ? const CircularProgressIndicator()
                                           : snapshot.hasData
                                               ? Text(
-                                                  snapshot.data!.size
+                                                  snapshot.data.size
                                                       .toString(),
                                                   style: TextStyle(
                                                     color: AppColor.fonts,
@@ -225,7 +225,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ? const CircularProgressIndicator()
                                           : snapshot.hasData
                                               ? Text(
-                                                  snapshot.data!.size
+                                                  snapshot.data.size
                                                       .toString(),
                                                   style: TextStyle(
                                                     color: AppColor.fonts,
@@ -274,7 +274,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           child: CircularProgressIndicator(),
                         ),
                       )
-                    : snapshot.data!.isEmpty
+                    : snapshot.data.isEmpty
                         ? Expanded(
                             child: Center(
                               child: Text(
@@ -289,10 +289,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             ? Expanded(
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: snapshot.data!.length,
+                                  itemCount: snapshot.data.length,
                                   itemBuilder: (context, index) {
-                                    activeCount = snapshot.data!.length;
-                                    return snapshot.data![index];
+                                    activeCount = snapshot.data.length;
+                                    return snapshot.data[index];
                                   },
                                 ),
                               )

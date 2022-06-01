@@ -9,7 +9,7 @@ import 'package:pak_charity/screen/home/donaton_steps/step_3.dart';
 class DonationSheet extends StatefulWidget {
   final String requestId;
   final Map<String, dynamic> data;
-  const DonationSheet({Key? key, required this.data, required this.requestId})
+  const DonationSheet({Key key, @required this.data, @required this.requestId})
       : super(key: key);
 
   @override

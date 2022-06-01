@@ -8,7 +8,7 @@ import 'package:pak_charity/screen/home/recipient/recipient_form.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 
 class RecipientDashboard extends StatelessWidget {
-  const RecipientDashboard({Key? key}) : super(key: key);
+  const RecipientDashboard({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class RecipientDashboard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  prefs!.getString('Username').toString(),
+                                  prefs.getString('Username').toString(),
                                   style: TextStyle(
                                     color: AppColor.fonts,
                                     fontSize: 20,
@@ -323,9 +323,9 @@ class RecipientDashboard extends StatelessWidget {
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: snapshot.data!.length,
+                                itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) {
-                                  return snapshot.data![index];
+                                  return snapshot.data[index];
                                 },
                               ),
                             )
