@@ -109,57 +109,58 @@ class RecipientHelper {
         .then(
       (value) async {
         for (var item in value.docs) {
-          await FirebaseFirestore.instance
-              .collection('user')
-              .doc(item.data()['recipientId'])
-              .get()
-              .then((value) {
-            x.add(
-              ProjectCard(
-                requestId: item.id,
-                amountNeed: double.parse(item.data()['amountNeeded']),
-                collectedPercentage:
-                    (double.parse((item.data()['donationRecived'])) /
-                            double.parse((item.data()['amountNeeded']))) *
-                        100,
-                details: item.data()['projectDescription'],
-                imageURL: item.data()['image'],
-                title: item.data()['projectTitle'],
-                donate: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    isDismissible: false,
-                    useRootNavigator: true,
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (BuildContext context) => Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: AppColor.secondary,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
+          if (item['recipientId'] != user.uid) {
+            await FirebaseFirestore.instance
+                .collection('user')
+                .doc(item.data()['recipientId'])
+                .get()
+                .then((value) {
+              x.add(
+                ProjectCard(
+                  requestId: item.id,
+                  amountNeed: double.parse(item.data()['amountNeeded']),
+                  collectedPercentage:
+                      (double.parse((item.data()['donationRecived'])) /
+                              double.parse((item.data()['amountNeeded']))) *
+                          100,
+                  details: item.data()['projectDescription'],
+                  imageURL: item.data()['image'],
+                  title: item.data()['projectTitle'],
+                  donate: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      isDismissible: false,
+                      useRootNavigator: true,
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      builder: (BuildContext context) => Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: AppColor.secondary,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25.0),
+                            topRight: Radius.circular(25.0),
+                          ),
+                        ),
+                        child: DonationSheet(
+                          data: item.data(),
+                          requestId: item.id,
                         ),
                       ),
-                      child: DonationSheet(
-                        data: item.data(),
-                        requestId: item.id,
-                      ),
-                    ),
-                  );
-                },
-                viewDetails: () {
-                  Get.to(ViewDetailSheet(
-                    recipientId: value.id,
-                    data: item.data(),
-                    recipientDetails: value.data(),
-                    requestId: item.id,
-                  ));
-                },
-              ),
-            );
-          });
+                    );
+                  },
+                  viewDetails: () {
+                    Get.to(ViewDetailSheet(
+                      recipientId: value.id,
+                      data: item.data(),
+                      recipientDetails: value.data(),
+                      requestId: item.id,
+                    ));
+                  },
+                ),
+              );
+            });
+          }
         }
       },
     );
@@ -230,5 +231,37 @@ class RecipientHelper {
       );
     }
     yield x;
+  }
+
+  Stream<String> donationNeed() async* {
+    double donations = 0.0;
+    await FirebaseFirestore.instance
+        .collection('donation_requests')
+        .where('recipientId', isEqualTo: user.uid)
+        .get()
+        .then((value) {
+      for (var item in value.docs) {
+        donations = double.parse(item['amountNeeded']) + donations;
+      }
+    });
+    yield donations.toString();
+  }
+
+  Stream<String> donationRecived() async* {
+    double recivedDonations = 0.0;
+    double expectedDonations = 0.0;
+    await FirebaseFirestore.instance
+        .collection('donation_requests')
+        .where('recipientId', isEqualTo: user.uid)
+        .get()
+        .then((value) {
+      for (var item in value.docs) {
+        recivedDonations =
+            double.parse(item['donationRecived']) + recivedDonations;
+        expectedDonations =
+            double.parse(item['amountNeeded']) + expectedDonations;
+      }
+    });
+    yield (expectedDonations - recivedDonations).toString();
   }
 }

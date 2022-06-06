@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
@@ -116,13 +117,44 @@ class RecipientDashboard extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                      '00',
-                                      style: TextStyle(
-                                        color: AppColor.fonts,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('donation_requests')
+                                          .where('recipientId',
+                                              isEqualTo: user.uid)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        return snapshot.connectionState ==
+                                                ConnectionState.waiting
+                                            ? Text(
+                                                '00',
+                                                style: TextStyle(
+                                                  color: AppColor.fonts,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : snapshot.hasData
+                                                ? Text(
+                                                    snapshot.data.size
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '00',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -168,12 +200,45 @@ class RecipientDashboard extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                      '00',
-                                      style: TextStyle(
-                                          color: AppColor.fonts,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('donation_requests')
+                                          .where('recipientId',
+                                              isEqualTo: user.uid)
+                                          .where('status', isEqualTo: '2')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        return snapshot.connectionState ==
+                                                ConnectionState.waiting
+                                            ? Text(
+                                                '00',
+                                                style: TextStyle(
+                                                  color: AppColor.fonts,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : snapshot.hasData
+                                                ? Text(
+                                                    snapshot.data.size
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '00',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -227,13 +292,40 @@ class RecipientDashboard extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                      '00.00 RS',
-                                      style: TextStyle(
-                                        color: AppColor.fonts,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    StreamBuilder(
+                                      stream: RecipientHelper().donationNeed(),
+                                      builder: (context, snapshot) {
+                                        return snapshot.connectionState ==
+                                                ConnectionState.waiting
+                                            ? Text(
+                                                '00.00 RS',
+                                                style: TextStyle(
+                                                  color: AppColor.fonts,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : snapshot.hasData
+                                                ? Text(
+                                                    '${snapshot.data
+                                                        .toString()} Rs',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '00.00 Rs',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -279,14 +371,42 @@ class RecipientDashboard extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                      '00.00 RS',
-                                      style: TextStyle(
-                                        color: AppColor.fonts,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    StreamBuilder(
+                                      stream: RecipientHelper().donationRecived(),
+                                      builder: (context, snapshot) {
+                                        return snapshot.connectionState ==
+                                                ConnectionState.waiting
+                                            ? Text(
+                                                '00.00 RS',
+                                                style: TextStyle(
+                                                  color: AppColor.fonts,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : snapshot.hasData
+                                                ? Text(
+                                                    '${snapshot.data
+                                                        .toString()} Rs',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '00.00 Rs',
+                                                    style: TextStyle(
+                                                      color: AppColor.fonts,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                      },
                                     ),
+                                  
                                   ],
                                 ),
                               ),

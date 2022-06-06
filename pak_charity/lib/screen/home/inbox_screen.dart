@@ -52,37 +52,36 @@ class InboxScreen extends StatelessWidget {
 
   Stream<Widget> getChat(context) async* {
     List x = <Widget>[];
-    var result = await FirebaseFirestore.instance
-        .collection('chat_list')
-        .where('host_id', isEqualTo: user.uid)
-        .get();
+    var result = await FirebaseFirestore.instance.collection('chat_list').get();
 
     for (var item in result.docs) {
-      x.add(
-        Card(
-          child: ListTile(
-            onTap: () {
-              Get.to(
-                ChatRoom(
-                  holderId: item.data()['holder_id'],
-                  userMap: item.data(),
-                  chatRoomId: item.data()['chat_room_id'],
-                  phoneNumber: item.data()['phone_no'],
-                ),
-              );
-            },
-            leading: CircleAvatar(child: Text(item.data()['username'][0])),
-            title: Text(item.data()['username']),
-            subtitle: Text(item.data()['email']),
-            trailing: IconButton(
-              icon: const Icon(Icons.phone),
-              onPressed: () async {
-                Helper().callNumber(context, item.data()['phone_no']);
+      if (item['donor_id'] == user.uid || item['recipient_id'] == user.uid) {
+        x.add(
+          Card(
+            child: ListTile(
+              onTap: () {
+                Get.to(
+                  ChatRoom(
+                    recipientId: item.data()['recipient_id'],
+                    userMap: item.data(),
+                    chatRoomId: item.data()['chat_room_id'],
+                    phoneNumber: item.data()['phone_no'],
+                  ),
+                );
               },
+              leading: CircleAvatar(child: Text(item.data()['username'][0])),
+              title: Text(item.data()['username']),
+              subtitle: Text(item.data()['email']),
+              trailing: IconButton(
+                icon: const Icon(Icons.phone),
+                onPressed: () async {
+                  Helper().callNumber(context, item.data()['phone_no']);
+                },
+              ),
             ),
           ),
-        ),
-      );
+        );
+      }
     }
 
     yield Padding(

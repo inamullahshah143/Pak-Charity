@@ -189,7 +189,7 @@ class ViewDetailSheet extends StatelessWidget {
                                     prefs.getString('Username').toString());
                                 Get.to(
                                   ChatRoom(
-                                    holderId: recipientId,
+                                    recipientId: recipientId,
                                     userMap: recipientDetails,
                                     chatRoomId: roomId,
                                     phoneNumber: recipientDetails['phoneNo'],
@@ -287,7 +287,6 @@ class ViewDetailSheet extends StatelessWidget {
             backgroundColor: Colors.transparent,
             context: context,
             builder: (BuildContext context) => Container(
-              height: MediaQuery.of(context).size.height * 0.75,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: AppColor.secondary,

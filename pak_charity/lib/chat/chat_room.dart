@@ -12,14 +12,14 @@ class ChatRoom extends StatefulWidget {
   final Map<String, dynamic> userMap;
   final String chatRoomId;
   final String phoneNumber;
-  final String holderId;
+  final String recipientId;
 
   const ChatRoom({
     Key key,
     @required this.userMap,
     @required this.chatRoomId,
     @required this.phoneNumber,
-    @required this.holderId,
+    @required this.recipientId,
   }) : super(key: key);
 
   @override
@@ -34,14 +34,14 @@ class _ChatRoomState extends State<ChatRoom> {
   void _handleSendPressed(String message, String type) async {
     await FirebaseFirestore.instance
         .collection('chat_list')
-        .doc(widget.holderId)
+        .doc(widget.recipientId)
         .set({
-      'holder_id': widget.holderId,
+      'recipient_id': widget.recipientId,
       'chat_room_id': widget.chatRoomId,
       'username': prefs.getString('Username'),
       'email': prefs.getString('Email'),
       'phone_no': prefs.getString('PhoneNo'),
-      'host_id': user.uid,
+      'donor_id': user.uid,
     });
     await FirebaseFirestore.instance
         .collection('chat_room')
@@ -78,7 +78,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     color: AppColor.primary,
                   ),
                 ),
-                title: Text(widget.userMap['username']),
+                title: Text(widget.userMap['fullName']),
                 trailing: IconButton(
                   icon: const Icon(Icons.call),
                   onPressed: () async {
