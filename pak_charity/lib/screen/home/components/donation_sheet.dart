@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_1.dart';
 import 'package:pak_charity/screen/home/donaton_steps/step_2.dart';
-import 'package:pak_charity/screen/home/donaton_steps/step_3.dart';
+import 'package:pak_charity/utils/stripe_helper.dart';
 
 class DonationSheet extends StatefulWidget {
   final String requestId;
@@ -17,6 +17,7 @@ class DonationSheet extends StatefulWidget {
 }
 
 class _DonationSheetState extends State<DonationSheet> {
+  final paymentController = Get.put(PaymentController());
   final donationMoney = ''.obs;
   final otheramount = ''.obs;
   final paymentMethod = ''.obs;
@@ -25,15 +26,20 @@ class _DonationSheetState extends State<DonationSheet> {
   Widget build(BuildContext context) {
     List<CoolStep> steps = [
       step1(context, donationMoney, otheramount),
-      step2(context, paymentMethod, accountNo),
-      step3(donationMoney, paymentMethod, accountNo, otheramount),
+      step2(donationMoney, otheramount),
     ];
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: true,
       body: CoolStepper(
         showErrorSnackbar: false,
-        onCompleted: () {},
+        onCompleted: () {
+          paymentController.makePayment(
+              amount: donationMoney.value == 'other'
+                  ? otheramount.value
+                  : donationMoney.value,
+              currency: 'PKR');
+        },
         steps: steps,
         config: CoolStepperConfig(
           titleTextStyle: TextStyle(

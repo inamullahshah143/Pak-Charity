@@ -123,6 +123,11 @@ CoolStep step1(context, donationMoney, otheramount) {
       },
     ),
     validation: () {
+      if (donationMoney.value == '') {
+        return 'please enter your donation amount';
+      } else if (donationMoney.value == 'other' && otheramount.value == '') {
+        return 'please enter your donation amount';
+      }
       return null;
     },
   );

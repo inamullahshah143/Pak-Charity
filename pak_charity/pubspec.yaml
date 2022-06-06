@@ -60,7 +60,7 @@ dependencies:
   flutter_chat_bubble: ^2.0.0
   uuid: ^3.0.6
   flutter_phone_direct_caller: ^2.1.1
-  flutter_stripe: ^3.0.2
+  flutter_stripe: ^2.5.0
   introduction_slider: ^1.0.0
 
 dev_dependencies:
