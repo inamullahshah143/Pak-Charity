@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class PaymentController extends GetxController {
   Map<String, dynamic> paymentIntentData;
 
-  Future<void> makePayment(
+  Future makePayment(
       {@required String amount, @required String currency}) async {
     try {
       paymentIntentData = await createPaymentIntent(amount, currency);
@@ -42,6 +42,7 @@ class PaymentController extends GetxController {
           colorText: Colors.white,
           margin: const EdgeInsets.all(10),
           duration: const Duration(seconds: 2));
+      return null;
     } on Exception catch (e) {
       if (e is StripeException) {
         if (kDebugMode) {
@@ -71,7 +72,8 @@ class PaymentController extends GetxController {
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
           headers: {
-            'Authorization': 'Bearer sk_test_51L2ySrFA9SdVfjX6OPuvTpRuQLYcafcR84klNn5lZ5vJBrokcPjI1BYlY6BGKj75LbP7mQynLrr52zLUZhOFqYjK006OyrjVkR',
+            'Authorization':
+                'Bearer sk_test_51L2ySrFA9SdVfjX6OPuvTpRuQLYcafcR84klNn5lZ5vJBrokcPjI1BYlY6BGKj75LbP7mQynLrr52zLUZhOFqYjK006OyrjVkR',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       return jsonDecode(response.body);
