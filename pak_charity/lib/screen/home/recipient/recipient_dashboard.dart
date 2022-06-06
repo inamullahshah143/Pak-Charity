@@ -28,7 +28,7 @@ class RecipientDashboard extends StatelessWidget {
                   color: Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: AppColor.pagesColor,
+                      color: Colors.grey[400],
                       blurRadius: 1,
                       offset: const Offset(0, 0),
                     ),
@@ -58,7 +58,7 @@ class RecipientDashboard extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  prefs.getString('Username').toString(),
+                                  prefs.getString('Username'),
                                   style: TextStyle(
                                     color: AppColor.fonts,
                                     fontSize: 20,
@@ -309,7 +309,7 @@ class RecipientDashboard extends StatelessWidget {
                       color: AppColor.fonts),
                 ),
               ),
-              StreamBuilder<List<Widget>>(
+              StreamBuilder(
                 stream: RecipientHelper().getRequestRecords(context),
                 builder: (context, snapshot) {
                   return snapshot.connectionState == ConnectionState.waiting

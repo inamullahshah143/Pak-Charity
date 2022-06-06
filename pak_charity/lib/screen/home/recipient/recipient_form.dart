@@ -160,7 +160,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: DropdownButtonFormField(
                     focusColor: AppColor.fonts,
-                    validator: (String value) {
+                    validator: (value) {
                       if (value.isEmpty) {
                         return 'please select donation type';
                       }
@@ -301,28 +301,14 @@ class _RecipientFormState extends State<RecipientForm> {
                               color: AppColor.fonts,
                             ),
                           ),
-                          thumbnail == null
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    size: 35,
-                                    color: AppColor.fonts.withOpacity(0.5),
-                                  ),
-                                )
-                              : Container(
-                                  margin: const EdgeInsets.all(15),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Image.file(
-                                    thumbnail,
-                                    height: 150,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              thumbnail == null ? Icons.camera_alt : Icons.done,
+                              size: 35,
+                              color: AppColor.fonts.withOpacity(0.5),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -372,7 +358,7 @@ class _RecipientFormState extends State<RecipientForm> {
                   child: DropdownButtonFormField(
                     dropdownColor: AppColor.white,
                     hint: const Text("Account Type"),
-                    validator: (String value) {
+                    validator: (value) {
                       if (value.isEmpty) {
                         return 'please select account type';
                       }
@@ -507,9 +493,13 @@ class _RecipientFormState extends State<RecipientForm> {
       type: FileType.custom,
       allowedExtensions: ['png', 'jpg', 'jpeg'],
     );
-    File pickedFile = File(result.files.single.path.toString());
-
-    thumbnail = await compressImage(pickedFile.path, 35);
-    setState(() {});
+    final pickedFile = File(result.files.single.path);
+    if (pickedFile == null) {
+      Navigator.of(context).pop();
+      return;
+    } else {
+      thumbnail = await compressImage(pickedFile.path, 35);
+      setState(() {});
+    }
   }
 }

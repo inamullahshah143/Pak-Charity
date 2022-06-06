@@ -1,24 +1,33 @@
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:get/get.dart';
+import 'package:pak_charity/chat/chat_room.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/home/components/donation_sheet.dart';
+import 'package:pak_charity/utils/chat_helper.dart';
+import 'package:pak_charity/utils/helper.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ViewDetailSheet extends StatelessWidget {
   final String requestId;
+  final String recipientId;
   final Map<String, dynamic> data;
   final Map<String, dynamic> recipientDetails;
-  const ViewDetailSheet(
-      {Key key,
-      @required this.data,
-      @required this.recipientDetails,
-      @required this.requestId})
-      : super(key: key);
+  const ViewDetailSheet({
+    Key key,
+    @required this.data,
+    @required this.recipientDetails,
+    @required this.requestId,
+    @required this.recipientId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.pagesColor,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -26,7 +35,7 @@ class ViewDetailSheet extends StatelessWidget {
             expandedHeight: MediaQuery.of(context).size.height * 0.4,
             collapsedHeight: MediaQuery.of(context).size.height * 0.075,
             elevation: 0,
-            backgroundColor: AppColor.secondary,
+            backgroundColor: AppColor.pagesColor,
             automaticallyImplyLeading: false,
             pinned: true,
             leadingWidth: 50,
@@ -133,6 +142,71 @@ class ViewDetailSheet extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0, vertical: 10),
+                  child: Text(
+                    'Recipient Details',
+                    style: TextStyle(
+                      color: AppColor.fonts,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    dense: true,
+                    leading: CircleAvatar(
+                        child: Text(recipientDetails['fullName'][0])),
+                    title: Text(recipientDetails['fullName']),
+                    subtitle: Text(recipientDetails['email']),
+                    trailing: RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: IconButton(
+                              icon: const Icon(Icons.phone),
+                              onPressed: () async {
+                                Helper().callNumber(
+                                    context, recipientDetails['phoneNo']);
+                              },
+                            ),
+                          ),
+                          const TextSpan(text: ' '),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: IconButton(
+                              icon: const Icon(FontAwesome.chat_empty),
+                              onPressed: () {
+                                String roomId = ChatHelper().chatRoomId(
+                                    recipientDetails['fullName'],
+                                    prefs.getString('Username').toString());
+                                Get.to(
+                                  ChatRoom(
+                                    holderId: recipientId,
+                                    userMap: recipientDetails,
+                                    chatRoomId: roomId,
+                                    phoneNumber: recipientDetails['phoneNo'],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SliverToBoxAdapter(
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
@@ -156,79 +230,6 @@ class ViewDetailSheet extends StatelessWidget {
                   color: AppColor.fonts,
                   fontSize: 14,
                 ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
-              child: Text(
-                'Recipient Details',
-                style: TextStyle(
-                  color: AppColor.fonts,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColor.fonts,
-                            size: 16,
-                          ),
-                        ),
-                        const TextSpan(text: ' '),
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Text(
-                            recipientDetails['fullName'],
-                            style: TextStyle(
-                              color: AppColor.fonts,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            Icons.mail,
-                            color: AppColor.fonts,
-                            size: 16,
-                          ),
-                        ),
-                        const TextSpan(text: ' '),
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.middle,
-                          child: Text(
-                            recipientDetails['email'],
-                            style: TextStyle(
-                              color: AppColor.fonts,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               ),
             ),
           ),

@@ -6,8 +6,10 @@ import 'package:pak_charity/utils/helper.dart';
 
 class ForgetPassword extends StatelessWidget {
   ForgetPassword({Key key}) : super(key: key);
+
   final formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,10 +23,9 @@ class ForgetPassword extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(
-                'assets/images/background.png',
-              ),
-              fit: BoxFit.cover),
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Center(
           child: SingleChildScrollView(
@@ -108,8 +109,10 @@ class ForgetPassword extends StatelessWidget {
                                         .then((res) {
                                       if (res == null) {
                                         Navigator.of(context).pop();
-                                        Components.showSnackBar(context,
-                                            'Your password rest link has been send to your repective email, please have a look');
+                                        Components.showSnackBar(
+                                          context,
+                                          'Your password rest link has been send to your repective email, please have a look',
+                                        );
                                       }
                                     });
                                   }

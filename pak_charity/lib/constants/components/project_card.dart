@@ -24,8 +24,8 @@ class ProjectCard extends StatefulWidget {
   final String details;
   final double amountNeed;
   final double collectedPercentage;
-  final VoidCallback viewDetails;
-  final VoidCallback donate;
+  final Function viewDetails;
+  final Function donate;
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();

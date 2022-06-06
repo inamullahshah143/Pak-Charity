@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,10 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screen/auth/spalsh_screen.dart';
 
 SharedPreferences prefs;
+FirebaseAuth _auth;
+get user => _auth.currentUser;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await Firebase.initializeApp().whenComplete(() {
+    _auth = FirebaseAuth.instance;
+  });
   prefs = await SharedPreferences.getInstance();
-  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

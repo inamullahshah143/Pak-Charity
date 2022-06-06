@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (_seen) {
           Get.off(LoginScreen());
         } else {
-          Get.off(IntroScreen());
+          Get.off(const IntroScreen());
         }
       } else {
         if (prefs.getString('UserType') == 'admin') {

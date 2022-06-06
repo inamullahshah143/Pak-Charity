@@ -1,119 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboard/flutter_onboard.dart';
+import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:introduction_slider/introduction_slider.dart';
 import 'package:pak_charity/main.dart';
 
 import 'login_screen.dart';
 
 class IntroScreen extends StatelessWidget {
-  IntroScreen({Key key}) : super(key: key);
-  final PageController _pageController = PageController();
+  const IntroScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: OnBoard(
-        imageWidth: MediaQuery.of(context).size.width * 0.75,
-        pageController: _pageController,
-        onSkip: () {
-          introSeen();
-          Get.off(LoginScreen());
-        },
-        onDone: () {
-          introSeen();
-          Get.off(LoginScreen());
-        },
-        onBoardData: onBoardData,
-        titleStyles: TextStyle(
-          color: AppColor.primary,
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.15,
-        ),
-        descriptionStyles: TextStyle(
-          fontSize: 16,
-          color: AppColor.fonts.withOpacity(0.75),
-        ),
-        pageIndicatorStyle: PageIndicatorStyle(
-          width: 100,
-          inactiveColor: AppColor.primary,
-          activeColor: AppColor.fonts,
-          inactiveSize: const Size(8, 8),
-          activeSize: const Size(12, 12),
-        ),
-        skipButton: TextButton(
+      body: IntroductionSlider(
+        onDone: LoginScreen(),
+        next: IconButton(
+          icon: const Icon(
+            LineariconsFree.arrow_right,
+          ),
           onPressed: () {
             introSeen();
-            Get.off(LoginScreen());
           },
-          child: Text(
-            "Skip",
-            style: TextStyle(color: AppColor.primary),
+        ),
+        skip: MaterialButton(
+          child: const Text('Skip'),
+          onPressed: () {
+            introSeen();
+            Get.offAll(LoginScreen());
+          },
+        ),
+        items: [
+          IntroductionSliderItem(
+            image: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Image.asset('assets/images/step-1.png'),
+            ),
+            title: "Introduction Slider 1",
+            description: "This is a description of introduction slider 1.",
           ),
-        ),
-        nextButton: OnBoardConsumer(
-          builder: (context, ref, child) {
-            final state = ref.watch(onBoardStateProvider);
-            return InkWell(
-              onTap: () => _onNextTap(state),
-              child: Container(
-                width: 230,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: AppColor.primary,
-                ),
-                child: Text(
-                  state.isLastPage ? "Get Started" : "Next",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+          IntroductionSliderItem(
+            image: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Image.asset('assets/images/step-2.png'),
+            ),
+            title: "Introduction Slider 2",
+            description: "This is a description of introduction slider 2.",
+          ),
+          IntroductionSliderItem(
+            image: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Image.asset('assets/images/step-3.png'),
+            ),
+            title: "Introduction Slider 3",
+            description: "This is a description of introduction slider 3.",
+          ),
+        ],
       ),
     );
-  }
-
-  void _onNextTap(OnBoardState onBoardState) {
-    if (!onBoardState.isLastPage) {
-      _pageController.animateToPage(
-        onBoardState.page + 1,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOutSine,
-      );
-    } else {
-      introSeen();
-      Get.off(LoginScreen());
-    }
   }
 
   Future introSeen() async {
     prefs.setBool('IntroSeen', true);
   }
 }
-
-final List<OnBoardModel> onBoardData = [
-  const OnBoardModel(
-    title: "Set your own goals and get better",
-    description: "Goal support your motivation and inspire you to work harder",
-    imgUrl: "assets/images/step-1.png",
-  ),
-  const OnBoardModel(
-    title: "Track your progress with statistics",
-    description:
-        "Analyse personal result with detailed chart and numerical values",
-    imgUrl: 'assets/images/step-2.png',
-  ),
-  const OnBoardModel(
-    title: "Create photo comparision and share your results",
-    description:
-        "Take before and after photos to visualize progress and get the shape that you dream about",
-    imgUrl: 'assets/images/step-3.png',
-  ),
-];

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/spalsh_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
+import 'package:pak_charity/screen/home/inbox_screen.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -125,7 +128,10 @@ class MenuScreen extends StatelessWidget {
                       title: const Text('Switch to Recipient'),
                     ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  ZoomDrawer.of(context).close();
+                  Get.to(const InboxScreen());
+                },
                 leading: const Icon(
                   FontAwesome.chat_empty,
                 ),
@@ -152,13 +158,19 @@ class MenuScreen extends StatelessWidget {
                 onTap: () {
                   CoolAlert.show(
                     context: context,
+                    backgroundColor: AppColor.fonts,
+                    confirmBtnColor: AppColor.appThemeColor,
                     barrierDismissible: false,
-                    type: CoolAlertType.warning,
-                    text: 'Are you sure you want to Logout?',
-                    onConfirmBtnTap: () {
-                      AuthenticationHelper().signOut().whenComplete(() {
-                        prefs.clear();
-                        Get.off(const SplashScreen());
+                    type: CoolAlertType.confirm,
+                    text: 'you want to Logout?',
+                    onConfirmBtnTap: () async {
+                      Components.showAlertDialog(context);
+                      await AuthenticationHelper().signOut().whenComplete(() {
+                        Timer(const Duration(seconds: 3), () {
+                          Navigator.of(context).pop();
+                          prefs.clear();
+                          Get.offAll(const SplashScreen());
+                        });
                       });
                     },
                     confirmBtnText: 'Logout',
