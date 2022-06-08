@@ -307,8 +307,7 @@ class RecipientDashboard extends StatelessWidget {
                                               )
                                             : snapshot.hasData
                                                 ? Text(
-                                                    '${snapshot.data
-                                                        .toString()} Rs',
+                                                    '${snapshot.data.toString()} Rs',
                                                     style: TextStyle(
                                                       color: AppColor.fonts,
                                                       fontSize: 20,
@@ -372,7 +371,8 @@ class RecipientDashboard extends StatelessWidget {
                                       ),
                                     ),
                                     StreamBuilder(
-                                      stream: RecipientHelper().donationRecived(),
+                                      stream:
+                                          RecipientHelper().donationRecived(),
                                       builder: (context, snapshot) {
                                         return snapshot.connectionState ==
                                                 ConnectionState.waiting
@@ -386,8 +386,7 @@ class RecipientDashboard extends StatelessWidget {
                                               )
                                             : snapshot.hasData
                                                 ? Text(
-                                                    '${snapshot.data
-                                                        .toString()} Rs',
+                                                    '${snapshot.data.toString()} Rs',
                                                     style: TextStyle(
                                                       color: AppColor.fonts,
                                                       fontSize: 20,
@@ -406,7 +405,6 @@ class RecipientDashboard extends StatelessWidget {
                                                   );
                                       },
                                     ),
-                                  
                                   ],
                                 ),
                               ),
@@ -440,14 +438,7 @@ class RecipientDashboard extends StatelessWidget {
                         )
                       : snapshot.hasData
                           ? Expanded(
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-                                  return snapshot.data[index];
-                                },
-                              ),
+                              child: snapshot.data,
                             )
                           : Expanded(
                               child: Center(

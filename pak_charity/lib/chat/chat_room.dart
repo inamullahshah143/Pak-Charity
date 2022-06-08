@@ -32,15 +32,10 @@ class _ChatRoomState extends State<ChatRoom> {
   String messageBody;
 
   void _handleSendPressed(String message, String type) async {
-    await FirebaseFirestore.instance
-        .collection('chat_list')
-        .doc(widget.recipientId)
-        .set({
+    await FirebaseFirestore.instance.collection('chat_list').doc().set({
       'recipient_id': widget.recipientId,
       'chat_room_id': widget.chatRoomId,
-      'username': prefs.getString('Username'),
-      'email': prefs.getString('Email'),
-      'phone_no': prefs.getString('PhoneNo'),
+      'phone_no': widget.phoneNumber,
       'donor_id': user.uid,
     });
     await FirebaseFirestore.instance

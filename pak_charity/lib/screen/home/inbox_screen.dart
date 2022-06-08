@@ -52,37 +52,45 @@ class InboxScreen extends StatelessWidget {
 
   Stream<Widget> getChat(context) async* {
     List x = <Widget>[];
-    var result = await FirebaseFirestore.instance.collection('chat_list').get();
-
-    for (var item in result.docs) {
-      if (item['donor_id'] == user.uid || item['recipient_id'] == user.uid) {
-        x.add(
-          Card(
-            child: ListTile(
-              onTap: () {
-                Get.to(
-                  ChatRoom(
-                    recipientId: item.data()['recipient_id'],
-                    userMap: item.data(),
-                    chatRoomId: item.data()['chat_room_id'],
-                    phoneNumber: item.data()['phone_no'],
-                  ),
-                );
-              },
-              leading: CircleAvatar(child: Text(item.data()['username'][0])),
-              title: Text(item.data()['username']),
-              subtitle: Text(item.data()['email']),
-              trailing: IconButton(
-                icon: const Icon(Icons.phone),
-                onPressed: () async {
-                  Helper().callNumber(context, item.data()['phone_no']);
+    await FirebaseFirestore.instance
+        .collection('chat_list')
+        .where('donor_id', isEqualTo: user.uid)
+        .get()
+        .then((value) async {
+      for (var item in value.docs) {
+        await FirebaseFirestore.instance
+            .collection('user')
+            .doc(item['recipient_id'])
+            .get()
+            .then((user) {
+          x.add(
+            Card(
+              child: ListTile(
+                onTap: () {
+                  Get.to(
+                    ChatRoom(
+                      recipientId: item.data()['recipient_id'],
+                      userMap: user.data(),
+                      chatRoomId: item.data()['chat_room_id'],
+                      phoneNumber: user.data()['phoneNo'],
+                    ),
+                  );
                 },
+                leading: CircleAvatar(child: Text(user.data()['fullName'][0])),
+                title: Text(user.data()['fullName']),
+                subtitle: Text(user.data()['email']),
+                trailing: IconButton(
+                  icon: const Icon(Icons.phone),
+                  onPressed: () async {
+                    Helper().callNumber(context, user.data()['phoneNo']);
+                  },
+                ),
               ),
             ),
-          ),
-        );
+          );
+        });
       }
-    }
+    });
 
     yield Padding(
       padding: const EdgeInsets.all(15.0),

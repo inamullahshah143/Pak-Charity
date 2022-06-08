@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:get/get.dart';
 import 'package:introduction_slider/introduction_slider.dart';
 import 'package:pak_charity/main.dart';
@@ -14,14 +13,6 @@ class IntroScreen extends StatelessWidget {
     return Scaffold(
       body: IntroductionSlider(
         onDone: LoginScreen(),
-        next: IconButton(
-          icon: const Icon(
-            LineariconsFree.arrow_right,
-          ),
-          onPressed: () {
-            introSeen();
-          },
-        ),
         skip: MaterialButton(
           child: const Text('Skip'),
           onPressed: () {
