@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
@@ -23,6 +24,10 @@ class _RecipientFormState extends State<RecipientForm> {
   get user => _auth.currentUser;
   final formKey = GlobalKey<FormState>();
   final formData = <String, dynamic>{}.obs;
+  final String initialCountry = 'PK';
+  final PhoneNumber number = PhoneNumber(isoCode: 'PK', dialCode: '0');
+  final TextEditingController phoneNo = TextEditingController();
+  final isValidNo = true.obs;
 
   File thumbnail;
   @override
@@ -134,15 +139,20 @@ class _RecipientFormState extends State<RecipientForm> {
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'please enter amount you need';
+                      } else if (double.parse(value) > 100000) {
+                        return 'Amount must be in between 1 lac';
                       }
                       return null;
                     },
+                    maxLength: 6,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       formData['amountNeeded'] = value;
                     },
                     decoration: InputDecoration(
                       filled: true,
+                      helperText: 'Amount must be less than 1 lac',
+                      counter: const SizedBox(),
                       fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -301,14 +311,28 @@ class _RecipientFormState extends State<RecipientForm> {
                               color: AppColor.fonts,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              thumbnail == null ? Icons.camera_alt : Icons.done,
-                              size: 35,
-                              color: AppColor.fonts.withOpacity(0.5),
-                            ),
-                          ),
+                          thumbnail == null
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 35,
+                                    color: AppColor.fonts.withOpacity(0.5),
+                                  ),
+                                )
+                              : Container(
+                                  height: 150,
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.pagesColor,
+                                    image: DecorationImage(
+                                      image: Image.file(thumbnail).image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
@@ -400,28 +424,42 @@ class _RecipientFormState extends State<RecipientForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10),
-                  child: TextFormField(
+                  child: InternationalPhoneNumberInput(
+                    onInputChanged: (PhoneNumber number) {
+                      formData['accountNumber'] = number;
+                    },
+                    onInputValidated: (bool value) {
+                      isValidNo.value = value;
+                    },
+                    selectorConfig: const SelectorConfig(
+                      selectorType: PhoneInputSelectorType.DIALOG,
+                    ),
+                    ignoreBlank: false,
+                    autoValidateMode: AutovalidateMode.disabled,
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return 'please enter account number';
+                      if (value == null || value.isEmpty) {
+                        return 'please enter your phone number';
+                      } else if (isValidNo.value == false) {
+                        return 'please enter valid phone number';
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
-                    onChanged: (value) {
-                      formData['accountNumber'] = value;
-                    },
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
+                    selectorTextStyle: const TextStyle(color: Colors.black),
+                    initialValue: number,
+                    textFieldController: phoneNo,
+                    formatInput: false,
+                    keyboardType: const TextInputType.numberWithOptions(
+                        signed: true, decimal: true),
+                    inputDecoration: InputDecoration(
+                      hintText: 'Account No.',
                       filled: true,
+                      isDense: true,
                       fillColor: AppColor.pagesColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: "Account Number",
-                    ),
-                    style: const TextStyle(
-                      fontSize: 14,
                     ),
                   ),
                 ),
