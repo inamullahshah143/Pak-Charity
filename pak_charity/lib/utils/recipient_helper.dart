@@ -100,76 +100,216 @@ class RecipientHelper {
     yield x;
   }
 
-  Stream<List<Widget>> getDonationRequests(context) async* {
+  Stream<List<Widget>> getDonationRequests(context, index, search) async* {
     List<Widget> x = [];
-    await FirebaseFirestore.instance
-        .collection('donation_requests')
-        .where('status', isEqualTo: '1')
-        .get()
-        .then(
-      (value) async {
-        for (var item in value.docs) {
-          if (item['recipientId'] != user.uid) {
-            await FirebaseFirestore.instance
-                .collection('user')
-                .doc(item.data()['recipientId'])
-                .get()
-                .then((value) {
-              x.add(
-                ProjectCard(
-                  requestId: item.id,
-                  amountNeed: double.parse(item.data()['amountNeeded']),
-                  collectedPercentage:
-                      (double.parse((item.data()['donationRecived'])) /
-                              double.parse((item.data()['amountNeeded']))) *
-                          100,
-                  details: item.data()['projectDescription'],
-                  imageURL: item.data()['image'],
-                  title: item.data()['projectTitle'],
-                  donate: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      isDismissible: false,
-                      useRootNavigator: true,
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      builder: (BuildContext context) => Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: AppColor.secondary,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(25.0),
-                            topRight: Radius.circular(25.0),
+    List<String> filters = [
+      'All',
+      'Health',
+      'Humanity',
+      'Food',
+      'Education',
+      'Religion',
+    ];
+    if (search == '') {
+      if (index != 0) {
+        await FirebaseFirestore.instance
+            .collection('donation_requests')
+            .where('status', isEqualTo: '1')
+            .where('donationType', isEqualTo: filters[index])
+            .get()
+            .then(
+          (value) async {
+            for (var item in value.docs) {
+              if (item['recipientId'] != user.uid) {
+                await FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(item.data()['recipientId'])
+                    .get()
+                    .then((value) {
+                  x.add(
+                    ProjectCard(
+                      requestId: item.id,
+                      amountNeed: double.parse(item.data()['amountNeeded']),
+                      collectedPercentage:
+                          (double.parse((item.data()['donationRecived'])) /
+                                  double.parse((item.data()['amountNeeded']))) *
+                              100,
+                      details: item.data()['projectDescription'],
+                      imageURL: item.data()['image'],
+                      title: item.data()['projectTitle'],
+                      donate: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          isDismissible: false,
+                          useRootNavigator: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) => Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: AppColor.secondary,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(25.0),
+                                topRight: Radius.circular(25.0),
+                              ),
+                            ),
+                            child: DonationSheet(
+                              data: item.data(),
+                              requestId: item.id,
+                            ),
+                          ),
+                        );
+                      },
+                      viewDetails: () {
+                        Get.to(ViewDetailSheet(
+                          recipientId: value.id,
+                          data: item.data(),
+                          recipientDetails: value.data(),
+                          requestId: item.id,
+                        ));
+                      },
+                    ),
+                  );
+                });
+              }
+            }
+          },
+        );
+      } else {
+        await FirebaseFirestore.instance
+            .collection('donation_requests')
+            .where('status', isEqualTo: '1')
+            .get()
+            .then(
+          (value) async {
+            for (var item in value.docs) {
+              if (item['recipientId'] != user.uid) {
+                await FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(item.data()['recipientId'])
+                    .get()
+                    .then((value) {
+                  x.add(
+                    ProjectCard(
+                      requestId: item.id,
+                      amountNeed: double.parse(item.data()['amountNeeded']),
+                      collectedPercentage:
+                          (double.parse((item.data()['donationRecived'])) /
+                                  double.parse((item.data()['amountNeeded']))) *
+                              100,
+                      details: item.data()['projectDescription'],
+                      imageURL: item.data()['image'],
+                      title: item.data()['projectTitle'],
+                      donate: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          isDismissible: false,
+                          useRootNavigator: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) => Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: AppColor.secondary,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(25.0),
+                                topRight: Radius.circular(25.0),
+                              ),
+                            ),
+                            child: DonationSheet(
+                              data: item.data(),
+                              requestId: item.id,
+                            ),
+                          ),
+                        );
+                      },
+                      viewDetails: () {
+                        Get.to(ViewDetailSheet(
+                          recipientId: value.id,
+                          data: item.data(),
+                          recipientDetails: value.data(),
+                          requestId: item.id,
+                        ));
+                      },
+                    ),
+                  );
+                });
+              }
+            }
+          },
+        );
+      }
+    } else {
+      await FirebaseFirestore.instance
+          .collection('donation_requests')
+          .where('status', isEqualTo: '1')
+          .where('projectTitle', isGreaterThanOrEqualTo: search.toString())
+          .get()
+          .then(
+        (value) async {
+          for (var item in value.docs) {
+            if (item['recipientId'] != user.uid) {
+              await FirebaseFirestore.instance
+                  .collection('user')
+                  .doc(item.data()['recipientId'])
+                  .get()
+                  .then((value) {
+                x.add(
+                  ProjectCard(
+                    requestId: item.id,
+                    amountNeed: double.parse(item.data()['amountNeeded']),
+                    collectedPercentage:
+                        (double.parse((item.data()['donationRecived'])) /
+                                double.parse((item.data()['amountNeeded']))) *
+                            100,
+                    details: item.data()['projectDescription'],
+                    imageURL: item.data()['image'],
+                    title: item.data()['projectTitle'],
+                    donate: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        isDismissible: false,
+                        useRootNavigator: true,
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (BuildContext context) => Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: AppColor.secondary,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(25.0),
+                              topRight: Radius.circular(25.0),
+                            ),
+                          ),
+                          child: DonationSheet(
+                            data: item.data(),
+                            requestId: item.id,
                           ),
                         ),
-                        child: DonationSheet(
-                          data: item.data(),
-                          requestId: item.id,
-                        ),
-                      ),
-                    );
-                  },
-                  viewDetails: () {
-                    Get.to(ViewDetailSheet(
-                      recipientId: value.id,
-                      data: item.data(),
-                      recipientDetails: value.data(),
-                      requestId: item.id,
-                    ));
-                  },
-                ),
-              );
-            });
+                      );
+                    },
+                    viewDetails: () {
+                      Get.to(ViewDetailSheet(
+                        recipientId: value.id,
+                        data: item.data(),
+                        recipientDetails: value.data(),
+                        requestId: item.id,
+                      ));
+                    },
+                  ),
+                );
+              });
+            }
           }
-        }
-      },
-    );
+        },
+      );
+    }
     yield x;
   }
 
   Stream<List<Widget>> getFavoriteDonationRequests(context) async* {
     List<Widget> x = [];
-    for (var req in prefs.getStringList('requestId')) {
+    for (var req in prefs.getStringList('favorites')) {
       await FirebaseFirestore.instance
           .collection('donation_requests')
           .doc(req)

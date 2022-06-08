@@ -32,8 +32,13 @@ class ProjectCard extends StatefulWidget {
 }
 
 class _ProjectCardState extends State<ProjectCard> {
-  List<String> favoriteList = prefs.getStringList('favorites') ?? [];
+  List<String> favoriteList = [];
   final isFavorite = false.obs;
+  @override
+  void initState() {
+    favoriteList = prefs.getStringList('favorites') ?? [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,32 +55,34 @@ class _ProjectCardState extends State<ProjectCard> {
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
-              Obx(() {
-                return Card(
-                  shape: const CircleBorder(),
-                  color: AppColor.white,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      isFavorite.value = !isFavorite.value;
-                      if (isFavorite.value == true) {
-                        favoriteList.add(widget.requestId);
-                        prefs.setStringList('requestId', favoriteList);
-                      } else {
+              Card(
+                shape: const CircleBorder(),
+                color: AppColor.white,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    
+                    if (favoriteList.contains(widget.requestId)) {
+                      setState(() {
                         favoriteList.remove(widget.requestId);
-                        prefs.setStringList('requestId', favoriteList);
-                      }
-                    },
-                    color: AppColor.primary,
-                    icon: Icon(
-                      isFavorite.value
-                          ? Icons.favorite
-                          : Icons.favorite_outline,
-                      size: 18,
-                    ),
+                        prefs.setStringList('favorites', favoriteList);
+                      });
+                    } else {
+                      setState(() {
+                        favoriteList.add(widget.requestId);
+                        prefs.setStringList('favorites', favoriteList);
+                      });
+                    }
+                  },
+                  color: AppColor.primary,
+                  icon: Icon(
+                    favoriteList.contains(widget.requestId)
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    size: 18,
                   ),
-                );
-              }),
+                ),
+              ),
             ],
           ),
           ListTile(
