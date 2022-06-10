@@ -39,15 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColor.fonts,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications,
-              color: AppColor.fonts,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: bottomIndex == 0
