@@ -40,6 +40,20 @@ class Helper {
     return null;
   }
 
+   static String validateLoginPassword(String value) {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (value.isEmpty) {
+      return 'please enter your password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'please enter valid password';
+      } else {
+        return null;
+      }
+    }
+  }
+
   callNumber(context, number) async {
     await FlutterPhoneDirectCaller.callNumber(number).catchError((e) {
       Components.showSnackBar(context, e.toString());

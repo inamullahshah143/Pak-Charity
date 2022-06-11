@@ -88,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                                   controller: password,
                                   obscureText: isVisible.value,
                                   validator: (value) =>
-                                      Helper.validatePassword(value),
+                                      Helper.validateLoginPassword(value),
                                   decoration: InputDecoration(
                                     labelText: 'Password',
                                     hintText: 'Your secret password',
@@ -159,13 +159,13 @@ class LoginScreen extends StatelessWidget {
                                           if (value.data()['userType'] ==
                                               'admin') {
                                             prefs.setString('Username',
-                                                value.data()['fullName']);
+                                                value.data()['username']);
                                             prefs.setString(
                                                 'UserID', result.user.uid);
                                             prefs.setString(
                                                 'Email', value.data()['email']);
                                             prefs.setString('PhoneNo',
-                                                value.data()['phoneNo']);
+                                                value.data()['phone_no']);
                                             prefs.setString('UserType',
                                                 value.data()['userType']);
 

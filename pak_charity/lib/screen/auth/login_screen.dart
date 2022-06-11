@@ -95,11 +95,10 @@ class LoginScreen extends StatelessWidget {
                                       AutovalidateMode.onUserInteraction,
                                   obscureText: isVisible.value,
                                   validator: (value) =>
-                                      Helper.validatePassword(value),
+                                      Helper.validateLoginPassword(value),
                                   decoration: InputDecoration(
                                     labelText: 'Password',
                                     hintText: 'Your secret password',
-                                    helperMaxLines: 6,
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         isVisible.value = !isVisible.value;

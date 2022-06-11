@@ -73,7 +73,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     color: AppColor.primary,
                   ),
                 ),
-                title: Text(widget.userMap['fullName']),
+                title: Text(widget.userMap['username']),
                 trailing: IconButton(
                   icon: const Icon(Icons.call),
                   onPressed: () async {

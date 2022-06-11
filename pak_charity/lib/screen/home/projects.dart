@@ -8,36 +8,30 @@ class Projects extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-                stream: RecipientHelper().getFavoriteDonationRequests(context),
-                builder: (context, snapshot) {
-                  return snapshot.connectionState == ConnectionState.waiting
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : snapshot.hasData
-                          ? Expanded(
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-                                  return snapshot.data[index];
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child: Center(
-                                child: Text(
-                                  'No Record Found',
-                                  style: TextStyle(
-                                    color: AppColor.secondary,
-                                  ),
-                                ),
-                              ),
-                            );
-                },
-              );
+      stream: RecipientHelper().getFavoriteDonationRequests(context),
+      builder: (context, snapshot) {
+        return snapshot.connectionState == ConnectionState.waiting
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : snapshot.hasData
+                ? ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return snapshot.data[index];
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      'No Record Found',
+                      style: TextStyle(
+                        color: AppColor.secondary,
+                      ),
+                    ),
+                  );
+      },
+    );
   }
 }

@@ -72,16 +72,16 @@ class InboxScreen extends StatelessWidget {
                       recipientId: item.data()['recipient_id'],
                       userMap: user.data(),
                       chatRoomId: item.data()['chat_room_id'],
-                      phoneNumber: user.data()['phoneNo'],
+                      phoneNumber: user.data()['phone_no'],
                     ),
                   );
                 },
-                leading: CircleAvatar(child: Text(user.data()['fullName'][0])),
-                title: Text(user.data()['fullName']),
+                leading: CircleAvatar(child: Text(user.data()['username'][0])),
+                title: Text(user.data()['username']),
                 trailing: IconButton(
                   icon: const Icon(Icons.phone),
                   onPressed: () async {
-                    Helper().callNumber(context, user.data()['phoneNo']);
+                    Helper().callNumber(context, user.data()['phone_no']);
                   },
                 ),
               ),

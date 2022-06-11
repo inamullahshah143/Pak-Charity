@@ -382,19 +382,21 @@ class RecipientHelper {
                     useRootNavigator: true,
                     backgroundColor: Colors.transparent,
                     context: context,
-                    builder: (BuildContext context) => Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: AppColor.secondary,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
+                    builder: (BuildContext context) => Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: AppColor.secondary,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25.0),
+                            topRight: Radius.circular(25.0),
+                          ),
                         ),
-                      ),
-                      child: DonationSheet(
-                        data: value.data(),
-                        requestId: value.id,
+                        child: DonationSheet(
+                          data: value.data(),
+                          requestId: value.id,
+                        ),
                       ),
                     ),
                   );

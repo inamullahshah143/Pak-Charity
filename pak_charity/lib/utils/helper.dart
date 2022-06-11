@@ -29,6 +29,20 @@ class Helper {
     }
   }
 
+   static String validateLoginPassword(String value) {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (value.isEmpty) {
+      return 'please enter your password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'please enter valid password';
+      } else {
+        return null;
+      }
+    }
+  }
+
   static String validateMobile(String value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = RegExp(patttern);

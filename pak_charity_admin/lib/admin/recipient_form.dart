@@ -483,26 +483,24 @@ class _RecipientFormState extends State<RecipientForm> {
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
             formData['status'] = '0';
-            if (thumbnail != null) {
+            if (thumbnail != null || formKey.currentState.validate()) {
               RecipientHelper().uploadThumbnail(thumbnail).then((value) {
                 formData['image'] = value;
-                if (formKey.currentState.validate()) {
-                  if (formData['image'] != null) {
-                    Components.showAlertDialog(context);
-                    RecipientHelper().uploadRequest(formData).whenComplete(
-                      () {
-                        formData.clear();
-                        formKey.currentState.reset();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Components.showSnackBar(
-                            context, 'Your request posted successfully');
-                      },
-                    ).catchError((e) {
+                if (formData['image'] != null) {
+                  Components.showAlertDialog(context);
+                  RecipientHelper().uploadRequest(formData).whenComplete(
+                    () {
+                      formData.clear();
+                      formKey.currentState.reset();
                       Navigator.of(context).pop();
-                      Components.showSnackBar(context, e.toString());
-                    });
-                  }
+                      Navigator.of(context).pop();
+                      Components.showSnackBar(
+                          context, 'Your request posted successfully');
+                    },
+                  ).catchError((e) {
+                    Navigator.of(context).pop();
+                    Components.showSnackBar(context, e.toString());
+                  });
                 } else {
                   Components.showSnackBar(context, 'Please upload picture');
                 }
