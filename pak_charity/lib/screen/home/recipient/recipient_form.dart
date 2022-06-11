@@ -170,7 +170,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: DropdownButtonFormField(
                     focusColor: AppColor.fonts,
-                    validator: (value) {
+                    validator: (String value) {
                       if (value.isEmpty) {
                         return 'please select donation type';
                       }
@@ -382,7 +382,7 @@ class _RecipientFormState extends State<RecipientForm> {
                   child: DropdownButtonFormField(
                     dropdownColor: AppColor.white,
                     hint: const Text("Account Type"),
-                    validator: (value) {
+                    validator: (String value) {
                       if (value.isEmpty) {
                         return 'please select account type';
                       }
@@ -480,34 +480,36 @@ class _RecipientFormState extends State<RecipientForm> {
             ),
           ),
           onPressed: () {
-            Components.showAlertDialog(context);
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
             formData['status'] = '0';
-            RecipientHelper().uploadThumbnail(thumbnail).then((value) {
-              formData['image'] = value;
-              if (formData['image'] != null) {
+            if (thumbnail != null) {
+              RecipientHelper().uploadThumbnail(thumbnail).then((value) {
+                formData['image'] = value;
                 if (formKey.currentState.validate()) {
-                  RecipientHelper().uploadRequest(formData).whenComplete(
-                    () {
-                      formData.clear();
-                      formKey.currentState.reset();
+                  if (formData['image'] != null) {
+                    Components.showAlertDialog(context);
+                    RecipientHelper().uploadRequest(formData).whenComplete(
+                      () {
+                        formData.clear();
+                        formKey.currentState.reset();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Components.showSnackBar(
+                            context, 'Your request posted successfully');
+                      },
+                    ).catchError((e) {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      Components.showSnackBar(
-                          context, 'Your request posted successfully');
-                    },
-                  ).catchError((e) {
-                    Navigator.of(context).pop();
-                    Components.showSnackBar(context, e.toString());
-                  });
+                      Components.showSnackBar(context, e.toString());
+                    });
+                  }
+                } else {
+                  Components.showSnackBar(context, 'Please upload picture');
                 }
-              } else {
-                Navigator.of(context).pop();
-                Components.showSnackBar(
-                    context, 'Please upload atleast three picture');
-              }
-            });
+              });
+            } else {
+              Components.showSnackBar(context, 'Please upload picture');
+            }
           },
           child: const Text('Submit Request'),
         ),

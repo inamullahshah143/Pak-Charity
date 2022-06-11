@@ -32,8 +32,18 @@ class MenuScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
+                  backgroundColor: AppColor.pagesColor,
                   radius: 50,
+                  backgroundImage: prefs.getString('ProfilePicture') != null
+                      ? Image.network(
+                          prefs.getString('ProfilePicture'),
+                          fit: BoxFit.fill,
+                        ).image
+                      : Image.asset(
+                          'assets/icons/profile.png',
+                          fit: BoxFit.fill,
+                        ).image,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(

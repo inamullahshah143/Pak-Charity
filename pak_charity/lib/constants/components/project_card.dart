@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/admin/request_details.dart';
@@ -61,7 +62,6 @@ class _ProjectCardState extends State<ProjectCard> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    
                     if (favoriteList.contains(widget.requestId)) {
                       setState(() {
                         favoriteList.remove(widget.requestId);
@@ -338,12 +338,14 @@ class _RequestApprovelCardState extends State<RequestApprovelCard> {
               RecipientHelper()
                   .requestAction(context, widget.requestId, '1')
                   .whenComplete(() {
+                Components.showSnackBar(context, 'Accepted Successfully');
                 setState(() {});
               });
             } else {
               RecipientHelper()
                   .requestAction(context, widget.requestId, '2')
                   .whenComplete(() {
+                Components.showSnackBar(context, 'Declined Successfully');
                 setState(() {});
               });
             }

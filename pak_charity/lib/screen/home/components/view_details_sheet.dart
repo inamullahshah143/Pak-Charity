@@ -162,9 +162,8 @@ class ViewDetailSheet extends StatelessWidget {
                   child: ListTile(
                     dense: true,
                     leading: CircleAvatar(
-                        child: Text(recipientDetails['fullName'][0])),
-                    title: Text(recipientDetails['fullName']),
-                    subtitle: Text(recipientDetails['email']),
+                        child: Text(recipientDetails['username'][0])),
+                    title: Text(recipientDetails['username']),
                     trailing: RichText(
                       text: TextSpan(
                         children: [
@@ -174,7 +173,7 @@ class ViewDetailSheet extends StatelessWidget {
                               icon: const Icon(Icons.phone),
                               onPressed: () async {
                                 Helper().callNumber(
-                                    context, recipientDetails['phoneNo']);
+                                    context, recipientDetails['phone_no']);
                               },
                             ),
                           ),
@@ -185,14 +184,14 @@ class ViewDetailSheet extends StatelessWidget {
                               icon: const Icon(FontAwesome.chat_empty),
                               onPressed: () {
                                 String roomId = ChatHelper().chatRoomId(
-                                    recipientDetails['fullName'],
+                                    recipientDetails['username'],
                                     prefs.getString('Username').toString());
                                 Get.to(
                                   ChatRoom(
                                     recipientId: recipientId,
                                     userMap: recipientDetails,
                                     chatRoomId: roomId,
-                                    phoneNumber: recipientDetails['phoneNo'],
+                                    phoneNumber: recipientDetails['phone_no'],
                                   ),
                                 );
                               },
@@ -286,18 +285,21 @@ class ViewDetailSheet extends StatelessWidget {
             useRootNavigator: true,
             backgroundColor: Colors.transparent,
             context: context,
-            builder: (BuildContext context) => Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: AppColor.secondary,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25.0),
-                  topRight: Radius.circular(25.0),
+            builder: (BuildContext context) => Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: AppColor.secondary,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(25.0),
+                    topRight: Radius.circular(25.0),
+                  ),
                 ),
-              ),
-              child: DonationSheet(
-                data: data,
-                requestId: requestId,
+                child: DonationSheet(
+                  data: data,
+                  requestId: requestId,
+                ),
               ),
             ),
           );

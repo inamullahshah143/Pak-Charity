@@ -27,7 +27,7 @@ class RecipientHelper {
         .child(FirebaseAuth.instance.currentUser.uid +
             '_' +
             basename(thumbnailPath.path))
-        .putFile(File(thumbnailPath.path));
+        .putFile(thumbnailPath);
     return taskSnapshot.ref.getDownloadURL();
   }
 
@@ -94,6 +94,49 @@ class RecipientHelper {
         .where('recipientId', isEqualTo: user.uid)
         .get()
         .then(
+      (value) {
+        for (var item in value.docs) {
+          x.add(
+            InkWell(
+              onTap: () {},
+              child: RecipientProjectCard(
+                amountNeed: double.parse(item.data()['amountNeeded']),
+                collectedPercentage:
+                    (double.parse((item.data()['donationRecived'])) /
+                            double.parse((item.data()['amountNeeded']))) *
+                        100,
+                details: item.data()['projectDescription'],
+                imageURL: item.data()['image'],
+                title: item.data()['projectTitle'],
+                status: item.data()['status'],
+              ),
+            ),
+          );
+        }
+      },
+    );
+    yield x.isNotEmpty
+        ? ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: x.length,
+            itemBuilder: (context, index) {
+              return x[index];
+            },
+          )
+        : Center(
+            child: Text(
+              'No Record Found',
+              style: TextStyle(
+                color: AppColor.secondary,
+              ),
+            ),
+          );
+  }
+
+  Stream<Widget> getAllCompletedProjects(context) async* {
+    List<Widget> x = [];
+    await FirebaseFirestore.instance.collection('project_completed').get().then(
       (value) {
         for (var item in value.docs) {
           x.add(

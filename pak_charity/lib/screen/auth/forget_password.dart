@@ -106,14 +106,18 @@ class ForgetPassword extends StatelessWidget {
                                     Components.showAlertDialog(context);
                                     AuthenticationHelper()
                                         .resetPassword(context, email.text)
-                                        .then((res) {
-                                      if (res == null) {
+                                        .then((value) {
+                                      if (value) {
                                         Navigator.of(context).pop();
                                         Components.showSnackBar(
                                           context,
                                           'Your password rest link has been send to your repective email, please have a look',
                                         );
                                       }
+                                    }).catchError((e) {
+                                      Navigator.of(context).pop();
+                                      Components.showSnackBar(
+                                          context, e.message);
                                     });
                                   }
                                 },

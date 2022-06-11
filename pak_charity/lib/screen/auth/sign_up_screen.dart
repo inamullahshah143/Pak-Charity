@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -252,7 +253,7 @@ class SignupScreen extends StatelessWidget {
                                           Navigator.of(context).pop();
                                           Components.showSnackBar(context,
                                               'Wellcome ${fullName.text}');
-                                          Get.off(MenuDrawer());
+                                          Get.offAll(MenuDrawer());
                                         }).catchError((e) {
                                           Navigator.of(context).pop();
                                           Components.showSnackBar(context, e);
@@ -287,21 +288,137 @@ class SignupScreen extends StatelessWidget {
                                   AuthenticationHelper()
                                       .signInWithGoogle()
                                       .then((value) {
-                                    final FirebaseAuth _auth =
-                                        FirebaseAuth.instance;
-                                    FirebaseFirestore.instance
-                                        .collection('user')
-                                        .doc(_auth.currentUser.uid)
-                                        .set({
-                                      'fullName': value.displayName,
-                                      'email': value.email,
-                                      'phoneNo': value.phoneNumber,
-                                      'userType': 'donor'
-                                    }).whenComplete(() {});
-                                    Navigator.of(context).pop();
-                                    Components.showSnackBar(context,
-                                        'Wellcome ${value.displayName}');
-                                    Get.off(MenuDrawer());
+                                    if (value != null) {
+                                      if (value.phoneNumber == null) {
+                                        CoolAlert.show(
+                                          context: context,
+                                          backgroundColor: AppColor.fonts,
+                                          confirmBtnColor:
+                                              AppColor.appThemeColor,
+                                          barrierDismissible: false,
+                                          type: CoolAlertType.custom,
+                                          widget: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child:
+                                                InternationalPhoneNumberInput(
+                                              onInputChanged:
+                                                  (PhoneNumber number) {},
+                                              onInputValidated: (bool value) {
+                                                isValidNo.value = value;
+                                              },
+                                              selectorConfig:
+                                                  const SelectorConfig(
+                                                selectorType:
+                                                    PhoneInputSelectorType
+                                                        .DIALOG,
+                                              ),
+                                              ignoreBlank: false,
+                                              autoValidateMode:
+                                                  AutovalidateMode.disabled,
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'please enter your phone number';
+                                                } else if (isValidNo.value ==
+                                                    false) {
+                                                  return 'please enter valid phone number';
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              selectorTextStyle:
+                                                  const TextStyle(
+                                                      color: Colors.black),
+                                              initialValue: number,
+                                              textFieldController: phoneNo,
+                                              formatInput: false,
+                                              keyboardType: const TextInputType
+                                                  .numberWithOptions(
+                                                signed: true,
+                                                decimal: true,
+                                              ),
+                                              inputDecoration: InputDecoration(
+                                                isDense: true,
+                                                filled: true,
+                                                fillColor: AppColor.secondary
+                                                    .withOpacity(0.25),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                hintText: 'Phone Number',
+                                                hintStyle: TextStyle(
+                                                  color: AppColor.fonts
+                                                      .withOpacity(0.5),
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          title: 'Phone No.',
+                                          text: 'please enter your phone no.',
+                                          onConfirmBtnTap: () async {
+                                            Components.showAlertDialog(context);
+                                            final FirebaseAuth _auth =
+                                                FirebaseAuth.instance;
+                                            FirebaseFirestore.instance
+                                                .collection('user')
+                                                .doc(_auth.currentUser.uid)
+                                                .set({
+                                              'username': value.displayName,
+                                              'email': value.email,
+                                              'phone_no':
+                                                  '${number.dialCode}${phoneNo.text}',
+                                            }).whenComplete(() async {
+                                              prefs.setString('Username',
+                                                  value.displayName.toString());
+                                              prefs.setString('UserID',
+                                                  value.uid.toString());
+                                              prefs.setString('Email',
+                                                  value.email.toString());
+                                              prefs.setString('PhoneNo',
+                                                  '${number.dialCode}${phoneNo.text}');
+                                              prefs.setString('ProfilePicture',
+                                                  value.photoURL.toString());
+                                              prefs.setString(
+                                                  'UserType', 'donor');
+                                              Navigator.of(context).pop();
+                                              Components.showSnackBar(
+                                                  context, 'Wellcome back');
+                                              Get.offAll(MenuDrawer());
+                                            });
+                                          },
+                                          confirmBtnText: 'Submit',
+                                          showCancelBtn: false,
+                                        );
+                                      } else {
+                                        final FirebaseAuth _auth =
+                                            FirebaseAuth.instance;
+                                        FirebaseFirestore.instance
+                                            .collection('user')
+                                            .doc(_auth.currentUser.uid)
+                                            .set({
+                                          'username': value.displayName,
+                                          'email': value.email,
+                                          'phone_no': value.phoneNumber,
+                                        }).whenComplete(() async {
+                                          prefs.setString('Username',
+                                              value.displayName.toString());
+                                          prefs.setString(
+                                              'UserID', value.uid.toString());
+                                          prefs.setString(
+                                              'Email', value.email.toString());
+                                          prefs.setString('PhoneNo',
+                                              value.phoneNumber.toString());
+                                          prefs.setString('UserType', 'donor');
+                                          Navigator.of(context).pop();
+                                          Components.showSnackBar(
+                                              context, 'Wellcome back');
+                                          Get.offAll(MenuDrawer());
+                                        });
+                                      }
+                                    }
                                   });
                                 },
                                 style: ButtonStyle(
@@ -365,7 +482,7 @@ class SignupScreen extends StatelessWidget {
                             alignment: PlaceholderAlignment.middle,
                             child: InkWell(
                               onTap: () {
-                                Get.to(LoginScreen());
+                                Get.offAll(LoginScreen());
                               },
                               child: Text(
                                 'Sign In',

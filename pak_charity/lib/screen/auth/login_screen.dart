@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
-import 'package:pak_charity/screen/admin/admin.dart';
+import 'package:pak_charity/screen/admin/admin_home.dart';
 import 'package:pak_charity/screen/auth/forget_password.dart';
 import 'package:pak_charity/screen/auth/sign_up_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
@@ -196,7 +196,7 @@ class LoginScreen extends StatelessWidget {
                                                       prefs.setString(
                                                           'Username',
                                                           value.data()[
-                                                              'fullName']);
+                                                              'username']);
                                                       prefs.setString('UserID',
                                                           result.user.uid);
                                                       prefs.setString(
@@ -206,7 +206,7 @@ class LoginScreen extends StatelessWidget {
                                                       prefs.setString(
                                                           'PhoneNo',
                                                           value.data()[
-                                                              'phoneNo']);
+                                                              'phone_no']);
                                                       prefs.setString(
                                                           'UserType',
                                                           value.data()[
@@ -216,7 +216,7 @@ class LoginScreen extends StatelessWidget {
                                                       Components.showSnackBar(
                                                           context,
                                                           'Wellcome back');
-                                                      Get.off(MenuDrawer());
+                                                      Get.offAll(MenuDrawer());
                                                     } else {
                                                       Navigator.of(context)
                                                           .pop();
@@ -394,7 +394,7 @@ class LoginScreen extends StatelessWidget {
                                                       });
                                                     },
                                                     confirmBtnText: 'Submit',
-                                                    showCancelBtn: true,
+                                                    showCancelBtn: false,
                                                   );
                                                 } else {
                                                   final FirebaseAuth _auth =
@@ -428,7 +428,7 @@ class LoginScreen extends StatelessWidget {
                                                     Components.showSnackBar(
                                                         context,
                                                         'Wellcome back');
-                                                    Get.off(MenuDrawer());
+                                                    Get.offAll(MenuDrawer());
                                                   });
                                                 }
                                               }
@@ -682,8 +682,8 @@ class LoginScreen extends StatelessWidget {
                                                       Components.showSnackBar(
                                                           context,
                                                           'Welcome back');
-                                                      Get.off(
-                                                          const AdminDashboard());
+                                                      Get.offAll(
+                                                          const AdminHome());
                                                     } else {
                                                       Navigator.of(context)
                                                           .pop();

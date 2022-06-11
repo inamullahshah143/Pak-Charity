@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
-import 'package:pak_charity/screen/admin/admin.dart';
+import 'package:pak_charity/screen/admin/admin_home.dart';
 import 'package:pak_charity/screen/auth/intro_screen.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
@@ -26,15 +26,15 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user == null) {
         bool _seen = (prefs.getBool('IntroSeen') ?? false);
         if (_seen) {
-          Get.off(LoginScreen());
+          Get.offAll(LoginScreen());
         } else {
-          Get.off(const IntroScreen());
+          Get.offAll(const IntroScreen());
         }
       } else {
         if (prefs.getString('UserType') == 'admin') {
-          Get.off(const AdminDashboard());
+          Get.offAll(const AdminHome());
         } else {
-          Get.off(MenuDrawer());
+          Get.offAll(MenuDrawer());
         }
       }
     });

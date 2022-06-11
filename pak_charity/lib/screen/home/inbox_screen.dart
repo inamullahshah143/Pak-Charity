@@ -78,7 +78,6 @@ class InboxScreen extends StatelessWidget {
                 },
                 leading: CircleAvatar(child: Text(user.data()['fullName'][0])),
                 title: Text(user.data()['fullName']),
-                subtitle: Text(user.data()['email']),
                 trailing: IconButton(
                   icon: const Icon(Icons.phone),
                   onPressed: () async {
