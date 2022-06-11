@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
-import 'package:pak_charity/screen/admin/request_details.dart';
-import 'package:pak_charity/utils/recipient_helper.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProjectCard extends StatefulWidget {
@@ -285,118 +282,5 @@ class RecipientProjectCard extends StatelessWidget {
               ],
             ),
           );
-  }
-}
-
-class RequestApprovelCard extends StatefulWidget {
-  final String requestId;
-  final String recipientName;
-  final String phoneNo;
-  final String email;
-  final Map<String, dynamic> data;
-  final Map<String, dynamic> recipientDetails;
-
-  const RequestApprovelCard({
-    Key key,
-    @required this.requestId,
-    @required this.recipientName,
-    @required this.phoneNo,
-    @required this.email,
-    @required this.data,
-    @required this.recipientDetails,
-  }) : super(key: key);
-
-  @override
-  State<RequestApprovelCard> createState() => _RequestApprovelCardState();
-}
-
-class _RequestApprovelCardState extends State<RequestApprovelCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        onTap: () {
-          Get.to(RequestDetails(
-            requestId: widget.requestId,
-            data: widget.data,
-            recipientDetails: widget.recipientDetails,
-          ));
-        },
-        trailing: PopupMenuButton(
-          itemBuilder: (context) => const [
-            PopupMenuItem(
-              value: 0,
-              child: Text('Accept'),
-            ),
-            PopupMenuItem(
-              value: 1,
-              child: Text('Decline'),
-            ),
-          ],
-          onSelected: (index) {
-            if (index == 0) {
-              RecipientHelper()
-                  .requestAction(context, widget.requestId, '1')
-                  .whenComplete(() {
-                Components.showSnackBar(context, 'Accepted Successfully');
-                setState(() {});
-              });
-            } else {
-              RecipientHelper()
-                  .requestAction(context, widget.requestId, '2')
-                  .whenComplete(() {
-                Components.showSnackBar(context, 'Declined Successfully');
-                setState(() {});
-              });
-            }
-          },
-        ),
-        isThreeLine: true,
-        title: Text(widget.recipientName.toString()),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Icon(
-                      Icons.phone,
-                      color: AppColor.primary,
-                      size: 16,
-                    ),
-                  ),
-                  const TextSpan(text: ' '),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Text(widget.phoneNo.toString()),
-                  ),
-                ],
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Icon(
-                      Icons.mail,
-                      color: AppColor.primary,
-                      size: 16,
-                    ),
-                  ),
-                  const TextSpan(text: ' '),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Text(widget.email.toString()),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
