@@ -345,12 +345,14 @@ class RecipientHelper {
                           );
                         },
                         viewDetails: () {
-                          Get.to(ViewDetailSheet(
-                            recipientId: user.id,
-                            data: value.docs[item].data(),
-                            recipientDetails: user.data(),
-                            requestId: value.docs[item].id,
-                          ));
+                          Get.to(
+                            ViewDetailSheet(
+                              recipientId: user.id,
+                              data: value.docs[item].data(),
+                              recipientDetails: user.data(),
+                              requestId: value.docs[item].id,
+                            ),
+                          );
                         },
                       ),
                     );
