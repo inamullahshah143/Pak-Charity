@@ -491,7 +491,7 @@ class _RecipientFormState extends State<RecipientForm> {
                 RecipientHelper().uploadThumbnail(thumbnail).then((value) {
                   formData['image'] = value;
                 }).whenComplete(() {
-                  Timer(const Duration(seconds: 1), () async {
+                  Timer(const Duration(seconds: 3), () async {
                     await FirebaseFirestore.instance
                         .collection('donation_requests')
                         .add(formData)
