@@ -81,7 +81,7 @@ class RequestDetails extends StatelessWidget {
                                 WidgetSpan(
                                   alignment: PlaceholderAlignment.middle,
                                   child: Text(
-                                    recipientDetails['fullName'],
+                                    recipientDetails['username'],
                                     style: TextStyle(
                                       color: AppColor.white,
                                     ),

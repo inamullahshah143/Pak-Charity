@@ -12,9 +12,7 @@ import 'package:path/path.dart';
 class RecipientHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   get user => _auth.currentUser;
-  Future uploadRequest(data) async {
-    await FirebaseFirestore.instance.collection('donation_requests').add(data);
-  }
+ 
 
   Future<String> uploadThumbnail(File thumbnailPath) async {
     TaskSnapshot taskSnapshot = await FirebaseStorage.instance
@@ -98,8 +96,8 @@ class RecipientHelper {
               recipientDetails: value.data(),
               data: item.data(),
               email: value.data()['email'],
-              phoneNo: value.data()['phoneNo'],
-              recipientName: value.data()['fullName'],
+              phoneNo: value.data()['phone_no'],
+              recipientName: value.data()['username'],
             ));
           });
         }

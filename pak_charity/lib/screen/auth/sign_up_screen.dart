@@ -237,9 +237,9 @@ class SignupScreen extends StatelessWidget {
                                             .collection('user')
                                             .doc(result.user.uid)
                                             .set({
-                                          'fullName': fullName.text,
+                                          'username': fullName.text,
                                           'email': email.text,
-                                          'phoneNo': phoneNo.text,
+                                          'phone_no': phoneNo.text,
                                           'userType': 'donor'
                                         }).whenComplete(() {
                                           prefs.setString(

@@ -262,7 +262,7 @@ class RecipientProjectCard extends StatelessWidget {
                       style: TextStyle(color: AppColor.primary),
                     ),
                     trailing: Text(
-                      '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toString()} PKR',
+                      '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toStringAsFixed(1)} PKR',
                       style: TextStyle(color: AppColor.primary),
                     ),
                     animation: true,
