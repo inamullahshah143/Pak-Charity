@@ -481,43 +481,42 @@ class _RecipientFormState extends State<RecipientForm> {
               AppColor.white,
             ),
           ),
-          onPressed: () {
+          onPressed: () async {
             Components.showAlertDialog(context);
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
             formData['status'] = '0';
             if (thumbnail != null) {
               if (formKey.currentState.validate()) {
-                RecipientHelper().uploadThumbnail(thumbnail).then((value) {
+                await RecipientHelper()
+                    .uploadThumbnail(thumbnail)
+                    .then((value) {
                   formData['image'] = value;
-                }).whenComplete(() {
-                  Timer(const Duration(seconds: 3), () async {
-                    await FirebaseFirestore.instance
-                        .collection('donation_requests')
-                        .add(formData)
-                        .whenComplete(
-                      () {
-                        formData.clear();
-                        formKey.currentState.reset();
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        Components.showSnackBar(
-                            context, 'Your request posted successfully');
-                      },
-                    ).catchError((e) {
+                }).whenComplete(() async {
+                  await FirebaseFirestore.instance
+                      .collection('donation_requests')
+                      .add(formData)
+                      .whenComplete(
+                    () {
                       Navigator.of(context).pop();
-                      Components.showSnackBar(context, e.toString());
-                    });
+                      Navigator.of(context).pop();
+                      Components.showSnackBar(
+                          context, 'Your request posted successfully');
+                    },
+                  ).catchError((e) {
+                    Navigator.of(context).pop();
+                    Components.showSnackBar(context, e.toString());
                   });
                 });
               } else {
-                Components.showSnackBar(context, 'Please upload picture');
+                Navigator.of(context).pop();
               }
             } else {
               Navigator.of(context).pop();
+              Components.showSnackBar(context, 'Please upload picture');
             }
           },
-           child: const Text('Submit Request'),
+          child: const Text('Submit Request'),
         ),
       ),
     );

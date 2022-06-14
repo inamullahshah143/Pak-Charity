@@ -428,7 +428,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: InternationalPhoneNumberInput(
                     onInputChanged: (PhoneNumber number) {
-                      formData['accountNumber'] = number;
+                      formData['accountNumber'] = number.toString();
                     },
                     onInputValidated: (bool value) {
                       isValidNo.value = value;
@@ -495,19 +495,8 @@ class _RecipientFormState extends State<RecipientForm> {
                 }).whenComplete(() async {
                   await FirebaseFirestore.instance
                       .collection('donation_requests')
-                      .add({
-                    'projectTitle': formData['projectTitle'],
-                    'projectDescription': formData['projectDescription'],
-                    'amountNeeded': formData['amountNeeded'],
-                    'estimatedDelivery': formData['estimatedDelivery'],
-                    // 'image': formData['image'],
-                    'status': '1',
-                    'donationRecived': '0',
-                    'recipientId': user.uid,
-                    'accountTitle': formData['accountTitle'],
-                    'accountNumber': formData['accountNumber'],
-                    'accountType': formData['accountType'],
-                  }).whenComplete(
+                      .add(formData)
+                      .whenComplete(
                     () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
