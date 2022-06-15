@@ -428,7 +428,7 @@ class _RecipientFormState extends State<RecipientForm> {
                       horizontal: 20.0, vertical: 10),
                   child: InternationalPhoneNumberInput(
                     onInputChanged: (PhoneNumber number) {
-                      formData['accountNumber'] = number;
+                      formData['accountNumber'] = number.toString();
                     },
                     onInputValidated: (bool value) {
                       isValidNo.value = value;

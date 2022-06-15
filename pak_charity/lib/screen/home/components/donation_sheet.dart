@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
 import 'package:pak_charity/main.dart';
 import 'package:pak_charity/utils/stripe_helper.dart';
@@ -207,29 +208,35 @@ class _DonationSheetState extends State<DonationSheet> {
                                 double.parse(donationMoney == 'other'
                                     ? otheramount
                                     : donationMoney);
-                        await FirebaseFirestore.instance
-                            .collection('donation_requests')
-                            .doc(widget.requestId)
-                            .update(
-                          {
-                            'donationRecived': totalReceved.toString(),
-                          },
-                        ).whenComplete(
-                          () async {
-                            await FirebaseFirestore.instance
-                                .collection('donations')
-                                .doc()
-                                .set(
-                              {
-                                'donor_id': user.uid,
-                                'request_id': widget.requestId,
-                                'amount_donated': donationMoney == 'other'
-                                    ? otheramount
-                                    : donationMoney,
-                              },
-                            );
-                          },
-                        );
+                        if (totalReceved >
+                            double.parse(value.data()['amountNeeded'])) {
+                          Components.showSnackBar(context,
+                              'the only amunt needed is ${double.parse(value.data()['amountNeeded']) - double.parse(value.data()['donationRecived'])}');
+                        } else {
+                          await FirebaseFirestore.instance
+                              .collection('donation_requests')
+                              .doc(widget.requestId)
+                              .update(
+                            {
+                              'donationRecived': totalReceved.toString(),
+                            },
+                          ).whenComplete(
+                            () async {
+                              await FirebaseFirestore.instance
+                                  .collection('donations')
+                                  .doc()
+                                  .set(
+                                {
+                                  'donor_id': user.uid,
+                                  'request_id': widget.requestId,
+                                  'amount_donated': donationMoney == 'other'
+                                      ? otheramount
+                                      : donationMoney,
+                                },
+                              );
+                            },
+                          );
+                        }
                       },
                     );
                   }
