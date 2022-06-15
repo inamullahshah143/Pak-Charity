@@ -202,10 +202,9 @@ class RecipientDashboard extends StatelessWidget {
                                     ),
                                     StreamBuilder(
                                       stream: FirebaseFirestore.instance
-                                          .collection('donation_requests')
+                                          .collection('project_completed')
                                           .where('recipientId',
                                               isEqualTo: user.uid)
-                                          .where('status', isEqualTo: '2')
                                           .snapshots(),
                                       builder: (context, snapshot) {
                                         return snapshot.connectionState ==

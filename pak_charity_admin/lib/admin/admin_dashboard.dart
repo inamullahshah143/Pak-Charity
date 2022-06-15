@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:get/get.dart';
@@ -74,13 +75,40 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    activeCount.toString(),
-                                    style: TextStyle(
-                                      color: AppColor.fonts,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('donation_requests')
+                                        .where('status', isEqualTo: '0')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      return snapshot.connectionState ==
+                                              ConnectionState.waiting
+                                          ? Text(
+                                              '00',
+                                              style: TextStyle(
+                                                color: AppColor.fonts,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          : snapshot.hasData
+                                              ? Text(
+                                                  snapshot.data.size.toString(),
+                                                  style: TextStyle(
+                                                    color: AppColor.fonts,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  '00',
+                                                  style: TextStyle(
+                                                    color: AppColor.fonts,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                    },
                                   ),
                                 ],
                               ),
@@ -126,13 +154,40 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    approvedCount.toString(),
-                                    style: TextStyle(
-                                      color: AppColor.fonts,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('donation_requests')
+                                        .where('status', isEqualTo: '1')
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      return snapshot.connectionState ==
+                                              ConnectionState.waiting
+                                          ? Text(
+                                              '00',
+                                              style: TextStyle(
+                                                color: AppColor.fonts,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          : snapshot.hasData
+                                              ? Text(
+                                                  snapshot.data.size.toString(),
+                                                  style: TextStyle(
+                                                    color: AppColor.fonts,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  '00',
+                                                  style: TextStyle(
+                                                    color: AppColor.fonts,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                    },
                                   ),
                                 ],
                               ),
