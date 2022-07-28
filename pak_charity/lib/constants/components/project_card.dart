@@ -99,11 +99,11 @@ class _ProjectCardState extends State<ProjectCard> {
             padding: const EdgeInsets.all(10.0),
             child: LinearPercentIndicator(
               leading: Text(
-                '${widget.amountNeed.toString()} PKR',
+                '${widget.amountNeed.toStringAsFixed(1).toString()} PKR',
                 style: TextStyle(color: AppColor.primary),
               ),
               trailing: Text(
-                '${(widget.amountNeed - (widget.amountNeed * (widget.collectedPercentage / 100))).toString()} PKR',
+                '${(widget.amountNeed - (widget.amountNeed * (widget.collectedPercentage / 100))).toStringAsFixed(1).toString()} PKR',
                 style: TextStyle(color: AppColor.primary),
               ),
               animation: true,
@@ -255,11 +255,11 @@ class RecipientProjectCard extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: LinearPercentIndicator(
                     leading: Text(
-                      '${amountNeed.toString()} PKR',
+                      '${amountNeed.toStringAsFixed(1).toString()} PKR',
                       style: TextStyle(color: AppColor.primary),
                     ),
                     trailing: Text(
-                      '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toString()} PKR',
+                      '${(amountNeed - (amountNeed * (collectedPercentage / 100))).toStringAsFixed(1).toString()} PKR',
                       style: TextStyle(color: AppColor.primary),
                     ),
                     animation: true,

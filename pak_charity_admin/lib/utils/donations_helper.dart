@@ -14,22 +14,19 @@ class DonationHelper {
               .doc(item.data()['donor_id'])
               .get()
               .then((user) {
-            if (user.exists) {
-              x.add(
-                ListTile(
-                  title: Text(user.data()['username'].toString() ?? ''),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.call),
-                    onPressed: () {
-                      Helper()
-                          .callNumber(context, user.data()['phone_no'] ?? '');
-                    },
-                  ),
-                  subtitle: Text(
-                      'Donation : RS ' + item.data()['amount_donated'] + '.00'),
+            x.add(
+              ListTile(
+                title: Text(user.data()['username'].toString() ?? ''),
+                trailing: IconButton(
+                  icon: const Icon(Icons.call),
+                  onPressed: () {
+                    Helper().callNumber(context, user.data()['phone_no'] ?? '');
+                  },
                 ),
-              );
-            }
+                subtitle: Text(
+                    'Donation : RS ' + item.data()['amount_donated'] + '.00'),
+              ),
+            );
           });
         }
       },

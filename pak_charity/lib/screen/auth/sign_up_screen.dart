@@ -16,7 +16,7 @@ import 'package:pak_charity/utils/helper.dart';
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key key}) : super(key: key);
   final String initialCountry = 'PK';
-  final PhoneNumber number = PhoneNumber(isoCode: 'PK');
+  final PhoneNumber number = PhoneNumber(isoCode: 'PK', dialCode: '0');
   final isVisible = true.obs;
   final isValidNo = true.obs;
   final formKey = GlobalKey<FormState>();
@@ -239,7 +239,8 @@ class SignupScreen extends StatelessWidget {
                                             .set({
                                           'username': fullName.text,
                                           'email': email.text,
-                                          'phone_no': phoneNo.text,
+                                          'phone_no':
+                                              number.dialCode + phoneNo.text,
                                           'userType': 'donor'
                                         }).whenComplete(() {
                                           prefs.setString(
@@ -247,8 +248,8 @@ class SignupScreen extends StatelessWidget {
                                           prefs.setString(
                                               'UserID', result.user.uid);
                                           prefs.setString('Email', email.text);
-                                          prefs.setString(
-                                              'PhoneNo', phoneNo.text);
+                                          prefs.setString('PhoneNo',
+                                              number.dialCode + phoneNo.text);
                                           prefs.setString('UserType', 'donor');
                                           Navigator.of(context).pop();
                                           Components.showSnackBar(context,
