@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pak_charity/constants/components/components.dart';
 import 'package:pak_charity/constants/widgets/color.dart';
+import 'package:pak_charity/main.dart';
 import 'package:pak_charity/utils/recipient_helper.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -486,6 +487,7 @@ class _RecipientFormState extends State<RecipientForm> {
             formData['recipientId'] = user.uid;
             formData['donationRecived'] = '0';
             formData['status'] = '0';
+            formData['fcm_token'] = token;
             if (thumbnail != null) {
               if (formKey.currentState.validate()) {
                 await RecipientHelper()
