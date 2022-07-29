@@ -13,6 +13,7 @@ SharedPreferences prefs;
 FirebaseAuth _auth;
 String token;
 get user => _auth.currentUser;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
@@ -23,6 +24,7 @@ Future<void> main() async {
     _auth = FirebaseAuth.instance;
   });
   token = await FirebaseMessaging.instance.getToken();
+
   prefs = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }

@@ -64,6 +64,7 @@ dependencies:
   introduction_slider: ^1.0.0
   change_app_package_name: ^1.1.0
   firebase_messaging: ^12.0.1
+  flutter_local_notifications: ^9.5.3+1
 
 dependency_overrides:
   image_picker_android: ^0.8.5
