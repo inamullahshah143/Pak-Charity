@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -16,15 +15,14 @@ get user => _auth.currentUser;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Stripe.publishableKey =
       'pk_test_51L2ySrFA9SdVfjX6vdz0gEReE6hOUFP98XLtjPwAwAfKbR9F3241hdNNUrAcXXLNKYWmtD6xQrlIXfb2rsOPCv5u00u784rvKl';
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  await Firebase.initializeApp().whenComplete(() {
-    _auth = FirebaseAuth.instance;
-  });
-  token = await FirebaseMessaging.instance.getToken();
 
+  _auth = FirebaseAuth.instance;
+  // token = FirebaseMessaging.instance.getToken().toString();
   prefs = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
