@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pak_charity_admin/auth/spalsh_screen.dart';
 import 'package:pak_charity_admin/constants/widgets/color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'utils/push_notification.dart';
 
 SharedPreferences prefs;
 FirebaseAuth _auth;
@@ -96,7 +95,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainScreen(),
+      home: const SplashScreen(),
     );
   }
 }

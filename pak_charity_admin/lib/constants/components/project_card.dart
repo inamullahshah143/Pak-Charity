@@ -4,6 +4,7 @@ import 'package:pak_charity_admin/admin/request_details.dart';
 import 'package:pak_charity_admin/constants/components/components.dart';
 import 'package:pak_charity_admin/constants/widgets/color.dart';
 import 'package:pak_charity_admin/main.dart';
+import 'package:pak_charity_admin/utils/push_notification.dart';
 import 'package:pak_charity_admin/utils/recipient_helper.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -339,14 +340,24 @@ class _RequestApprovelCardState extends State<RequestApprovelCard> {
                   .requestAction(context, widget.requestId, '1')
                   .whenComplete(() {
                 Components.showSnackBar(context, 'Accepted Successfully');
-                setState(() {});
+                setState(() {
+                  PushNotification().sendPushMessage(
+                      widget.recipientDetails['token'],
+                      'Your request for ${widget.recipientDetails['title']} has been approved successfully',
+                      'Success!');
+                });
               });
             } else {
               RecipientHelper()
                   .requestAction(context, widget.requestId, '2')
                   .whenComplete(() {
                 Components.showSnackBar(context, 'Declined Successfully');
-                setState(() {});
+                setState(() {
+                  PushNotification().sendPushMessage(
+                      widget.recipientDetails['token'],
+                      'Your request for ${widget.recipientDetails['title']} has been declined',
+                      'We are sorry!');
+                });
               });
             }
           },
