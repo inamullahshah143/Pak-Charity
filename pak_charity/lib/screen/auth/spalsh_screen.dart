@@ -8,6 +8,7 @@ import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/intro_screen.dart';
 import 'package:pak_charity/screen/auth/login_screen.dart';
 import 'package:pak_charity/screen/home/menu_darwer.dart';
+import 'package:pak_charity/utils/push_notification.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -20,6 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
   User user;
   @override
   void initState() {
+    PushNotification().requestPermission();
+    PushNotification().loadFCM();
+    PushNotification().listenFCM();
     user = FirebaseAuth.instance.currentUser;
     Timer(const Duration(seconds: 3), () async {
       if (user == null) {

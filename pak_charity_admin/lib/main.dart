@@ -27,7 +27,6 @@ Future<void> main() async {
     _auth = FirebaseAuth.instance;
   });
   prefs = await SharedPreferences.getInstance();
-
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }

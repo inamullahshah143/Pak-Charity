@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -12,6 +14,12 @@ SharedPreferences prefs;
 FirebaseAuth _auth;
 String token;
 get user => _auth.currentUser;
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  if (kDebugMode) {
+    print('Handling a background message ${message.messageId}');
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +29,12 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   _auth = FirebaseAuth.instance;
-  // token = FirebaseMessaging.instance.getToken().toString();
+  FirebaseMessaging.instance.getToken().then((value) {
+    token = value;
+  });
+
   prefs = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }

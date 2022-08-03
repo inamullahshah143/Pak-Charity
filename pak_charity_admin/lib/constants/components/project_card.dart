@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity_admin/admin/request_details.dart';
@@ -338,25 +339,39 @@ class _RequestApprovelCardState extends State<RequestApprovelCard> {
             if (index == 0) {
               RecipientHelper()
                   .requestAction(context, widget.requestId, '1')
-                  .whenComplete(() {
+                  .whenComplete(() async {
                 Components.showSnackBar(context, 'Accepted Successfully');
-                setState(() {
+
+                await FirebaseFirestore.instance
+                    .collection('donation_requests')
+                    .doc(widget.requestId)
+                    .get()
+                    .then((value) {
                   PushNotification().sendPushMessage(
-                      widget.recipientDetails['token'],
-                      'Your request for ${widget.recipientDetails['title']} has been approved successfully',
+                      value.data()['fcm_token'],
+                      'Your request for ${value.data()['projectTitle']} has been approved successfully',
                       'Success!');
+                }).whenComplete(() {
+                  setState(() {});
                 });
               });
             } else {
               RecipientHelper()
                   .requestAction(context, widget.requestId, '2')
-                  .whenComplete(() {
+                  .whenComplete(() async {
                 Components.showSnackBar(context, 'Declined Successfully');
-                setState(() {
+
+                await FirebaseFirestore.instance
+                    .collection('donation_requests')
+                    .doc(widget.requestId)
+                    .get()
+                    .then((value) {
                   PushNotification().sendPushMessage(
-                      widget.recipientDetails['token'],
-                      'Your request for ${widget.recipientDetails['title']} has been declined',
+                      widget.recipientDetails['fcm_token'],
+                      'Your request for ${widget.recipientDetails['projectTitle']} has been declined',
                       'We are sorry!');
+                }).whenComplete(() {
+                  setState(() {});
                 });
               });
             }

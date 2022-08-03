@@ -1,7 +1,9 @@
 import 'package:background_app_bar/background_app_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_charity_admin/constants/widgets/color.dart';
+import 'package:pak_charity_admin/utils/push_notification.dart';
 import 'package:pak_charity_admin/utils/recipient_helper.dart';
 
 class RequestDetails extends StatelessWidget {
@@ -275,8 +277,19 @@ class RequestDetails extends StatelessWidget {
               onPressed: () {
                 RecipientHelper()
                     .requestAction(context, requestId, '2')
-                    .whenComplete(() {
-                  Get.back();
+                    .whenComplete(() async {
+                  await FirebaseFirestore.instance
+                      .collection('donation_requests')
+                      .doc(requestId)
+                      .get()
+                      .then((value) {
+                    PushNotification().sendPushMessage(
+                        value.data()['fcm_token'],
+                        'Your request for ${value.data()['projectTitle']} has been declined',
+                        'We are sorry!');
+                  }).whenComplete(() {
+                    Get.back();
+                  });
                 });
               },
               child: const Text('Decline'),
@@ -305,8 +318,19 @@ class RequestDetails extends StatelessWidget {
               onPressed: () {
                 RecipientHelper()
                     .requestAction(context, requestId, '1')
-                    .whenComplete(() {
-                  Get.back();
+                    .whenComplete(() async {
+                  await FirebaseFirestore.instance
+                      .collection('donation_requests')
+                      .doc(requestId)
+                      .get()
+                      .then((value) {
+                    PushNotification().sendPushMessage(
+                        value.data()['fcm_token'],
+                        'Your request for ${value.data()['projectTitle']} has been approved successfully',
+                        'Success!');
+                  }).whenComplete(() {
+                    Get.back();
+                  });
                 });
               },
               child: const Text('Accept'),

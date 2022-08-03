@@ -104,7 +104,8 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             StreamBuilder(
-              stream: RecipientHelper().getDonationRequests(context, _value,search),
+              stream: RecipientHelper()
+                  .getDonationRequests(context, _value, search),
               builder: (context, snapshot) {
                 return snapshot.connectionState == ConnectionState.waiting
                     ? const Expanded(

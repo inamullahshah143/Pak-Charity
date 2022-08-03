@@ -52,10 +52,8 @@ dependencies:
   path_provider: ^2.0.9
   intl_phone_number_input: ^0.7.0+2
   background_app_bar: ^2.0.1
-  change_app_package_name: ^1.1.0
   firebase_messaging: ^12.0.1
-  flutter_local_notifications: ^9.5.3+1
-  http: ^0.13.4
+  flutter_local_notifications: ^9.7.0
 
 dev_dependencies:
   flutter_test:

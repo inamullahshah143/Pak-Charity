@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pak_charity_admin/admin/admin_home.dart';
 import 'package:pak_charity_admin/constants/widgets/color.dart';
 import 'package:pak_charity_admin/main.dart';
+import 'package:pak_charity_admin/utils/push_notification.dart';
 
 import 'intro_screen.dart';
 import 'login_screen.dart';
@@ -21,6 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
   User user;
   @override
   void initState() {
+    PushNotification().requestPermission();
+    PushNotification().loadFCM();
+    PushNotification().listenFCM();
     user = FirebaseAuth.instance.currentUser;
     Timer(const Duration(seconds: 3), () async {
       if (user == null) {
