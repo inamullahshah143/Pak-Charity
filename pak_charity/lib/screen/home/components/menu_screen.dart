@@ -14,6 +14,7 @@ import 'package:pak_charity/main.dart';
 import 'package:pak_charity/screen/auth/spalsh_screen.dart';
 import 'package:pak_charity/screen/home/about_us.dart';
 import 'package:pak_charity/screen/home/inbox_screen.dart';
+import 'package:pak_charity/screen/home/privacy_policy.dart';
 import 'package:pak_charity/utils/auth_helper.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -148,7 +149,10 @@ class MenuScreen extends StatelessWidget {
                 title: const Text('Messages'),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  ZoomDrawer.of(context).close();
+                  Get.to(const PrivacyPolicy());
+                },
                 leading: const Icon(
                   Icons.security,
                 ),
